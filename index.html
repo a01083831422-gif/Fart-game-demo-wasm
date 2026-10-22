@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fart Together - WebAssembly Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Three.js 3D Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+    <!-- Assets & WASM Bundle -->
+    <script src="assets_bundle.js"></script>
+</head>
+<body>
+    <div id="game-ui">
+        <!-- Top Bar: Level, Time, Progress -->
+        <header id="top-bar">
+            <div class="hud-card">
+                <span class="hud-label">NIVEAU</span>
+                <span class="hud-val" id="levelName">1 - Rivière Calme</span>
+            </div>
+            <div class="hud-card">
+                <span class="hud-label">CHRONO</span>
+                <span class="hud-val timer" id="raceTime">00:00.0</span>
+            </div>
+            <div class="hud-card">
+                <span class="hud-label">SCORE</span>
+                <span class="hud-val" id="scoreVal">0</span>
+            </div>
+            <div class="hud-card">
+                <span class="hud-label">VITESSE</span>
+                <span class="hud-val" id="speedVal">0.0 m/s</span>
+            </div>
+        </header>
+
+        <!-- Progress Bar & Checkpoints -->
+        <div id="progress-container">
+            <div id="progress-bar-bg">
+                <div id="progress-bar-fill"></div>
+                <div class="cp-marker" style="left: 0%;">🏁 Départ</div>
+                <div class="cp-marker" id="cp1-marker" style="left: 33%;">🚩 CP 1</div>
+                <div class="cp-marker" id="cp2-marker" style="left: 66%;">🚩 CP 2</div>
+                <div class="cp-marker" id="finish-marker" style="left: 98%;">🏆 Arrivée</div>
+            </div>
+        </div>
+
+        <!-- Gas Energy Gauge (PirateGas.wasm) -->
+        <div id="gas-gauge">
+            <div class="gauge-header">
+                <span>RÉSERVOIR DE GAZ (WASM)</span>
+                <span id="gasText">100%</span>
+            </div>
+            <div class="gauge-bar-outer">
+                <div class="gauge-bar-inner" id="gasBar"></div>
+            </div>
+        </div>
+
+        <!-- On-screen Fart Trigger Button (Mobile / Click) -->
+        <button id="fart-btn" onclick="triggerFart()">
+            💨 BOOSTER AU GAZ <span>(Espace)</span>
+        </button>
+
+        <!-- Banner Announcement (Checkpoints, Win) -->
+        <div id="banner-msg">CHECKPOINT 1 FRANCHI !</div>
+
+        <!-- Level Selector / Options Panel -->
+        <div id="menu-panel">
+            <h3>💨 Fart Together (WASM)</h3>
+            <p>Jeu de course d'obstacles 100% WebAssembly</p>
+            <div class="level-btns">
+                <button class="lvl-btn active" onclick="selectLevel(1)">Niveau 1 : Initiation</button>
+                <button class="lvl-btn" onclick="selectLevel(2)">Niveau 2 : Rapides Périlleux</button>
+                <button class="lvl-btn" onclick="selectLevel(3)">Niveau 3 : Canyon Extrême</button>
+            </div>
+            <div class="skin-selector">
+                <span>Skin :</span>
+                <button class="skin-dot active" style="background:#22c55e" onclick="changeSkin('pirate_vert.png')"></button>
+                <button class="skin-dot" style="background:#38bdf8" onclick="changeSkin('pirate_bleu.png')"></button>
+                <button class="skin-dot" style="background:#f97316" onclick="changeSkin('pirate_orange.png')"></button>
+                <button class="skin-dot" style="background:#eab308" onclick="changeSkin('palette_officielle.png')"></button>
+            </div>
+            <button class="play-btn" onclick="startGame()">▶ COMMENCER LA COURSE</button>
+        </div>
+
+        <!-- Victory Modal -->
+        <div id="victory-modal">
+            <h2>🏆 COURSE TERMINÉE !</h2>
+            <div class="win-stat">Temps Réalisé : <strong id="winTime">00:00.0</strong></div>
+            <div class="win-stat">Score Final : <strong id="winScore">0</strong> pts</div>
+            <div class="win-stat">Nombre de Farts : <strong id="winFarts">0</strong> 💨</div>
+            <button class="play-btn" onclick="nextLevel()">NIVEAU SUIVANT ▶</button>
+            <button class="restart-btn" onclick="restartLevel()">Recommencer</button>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+    <script src="game.js"></script>
+</body>
+</html>
