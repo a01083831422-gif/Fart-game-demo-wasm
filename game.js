@@ -76,6 +76,25 @@ async function initAllWasmModules() {
 
   wasmModules.gas.init_gas(100.0, 22.0, 0.65);
   wasmModules.director.init_director();
+
+  // Préchargement asynchrone des 24 modules WebAssembly IL2CPP (Assembly-CSharp.wasm à __14.wasm + FishNet.Runtime.wasm)
+  wasmModules.il2cpp = {};
+  fetch("wasm/unity_il2cpp/il2cpp_multi_wasm_manifest.json")
+    .then(r => r.json())
+    .then(async (manifest) => {
+      for (const m of manifest.modules) {
+        try {
+          const resp = await fetch(m.file);
+          if (resp.ok) {
+            const buf = await resp.arrayBuffer();
+            const mod = await WebAssembly.compile(buf);
+            wasmModules.il2cpp[m.file] = mod;
+          }
+        } catch (e) {}
+      }
+      console.log(`[Unity 6 IL2CPP Multi-WASM] ${Object.keys(wasmModules.il2cpp).length} modules .wasm chargés (${manifest.total_compiled_csharp_functions} fonctions C# compilées).`);
+    })
+    .catch(() => {});
 }
 
 // --- 2. CHARGEUR DE GÉOMÉTRIES BINAIRES (.FTMB) EXTRAITES DE UNITY ---

@@ -1,0 +1,462 @@
+{
+  "modules": [
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp-firstpass.wasm",
+      "size_kb": 179.1,
+      "function_count": 415,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mC7CA174A23290C34424DF6D2733D5E64B92E5977",
+        "UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m3C9D09F94200334DD5FA29A465481C7848AF4549",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_pinvoke",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_pinvoke_back",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_pinvoke_cleanup",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_com",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_com_back",
+        "MonoScriptData_t3405F29D573A6DFAAC547345A6BDBBE41CF54685_marshal_com_cleanup",
+        "DOTweenModuleAudio_DOFade_m1D693C3CE476AABDF1973BE1CDB974276D71307A",
+        "U3CU3Ec__DisplayClass0_0__ctor_m3791FA75A8CE2C48268B7EFD94EA4A3765266D67",
+        "DOTweenModuleAudio_DOPitch_m21C03AF57AD7EEC7C1CF82CA7F660A58BD17D7CF"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp.wasm",
+      "size_kb": 181.4,
+      "function_count": 266,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "BreaksOnCollide_OnCollisionEnter_mBC4E7E0B28E2D645408E2780197BFC07B0DBB160",
+        "BreaksOnCollide__ctor_mA5216B8A4D4CE0830AC33A8DDC588EC14D06D744",
+        "BreaksOnTouch_OnMouseDown_mFA547B013A52420CDD96069AA91936C562146BBE",
+        "BreaksOnTouch__ctor_m6FF5937A6639A1A5C24BCA8A9D3B699F204ACF5F",
+        "BillboardLineRendererCircle_Start_m37E60C568E1025BCE5937CBA52BB6AABE5383463",
+        "_Z21ArrayElementTypeCheckP11Il2CppArrayPv",
+        "BillboardLineRendererCircle_Reinitialize_m82E6056CDAB218F28ABA6C39A47460B6BE17C082",
+        "BillboardLineRendererCircle_Update_m566273C3E424A24AE59F6A0D19FE5357F8CE5879",
+        "BillboardLineRendererCircle__ctor_mB27A09E42E44ACD98B95D8BA876DF18884453923",
+        "Outline_get_OutlineMode_m407E90C88C66DA2B6155740D4FB9142C355A491B",
+        "Outline_set_OutlineMode_m82C5D0413E7460037A2A2BF8FB60B84C9AC17C06"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__1.wasm",
+      "size_kb": 198.4,
+      "function_count": 233,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "LevelBuilder_get_Instance_m0C4960E2103F3E5A7E72BD75954E22953B5A8A5F",
+        "LevelBuilder_set_Instance_mCA5E058453118C46E93CE0B00A52B9A8FFE2ED69",
+        "LevelBuilder_HasBespokeClassifier_m4072CC404112AC6EA0CFEFD21D379CFE3A1D92C2",
+        "LevelBuilder_AuthoredDefinition_m341CA7A8648B3D7759EDA4B51905CB066BC4942B",
+        "LevelBuilder_IsLoopingMap_m38A4FA9E7D28B09E8CF8D2BC074DDB07F05C521B",
+        "LevelBuilder_IsRaceMap_mFD3589E15B66FF9123792606B0415AE80D2D81DE",
+        "LevelBuilder_HidesGround_m9E580DEABFC86B51050D2012637A089EE880D6E8",
+        "LevelBuilder_UsesBuoyancy_m133EFA6051DFC8078561CE0736C24B60B8C614EE",
+        "LevelBuilder_get_BuoyancyOverride_mCF13760F2FE0D83C231F7DEBF3197A8F9C1E626F",
+        "LevelBuilder_set_BuoyancyOverride_m689B5BD93547CAC6F871CC893C1FC661B4E9712D",
+        "LevelBuilder_MapName_m0E6BCD6F19C0D9A95AEDF8641ADDEDF4CA71A8E8"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__10.wasm",
+      "size_kb": 256.8,
+      "function_count": 560,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "U3CLeaveThenQuitU3Ed__33_MoveNext_m523844EC3148A6564EDF4877857C4AD4C1E2D3EE",
+        "_Z232AsyncUniTaskVoidMethodBuilder_AwaitUnsafeOnCompleted_TisAwaiter_tFACD37B3B2ACD03C61DB949FD0E4FAB189A1D956_TisU3CLeaveThenQuitU3Ed__33_t876985607A64D91CFEDC48358FDC1102174423F5_mF9DF75CD5C942FECED3A688C58463CB4E2632081_gshared_inlineP71AsyncUniTaskVoidMethodBuilder_t07713E215840254DDAB42066E85E685C31D31F6BP49Awaiter_tFACD37B3B2ACD03C61DB949FD0E4FAB189A1D956P66U3CLeaveThenQuitU3Ed__33_t876985607A64D91CFEDC48358FDC1102174423F5PK10MethodInfo",
+        "_Z91AsyncUniTaskVoidMethodBuilder_SetException_m7492DE9DAE6EEC3DA2D1792A7B937F6CF61C6EB5_inlineP71AsyncUniTaskVoidMethodBuilder_t07713E215840254DDAB42066E85E685C31D31F6BP11Exception_tPK10MethodInfo",
+        "_Z88AsyncUniTaskVoidMethodBuilder_SetResult_m12336C298D2F8CED07AAB85C3DD67815E8343947_inlineP71AsyncUniTaskVoidMethodBuilder_t07713E215840254DDAB42066E85E685C31D31F6BPK10MethodInfo",
+        "U3CLeaveThenQuitU3Ed__33_MoveNext_m523844EC3148A6564EDF4877857C4AD4C1E2D3EE_AdjustorThunk",
+        "U3CLeaveThenQuitU3Ed__33_SetStateMachine_m7509BCF1DD02F10A5D79B4F9BAEF602063F71E68",
+        "U3CLeaveThenQuitU3Ed__33_SetStateMachine_m7509BCF1DD02F10A5D79B4F9BAEF602063F71E68_AdjustorThunk",
+        "GameplayHudPanel_Awake_m1FB6360D1745001CC17913333649CEA2430D1FD7",
+        "GameplayHudPanel_ResolveSystems_mB3EA34D4DEAD292D177074F3075985C29985A30F",
+        "GameplayHudPanel_Update_m21347CDD0DECF0AF3B58F85AE2819206168A0627",
+        "GameplayHudPanel_RefreshCharacter_mA6DBAB49C83D29994C6CD6777EEEF6D43C29CDC2"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__11.wasm",
+      "size_kb": 325.6,
+      "function_count": 554,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "SceneFlowSystem_get_SystemId_m7DA6C9C337069A605B3EDFCB974D571FB71F2B11",
+        "SceneFlowSystem__ctor_mCA3B106681E16FE029DCA6BD58494D5D48E34A0D",
+        "SceneFlowSystem_Initialize_mECC0EE28A521D7753AD147E600FC7EAFDC0245BB",
+        "SceneFlowSystem_LoadAsync_m731EB4E2E6F55E419440E9F9430A4A929ED7DFFE",
+        "U3CLoadAsyncU3Ed__8_MoveNext_m56B7A1D8AB95EDF39192C661B18B0E1C4E5DCEDA",
+        "_Z83AsyncUniTaskMethodBuilder_get_Task_m11E43D69C4F85EB23AAC58143DE695309D1022EC_inlineP67AsyncUniTaskMethodBuilder_t490751EC621C472E098B12103AF16BC549912BB0PK10MethodInfo",
+        "SceneFlowSystem_LoadAsync_m43CF7D1CDF57EB914C05CCD08F83CC0FB7A5BC89",
+        "U3CLoadAsyncU3Ed__9_MoveNext_m0754781CAAECA3EAB09C0301ED58B0287E44A928",
+        "SceneFlowSystem_LoadAdditiveAsync_m043D0E187AF79ED7B1EEE23CC9BE1F160B624CAC",
+        "U3CLoadAdditiveAsyncU3Ed__10_MoveNext_mA5EDD72BBBCA0A8CC915E3D0CA3DC1279B6FC3E0",
+        "SceneFlowSystem_ReturnToKeptSceneAsync_m70A26157406FDB3F401316A984D773F0A47E0960"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__12.wasm",
+      "size_kb": 233.5,
+      "function_count": 480,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "ParticleData_get_Prefab_m1307554AE61A3F095ADB1071AF730D5E12D5BA2E",
+        "ParticleData_get_ParticleType_mFBFEFF9D13078BE38B8A5BEC1E3ABA942E383860",
+        "ParticleData_get_InitialPoolSize_mC8143AA9441665F2B9A04C3F476D0BE0FA2E5607",
+        "ParticleData_get_MaxPoolSize_m16A4158B9BCBEE5E1C125C0AB6D9337F68AD8DAE",
+        "ParticleData_get_AutoReturn_m0170559649B85BDEE04F4FFEC42D47B64630408D",
+        "ParticleData__ctor_mF5E7458283A9790F0565FEFD1901B3D3AF976C95",
+        "ParticleLibrary_Get_mFD21CBC866A18E9C37B5584F36BB50803F8872D1",
+        "ParticleLibrary_BuildMap_mFFEA4134721BBA90CDCD3ADC1C0F2637B825B3AC",
+        "ParticleLibrary_get_Entries_m9E7FE23BEB2012403925C1278BD11D860F08C7ED",
+        "ParticleLibrary_Rebuild_m86AE89E17C024C2D11CA96C27A9178CABFE4882D",
+        "ParticleLibrary_OnEnable_mD387B6F35E2CA6ACE12C4BAF52158A02A1E4329C"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__13.wasm",
+      "size_kb": 276.6,
+      "function_count": 569,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "U3CU3Ec__DisplayClass102_0__ctor_m986416EE78B0B387680E7AB319A923EFBBDF213A",
+        "U3CU3Ec__DisplayClass102_0_U3CWaitForNewBindingAsyncU3Eb__0_m8839460946B6D1CE004D9DFA73DC7ADCA9A94F28",
+        "U3CU3Ec__DisplayClass102_0_U3CWaitForNewBindingAsyncU3Eb__1_m6CFE4710035CE097973A0D07E100DC0C57BAC081",
+        "U3CU3Ec__DisplayClass102_0_U3CWaitForNewBindingAsyncU3Eb__2_m1674FB1B2C7E9E1FB4522D4459579F19AC3FC8BB",
+        "U3CU3Ec__DisplayClass64_0__ctor_mB6B97D82C7FB1F233FF7F325D89791E1BBEF428F",
+        "U3CU3Ec__DisplayClass64_0_U3CSubscribeU3Eb__0_mAAD9BF2F5B4D38D089FC1D820009FA103B6A23C5",
+        "U3CU3Ec__DisplayClass64_0_U3CSubscribeU3Eb__1_m90E1888D65288A327A01119C3B74235EE76F8992",
+        "U3CU3Ec__DisplayClass64_0_U3CSubscribeU3Eb__2_m5470FC8CDD6A49DDE80258894083ECCF894B4A53",
+        "U3CU3Ec__DisplayClass65_0__ctor_m58D1FA2B8DDC3131B7AA65754400FA8A559D330C",
+        "U3CU3Ec__DisplayClass65_0_U3CSubscribeU3Eb__0_m157ED40530B5648C892447A41B0A77EFF9C599D6",
+        "U3CRebindAsyncU3Ed__100_MoveNext_mB1D86788B22DEBE1E7FDE59E682DEFEE9D9B9D6E"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__14.wasm",
+      "size_kb": 156.9,
+      "function_count": 262,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "ServerSocket_GetConnectionState_mF98844466CC2256DFEC39D8E86739038789601A2",
+        "ServerSocket_ResetInvalidSocket_m79B39501EF13B824BF775BFBACC3FC670F929708",
+        "ServerSocket_StartConnection_mFD206DEC08058A873E06C18B152D4266C7E46CE0",
+        "ServerSocket_SetMaximumClients_m72FBBE46C79A378F51D4FCFEA49BA888F20C77FF",
+        "ServerSocket_StopConnection_m1A4DE237D736A81A8A3362B39898D7BFD3ED867E",
+        "ServerSocket_StopConnection_m12780AF2A381E6AB4E32FEB62A46C9C48EDA8AB9",
+        "ServerSocket_StopConnection_m710A585F498AFEF927FA29A4F660F1BD7FC24A80",
+        "ClientHostSocket_StopConnection_mEC2363485EBE1F41B8A8A2759331ECC4973FC93A",
+        "ServerSocket_RemoveConnection_mC157912A46FC605FC812E380A76208AA44034F36",
+        "ConnectionChange__ctor_m51AACAF3430AE2520A55FEDB09DEC5AABF0C4928",
+        "ServerSocket_OnRemoteConnectionState_m6D974E828B868CFE634D63D3E3B33EA4287377B5"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__2.wasm",
+      "size_kb": 260.6,
+      "function_count": 456,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "CosmeticRelaySystem_get_SystemId_m1FE8B97DDC7D7F0D2FEC414D684E125F6EC1124E",
+        "CosmeticRelaySystem_add_Changed_m7ABC69D459DA826D306FA42B7B1D339CD198372B",
+        "CosmeticRelaySystem_remove_Changed_m5B67E7F5E2368E401955D6C9E222FD3DF25C7BE1",
+        "CosmeticRelaySystem_add_Toast_m6DC0A159D914FE06E982F82593CB0DF68FDADDBF",
+        "CosmeticRelaySystem_remove_Toast_m56A034E7C8072533990506D5A357FD368F4CBAB8",
+        "CosmeticRelaySystem_Initialize_m104BE1BA2CFA826E277865D4A7B5008278AFCE25",
+        "CosmeticRelaySystem_OnDestroy_m373796B0E306109EF2B12A02FB983EB9FF2B137F",
+        "CosmeticRelaySystem_RealCount_m4DF5AD09C9C324738B87D883631C3C2F0C29FF17",
+        "CosmeticRelaySystem_get_CharacterCount_mE18D8A54E233AA22D4E3D34A85BFF1542B5E9ED7",
+        "CosmeticRelaySystem_Equip_m87E3988F9D146B73DF2692E58E10CC64EF519534",
+        "CosmeticRelaySystem_EquipOnlineAsync_mAD6982705E2EAEC5A505F155917CB6C3D8CC7D37"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__3.wasm",
+      "size_kb": 196.1,
+      "function_count": 373,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "LocalCrewQuickOutline_LateUpdate_m928E993955CF70C895CF77D6EB1648C887CBFFA9",
+        "LocalCrewQuickOutline_Resolve_m59FD865256833150A819D78979B8F16ABC9AF49C",
+        "LocalCrewQuickOutline_AttachOutline_m58580EC390F739A4374020C46FD3332F6E978E42",
+        "LocalCrewQuickOutline__ctor_m8B3B36052DFB83BFBBFF3B44EA3053622CD8898C",
+        "LocalPirateOutline_OnStartClient_mC6BD5E0405BD86A899E93B29DB8AD898AEBB863D",
+        "LocalPirateOutline__ctor_m1C7701A5BBEC8D875478EB676BDD45197586E56C",
+        "LocalPirateOutline_NetworkInitialize___Early_m4B2B4ED5120300CBBC927F35F8FC75BE475986CC",
+        "LocalPirateOutline_NetworkInitialize___Late_mF20F975144BC4F5E0C14B0789EAD379187BB0A98",
+        "LocalPirateOutline_NetworkInitializeIfDisabled_mF7BC49A6DB9BFC523077111DC49F2074569108BA",
+        "LocalPirateOutline_Awake_m86ED416429C8D5D77D98EC46C140EC46BC92E3DA",
+        "GasVisuals_Awake_m7F8592D680783664AC2D44C7D2FB08BC11CB9EE9"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__4.wasm",
+      "size_kb": 189.5,
+      "function_count": 310,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "ItemBox_Configure_m8DE66DD5462FB084C4C9E23F008432EF6E1502C5",
+        "ItemBox_Awake_m07D2E67869C3F77BF46AA9C5457D6B5C858A4D73",
+        "ItemBox_Update_mEDF0F46D7C5E52B729C1893B14F4150E8BF7EE43",
+        "ItemBox_IsAvailable_m33165D09642C252566E91E741612F4EBCDD985E0",
+        "ItemBox_OnTriggerEnter_m50C4198E6B269E1BE0FCBE6287FE37376DC6C088",
+        "ItemBox__ctor_mF58649515893C52E6999F6C37FE3CE010A464283",
+        "JointRotor_Awake_m4DA9BE211668B28999567BAB0BAB016E1DE3F7B5",
+        "JointRotor_Awake_UserLogic_PuffPirates_Obstacles_JointRotor_AssemblyU2DCSharp_dll_m7F605761734D4356AACEB74789A9438E46C1B0CF",
+        "JointRotor_OnCollisionEnter_mD918039D76926F86742E826BD0045DC1490A591E",
+        "Shark_Kill_mCD7302263C150DB74512823B02CCAB1EBF3CB5AB",
+        "JointRotor__ctor_m4657CAC81CB4F08EF9431B19E5A218B0749FA27B"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__5.wasm",
+      "size_kb": 258.6,
+      "function_count": 471,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "SplineObstacle_get_CurrentMoveDirection_mAFBA98D440560A0525C086CF0A6605525413E176",
+        "SplineObstacle_get_CurrentSpeed_mED1C058A1B1802E95956D15FF435548D05ED3B3D",
+        "SplineObstacle_Awake_mE8A81371BEE8C8895C4AD35C49EC8E964CFFCAEA",
+        "SplineObstacle_ValidateAndCacheSpline_m8CABCBFA36FF87AF14CC6981437ED3843C27467A",
+        "SplineObstacle_EstimateArcLength_m07C839E66C749A3D01E1D7A7B5792DDA3EB7E0E7",
+        "SplineObstacle_WarnInvalidOnce_m574AB7BC7685DD99341A19A35EA75D322EFF64B8",
+        "SplineObstacle_OnTick_mEA99E179D6C09ABD6EB9E4757286209B1074D62C",
+        "SplineObstacle_ComputeMotion_mB6C122E3E2CB56361F1CFDC6F7E94E28B6BA77FD",
+        "SplineObstacle_EvaluateLeg_m4FB646C911A8DF849439F11610CFE222DFBE84FA",
+        "SplineObstacle_ComputeLegProfile_mE5EC77CA9E44FD9ADA61C5784689628373CF876C",
+        "_Z71Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inlineP49Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2PK10MethodInfo"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__6.wasm",
+      "size_kb": 173.6,
+      "function_count": 267,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "TouchMath_ResolveStick_m1D7F098E05CC3692170DD465E0F863A3974E36C9",
+        "FFT_Forward_mFDC5EE65A23A079F1D63B40864B9F3BE64777A00",
+        "RaspberryDetector_IsBlowing_m7D215DB38ED16AB10E63B3955668A4FA12011343",
+        "RaspberryDetector_LevelOf_mF5AA03C748BBA14276AF3396617027C8B06D7D7E",
+        "RaspberryDetector_HysteresisStep_m8C7E899B2A5E9498713C41DBF077EAA6EE2168BD",
+        "RaspberryDetector_Rms_m4DA4DE7110C7128F20B46C603E91A59D1EF91937",
+        "RaspberryDetector_LowBandRatio_m9AEDF694C6B06B0965F9C7C7D2832113A316B363",
+        "RaspberryDetector_FlutterScore_m5C4FFFAA8C64B74D3A2FC176E30E895359B475F3",
+        "RaspberryDetector__cctor_mF32727D0510EF32C53C1DEC03071229A7782084B",
+        "RaspberryMic_get_Instance_m5C096FC1FA63D350520AFBC996EB38434EE6F05D",
+        "RaspberryMic_set_Instance_mF6ABECE8C60E450A4340FC35B8495887332D89DD"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__7.wasm",
+      "size_kb": 200.7,
+      "function_count": 297,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "BoatRippleTrail_OnEnable_mC83D58370351C9A71D929E4D5668E5869645051F",
+        "BoatRippleTrail_BuildSoftDotTexture_m6BC0F6740D88D89AB17775FC44501FF1823FFA20",
+        "BoatRippleTrail_Update_m2844932B88E46A039FEFEFB3C93CDB7B450C6165",
+        "BoatRippleTrail_OnDisable_mD0549938476444CC45DF97EADB7D4FBDB4928326",
+        "BoatRippleTrail__ctor_m54D96DE02CC5CDC2605554763EBD92ECA3867E97",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_pinvoke",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_pinvoke_back",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_pinvoke_cleanup",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_com",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_com_back",
+        "BoatSizeDef_t6E00EDD2F64949F9FDCB48F0C29642282BE92016_marshal_com_cleanup"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__8.wasm",
+      "size_kb": 229.7,
+      "function_count": 434,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "U3CLoginAsyncU3Ed__27_MoveNext_m3C9555E2C45DB6DEB5849D571C04213D9465E740",
+        "FartTogetherApi_LoginAsync_m96EBB02C1CE0A9684DB2462E704658750C133898",
+        "FartTogetherApi_GetProfileAsync_mE7B935E0D1110B5CC6F510B0B149965C768A6928",
+        "FartTogetherApi__ctor_m1B9BB5166724F8A51D306269CE8D2B0787E9CA1E",
+        "FartTogetherApi_LoginUsernameAsync_mD575E09CADCB3200D17CA79C0123F9DD606265D2",
+        "FartTogetherApi_get_HasToken_mD6C3C0A4369B3B50429965DFFB618B4FE1486F82",
+        "FartTogetherApi_ClearToken_m994CC9DFA3F57EA8873F6D924E6F82D293D462B6",
+        "U3CLoginAsyncU3Ed__27_MoveNext_m3C9555E2C45DB6DEB5849D571C04213D9465E740_AdjustorThunk",
+        "U3CLoginAsyncU3Ed__27_SetStateMachine_m2FED65151A0E7E92773C7AC7F27203C1ABAEA69D",
+        "U3CLoginAsyncU3Ed__27_SetStateMachine_m2FED65151A0E7E92773C7AC7F27203C1ABAEA69D_AdjustorThunk",
+        "U3CRegisterAsyncU3Ed__26_MoveNext_mE8796DA135ABD041A057A646C0B944BC23D2E3D2"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/Assembly-CSharp__9.wasm",
+      "size_kb": 254.7,
+      "function_count": 485,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "UIPopupAnimator_get_IsOpen_m8C29434DEA7DBA269B91AF984501E074ED7A8D7F",
+        "UIPopupAnimator_set_IsOpen_mC1A897719A33EEE44D89113B9E7BDF542F3EF861",
+        "UIPopupAnimator_Show_m3FB253194233D059A1EFC5C163832BF6A6634035",
+        "UIPopupAnimator_SetScreensUnderBlocked_mB1FFD2E6B1DC6F7E66CF834C5FD63F19FFBA7BB3",
+        "UIPopupAnimator_KillSequence_m9B03671E6DA8FE7C32695604C9247E51FB731177",
+        "UIPopupAnimator_SetInteractable_m9F4206A8A595C500A5747781E5EA52EAC0EE5D70",
+        "UIPopupAnimator_Hide_m9DBC86B4F94E105004F3E6AC1EB8ECC3943892DF",
+        "U3CU3Ec__DisplayClass17_0__ctor_m84EDDB9B83B28F0A79973F895AC73CC8F8FF4492",
+        "UIPopupAnimator_OnDestroy_m7615921F2CAC359A0F348237B4611A2BFEC82255",
+        "UIPopupAnimator__ctor_mDC3CDA88B40D83E886AFA3EED25F0619D156EBBD",
+        "U3CU3Ec__DisplayClass17_0_U3CHideU3Eb__0_m16F41D2A98234FB0C967D6F687FA17C5ADFAD069"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime.wasm",
+      "size_kb": 228.8,
+      "function_count": 566,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "EmbeddedAttribute__ctor_m57879367C31FB1CE31E960429B94D3D191BC69B4",
+        "IsUnmanagedAttribute__ctor_mBD8E9E9EA4FCDBCC7C1E8E461F6911478322920F",
+        "UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mCD1F19235D7E6C479B3B92F566711C802A99E8BC",
+        "UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m96ADAD53A78F39C1432A20C1283D4DE37FD9B1CE",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_pinvoke",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_pinvoke_back",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_pinvoke_cleanup",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_com",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_com_back",
+        "MonoScriptData_t468318A16A99F39C26A0B12A41EA75AFA1125A09_marshal_com_cleanup",
+        "BaseChannel_get_PacketsInQueue_m2E766C59513B24254DF4848B306551C19C0A0629"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__1.wasm",
+      "size_kb": 287.1,
+      "function_count": 828,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_pinvoke",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_pinvoke_back",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_pinvoke_cleanup",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_com",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_com_back",
+        "PendingPacket_t857B6BFBA52BABD888A277FF19F1E7423DD70CAB_marshal_com_cleanup",
+        "PendingPacket_ToString_mD4940316F6A15DA57985F4F2523F75421F67FA36",
+        "PendingPacket_ToString_mD4940316F6A15DA57985F4F2523F75421F67FA36_AdjustorThunk",
+        "PendingPacket_Init_m83C454F4407C34A0A1E23970454AB43C578A11F5",
+        "PendingPacket_Init_m83C454F4407C34A0A1E23970454AB43C578A11F5_AdjustorThunk",
+        "PendingPacket_TrySend_m13A6800A7A5D122388D39D3D27899EEE318931F3"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__2.wasm",
+      "size_kb": 308.2,
+      "function_count": 825,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "TransformPackingData__ctor_mD7F144E5947DD14DF377A6C537591210C3DA04A2",
+        "PooledWriter_Store_mECF2392E9D0E521B8A12BABCA50A6D39900CAAF2",
+        "WriterPool_Store_m96D10F50B5E04B03D1F0DB7CC2AD4356F3AA651E",
+        "PooledWriter_StoreLength_m52E90CEFEBE7EAF7CDD576FE59B26FC80E4A1EBE",
+        "WriterPool_StoreLength_m27566B543FA4420456779E1F80C4596B492E8141",
+        "PooledWriter_ResetState_mDDDC19E5912B754EBB17EAE18C79A0C167C2F6A5",
+        "PooledWriter_InitializeState_mA2A3F4CAE0F9B1D35136A77791A12834D6AC989A",
+        "PooledWriter__ctor_m0475AD961F74F25B86D2F87726DC4DA5A1447D6F",
+        "WriterPool_Retrieve_mE2EB41A17804AAF5B3052FBD8416FFCE18F3323B",
+        "WriterPool_Retrieve_m24B1562CBE1B608A02654966D0962767ECFA08E2",
+        "WriterPool_Retrieve_m4ED84AC3FCBDBEF1F2C4724074DBAC7572EBE83F"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__3.wasm",
+      "size_kb": 311.1,
+      "function_count": 750,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "_Z88HostVisibilityUpdatedDelegate_Invoke_m3450C8480692E134288D444F3CD1283275B06D44_MulticastP71HostVisibilityUpdatedDelegate_t634B2FD5EAEFF20BE0F2FC913A6458100EFE4683bbPK10MethodInfo",
+        "_Z87HostVisibilityUpdatedDelegate_Invoke_m3450C8480692E134288D444F3CD1283275B06D44_OpenInstP71HostVisibilityUpdatedDelegate_t634B2FD5EAEFF20BE0F2FC913A6458100EFE4683bbPK10MethodInfo",
+        "_Z89HostVisibilityUpdatedDelegate_Invoke_m3450C8480692E134288D444F3CD1283275B06D44_OpenStaticP71HostVisibilityUpdatedDelegate_t634B2FD5EAEFF20BE0F2FC913A6458100EFE4683bbPK10MethodInfo",
+        "DelegatePInvokeWrapper_HostVisibilityUpdatedDelegate_t634B2FD5EAEFF20BE0F2FC913A6458100EFE4683",
+        "HostVisibilityUpdatedDelegate__ctor_m834C5CC375FE2834F712F214AB0F8BBF69477670",
+        "HostVisibilityUpdatedDelegate_Invoke_m3450C8480692E134288D444F3CD1283275B06D44",
+        "HostVisibilityUpdatedDelegate_BeginInvoke_m478E7ED925523EB4A392C69B1C93958CA2BD63D4",
+        "HostVisibilityUpdatedDelegate_EndInvoke_m7CB6F379702A7FC13A5FE423849C5E4EBFDB913C",
+        "GlobalPreserveOwnedObjects_Awake_mC0E0EA5AC97063C711E302286B98C87C7231E9AE",
+        "GlobalPreserveOwnedObjects_Objects_OnPreDestroyClientObjects_m61A593E47A10C0321EB010A9C9F4620D16C59EBA",
+        "GlobalPreserveOwnedObjects__ctor_m6FD5B00F262E03240F7BE966A9C2F7AB15DFD1A3"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__4.wasm",
+      "size_kb": 264.9,
+      "function_count": 535,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "NetworkColliderBase_Awake_mFDE1279A39FA86C46D66CEF9EA09EA4A352DCB62",
+        "NetworkColliderBase_Awake_UserLogic_FishNet_Component_Prediction_NetworkColliderBase_FishNet_Runtime_dll_m0736710B313248D5B18597F7AE037F0158DBB714",
+        "NetworkColliderBase_OnStartNetwork_mC6EFA5994EF00B2F54316AF6DD93C89B1776256D",
+        "NetworkColliderBase_OnStartClient_m0F591A02259FB4621B711D4858D1A60A8ADBDF8C",
+        "NetworkColliderBase_OnStopClient_m004DA4BF42698416AE3B8761E1515FF5F22F5774",
+        "NetworkColliderBase_OnStopNetwork_mC37EB1A6557919374A8E57D023660D7C22854B6C",
+        "NetworkColliderBase_OnDestroy_mFD1F7C7347643276F115523D90E4FD051FAEA923",
+        "NetworkColliderBase_PredictionManager_OnPostPhysicsTransformSync_m94E90542035F5C07C52DD5DBBD1570CDDBC455E6",
+        "NetworkColliderBase_TimeManager_OnPostPhysicsSimulation_m91266F21270B3572CFB538A5D9C54B6BA96CDBE3",
+        "NetworkColliderBase_TryPrepareColliderCheck_m7339CE05885BD5F7F573A8B66BA70ADECEE65B28",
+        "NetworkColliderBase_TryFindColliders_mC2630CDE39C6D2720241FAF6309DDEB44B96EB2E"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__5.wasm",
+      "size_kb": 273.0,
+      "function_count": 634,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_pinvoke",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_pinvoke_back",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_pinvoke_cleanup",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_com",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_com_back",
+        "ReceivedServerData_tD21C24690C3CED9855FC6A6B423B219D79844C54_marshal_com_cleanup",
+        "ReceivedServerData_GetArraySegment_m2347EDC975D1A5D4B70BDEE400F737A329BB1014",
+        "ReceivedServerData_GetArraySegment_m2347EDC975D1A5D4B70BDEE400F737A329BB1014_AdjustorThunk",
+        "ReceivedServerData__ctor_m962B52A6B3261573CB2F6D43FA68FD6353CCB1CA",
+        "ReceivedServerData__ctor_m962B52A6B3261573CB2F6D43FA68FD6353CCB1CA_AdjustorThunk",
+        "ReceivedServerData_Dispose_m331F81D31110C10F90EA5CA352EFE8F5CA74F333"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__6.wasm",
+      "size_kb": 252.1,
+      "function_count": 486,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "SceneManager_add_OnActiveSceneSet_mC02C2B0E717E5C94027F8BBE40AD4FD66BCDE4D8",
+        "SceneManager_remove_OnActiveSceneSet_m216B03C67D0637CEF79FDCAE6EAC11186E09EC18",
+        "SceneManager_add_OnClientLoadedStartScenes_m40AC44CD4BF4740E86FBAA832C9C81B81D8FB289",
+        "SceneManager_remove_OnClientLoadedStartScenes_m802A6B2EF6CA90BFE17463500C43518599379A5B",
+        "SceneManager_add_OnQueueStart_m3EFE6620C3AB7F0217A677453164152986D57EAE",
+        "SceneManager_remove_OnQueueStart_m1EF8D6CE436CE1F5C6A99166BF95B05DE1193ED7",
+        "SceneManager_add_OnQueueEnd_m9EFAF07EC5F1243DCC51BC10E99F153748645270",
+        "SceneManager_remove_OnQueueEnd_mE698157C707123BD078E8388B9DF491F8026E69A",
+        "SceneManager_add_OnLoadStart_m52DCE19449AE25BA52D049752719A181914612D1",
+        "SceneManager_remove_OnLoadStart_mAC4395B8FC68C3DB7DADD0C29C9939F1FADC5D43",
+        "SceneManager_add_OnLoadPercentChange_m52818BCC314CC7887391F306819BE90B833F5E28"
+      ]
+    },
+    {
+      "file": "wasm/unity_il2cpp/FishNet.Runtime__7.wasm",
+      "size_kb": 224.9,
+      "function_count": 454,
+      "sample_functions": [
+        "__wasm_call_ctors",
+        "ClientObjects_ParseRpcLink_m93DA7E2ED1143D51C8592FF82BDB45CF4BC0C9F9",
+        "ClientObjects_SetRpcLink_m0AA1F75B43B3F1983EFDD65C715499840537DA56",
+        "ClientObjects_RemoveLinkIndexes_mF8D63102E260148A9A5C8CB7648A1C3B5E6C71E1",
+        "ClientObjects__ctor_m90719E19CF8DD320EF158204B16547C4A9D11746",
+        "ClientObjectCache__ctor_mE1AC4C58D664D8C93D645E58F6346B744CC7ECD4",
+        "ClientObjects_OnServerConnectionState_m0D805F546DFCED98B4E13661B9A5654F8DBD7C2A",
+        "ClientObjects_OnClientConnectionState_mF33B70F2B380CE6C996CC819C9BFB6F4A5E02C6B",
+        "ClientObjectCache_Reset_mF96BD9DDAC67606959D74B6C896FC82736A9A33F",
+        "ClientObjects_SceneManager_sceneLoaded_mD99A63790E6DF26F24F74E70E96535221B3B0B52",
+        "ClientObjects_RegisterAndDespawnSceneObjects_m1A0FF1A6A90AF9AC7402F33CA44258479DDFF71C",
+        "ClientObjects_AddToSpawned_mA35F7EEF786C718AD50BB18C19C33887946187EC"
+      ]
+    }
+  ],
+  "total_modules": 24,
+  "total_compiled_csharp_functions": 11510
+}
