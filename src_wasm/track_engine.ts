@@ -1,99 +1,137 @@
-// track_engine.ts - Module WebAssembly pour la gestion des parcours, virages et checkpoints
+// track_engine.ts - Module WebAssembly compilé depuis RaceTrack.cs, RaceZone.cs & LevelBuilder.cs
+// Gère les coordonnées exactes 3D des checkpoints, spawns et arrivées des 5 niveaux officiels de Fart Together
 
-let currentLevel: i32 = 1;
-let trackLength: f32 = 200.0;
-let riverWidth: f32 = 12.0;
+const MAX_CPS: i32 = 20;
+const cpX = new StaticArray<f32>(MAX_CPS);
+const cpY = new StaticArray<f32>(MAX_CPS);
+const cpZ = new StaticArray<f32>(MAX_CPS);
+const cpRadius = new StaticArray<f32>(MAX_CPS);
+const cpYaw = new StaticArray<f32>(MAX_CPS);
 
-let cp1_z: f32 = 60.0;
-let cp2_z: f32 = 120.0;
-let finish_z: f32 = 180.0;
+let totalCheckpoints: i32 = 0;
+let currentCheckpointId: i32 = 0;
+let isFinished: i32 = 0;
+let currentMapId: i32 = 0;
+let totalTrackDistance: f32 = 1.0;
 
-let cp1_passed: i32 = 0;
-let cp2_passed: i32 = 0;
-let finish_passed: i32 = 0;
-
-export function init_track(level: i32): void {
-    currentLevel = level;
-    cp1_passed = 0;
-    cp2_passed = 0;
-    finish_passed = 0;
-
-    if (level == 1) {
-        // Niveau 1 : Rivière débutant (Courte, peu de virages)
-        trackLength = 180.0;
-        riverWidth = 12.0;
-        cp1_z = 50.0;
-        cp2_z = 110.0;
-        finish_z = 170.0;
-    } else if (level == 2) {
-        // Niveau 2 : Rapides Périlleux (Plus longue, virages prononcés)
-        trackLength = 280.0;
-        riverWidth = 10.0;
-        cp1_z = 80.0;
-        cp2_z = 170.0;
-        finish_z = 260.0;
-    } else {
-        // Niveau 3 : Canyon Extrême (Étroit, nombreux obstacles)
-        trackLength = 400.0;
-        riverWidth = 8.5;
-        cp1_z = 120.0;
-        cp2_z = 250.0;
-        finish_z = 380.0;
-    }
+export function reset_track(mapId: i32): void {
+  currentMapId = mapId;
+  totalCheckpoints = 0;
+  currentCheckpointId = 0;
+  isFinished = 0;
+  totalTrackDistance = 1.0;
 }
 
-// Calcule la position X du centre de la rivière en fonction de l'avancée Z (virages procéduraux)
-export function get_river_center_x(z: f32): f32 {
-    let freq: f32 = 0.035;
-    let amplitude: f32 = 6.0;
-
-    if (currentLevel == 2) {
-        freq = 0.045;
-        amplitude = 8.5;
-    } else if (currentLevel == 3) {
-        freq = 0.055;
-        amplitude = 11.0;
-    }
-
-    return <f32>Math.sin(<f64>(z * freq)) * amplitude;
+export function register_checkpoint(index: i32, x: f32, y: f32, z: f32, radius: f32, yaw: f32): void {
+  if (index < 0 || index >= MAX_CPS) return;
+  unchecked(cpX[index] = x);
+  unchecked(cpY[index] = y);
+  unchecked(cpZ[index] = z);
+  unchecked(cpRadius[index] = radius);
+  unchecked(cpYaw[index] = yaw);
+  if (index + 1 > totalCheckpoints) {
+    totalCheckpoints = index + 1;
+  }
+  // Recalcule la longueur totale de la piste par somme des segments
+  let sum: f32 = 0.0;
+  for (let i: i32 = 1; i < totalCheckpoints; i++) {
+    let dx = unchecked(cpX[i] - cpX[i - 1]);
+    let dy = unchecked(cpY[i] - cpY[i - 1]);
+    let dz = unchecked(cpZ[i] - cpZ[i - 1]);
+    sum += <f32>Math.sqrt(<f64>(dx * dx + dy * dy + dz * dz));
+  }
+  totalTrackDistance = sum > 1.0 ? sum : 1.0;
 }
 
-export function check_checkpoints(boat_z: f32): i32 {
-    // Retourne l'id du checkpoint tout juste franchi (1, 2, ou 3 pour finish), ou 0
-    if (cp1_passed == 0 && boat_z >= cp1_z) {
-        cp1_passed = 1;
-        return 1;
+// Vérifie le passage du prochain checkpoint ou de la ligne d'arrivée (retourne 0=rien, 1=checkpoint validé, 2=course terminée)
+export function evaluate_boat_position(bx: f32, by: f32, bz: f32): i32 {
+  if (isFinished != 0 || totalCheckpoints == 0) return 0;
+
+  let nextId = currentCheckpointId + 1;
+  if (nextId >= totalCheckpoints) return 0;
+
+  let tx = unchecked(cpX[nextId]);
+  let ty = unchecked(cpY[nextId]);
+  let tz = unchecked(cpZ[nextId]);
+  let rad = unchecked(cpRadius[nextId]);
+
+  let dx = bx - tx;
+  let dy = by - ty;
+  let dz = bz - tz;
+  let distSq = dx * dx + dz * dz + (dy * dy * 0.25);
+
+  if (distSq <= rad * rad) {
+    currentCheckpointId = nextId;
+    if (currentCheckpointId >= totalCheckpoints - 1) {
+      isFinished = 1;
+      return 2; // Finish!
     }
-    if (cp1_passed == 1 && cp2_passed == 0 && boat_z >= cp2_z) {
-        cp2_passed = 1;
-        return 2;
-    }
-    if (cp1_passed == 1 && cp2_passed == 1 && finish_passed == 0 && boat_z >= finish_z) {
-        finish_passed = 1;
-        return 3;
-    }
-    return 0;
+    return 1; // Checkpoint!
+  }
+  return 0;
 }
 
-export function is_off_track(boat_x: f32, boat_z: f32): i32 {
-    let centerX = get_river_center_x(boat_z);
-    let distFromCenter = <f32>Math.abs(<f64>(boat_x - centerX));
-    let halfWidth = riverWidth * 0.5;
+export function get_progress_percentage(bx: f32, by: f32, bz: f32): f32 {
+  if (isFinished != 0) return 100.0;
+  if (totalCheckpoints <= 1) return 0.0;
 
-    if (distFromCenter > halfWidth) {
-        return 1; // Hors-piste / heurt de la berge
+  let completedDist: f32 = 0.0;
+  for (let i: i32 = 1; i <= currentCheckpointId; i++) {
+    let dx = unchecked(cpX[i] - cpX[i - 1]);
+    let dy = unchecked(cpY[i] - cpY[i - 1]);
+    let dz = unchecked(cpZ[i] - cpZ[i - 1]);
+    completedDist += <f32>Math.sqrt(<f64>(dx * dx + dy * dy + dz * dz));
+  }
+
+  let nextId = currentCheckpointId + 1;
+  if (nextId < totalCheckpoints) {
+    let sx = unchecked(cpX[currentCheckpointId]);
+    let sy = unchecked(cpY[currentCheckpointId]);
+    let sz = unchecked(cpZ[currentCheckpointId]);
+    let ex = unchecked(cpX[nextId]);
+    let ey = unchecked(cpY[nextId]);
+    let ez = unchecked(cpZ[nextId]);
+
+    let segX = ex - sx;
+    let segY = ey - sy;
+    let segZ = ez - sz;
+    let segLenSq = segX * segX + segY * segY + segZ * segZ;
+    if (segLenSq > 0.01) {
+      let segLen = <f32>Math.sqrt(<f64>segLenSq);
+      let proj = ((bx - sx) * segX + (by - sy) * segY + (bz - sz) * segZ) / segLenSq;
+      if (proj < 0.0) proj = 0.0;
+      if (proj > 1.0) proj = 1.0;
+      completedDist += proj * segLen;
     }
-    return 0;
+  }
+
+  let pct = (completedDist / totalTrackDistance) * 100.0;
+  if (pct < 0.0) pct = 0.0;
+  if (pct > 99.9) pct = 99.9;
+  return pct;
 }
 
-export function get_progress_percent(boat_z: f32): f32 {
-    if (boat_z <= 0.0) return 0.0;
-    if (boat_z >= finish_z) return 100.0;
-    return (boat_z / finish_z) * 100.0;
+export function get_current_checkpoint_id(): i32 { return currentCheckpointId; }
+export function get_total_checkpoints(): i32 { return totalCheckpoints; }
+export function get_respawn_x(): f32 { return unchecked(cpX[currentCheckpointId]); }
+export function get_respawn_y(): f32 { return unchecked(cpY[currentCheckpointId]) + 1.5; }
+export function get_respawn_z(): f32 { return unchecked(cpZ[currentCheckpointId]); }
+export function get_respawn_yaw(): f32 { return unchecked(cpYaw[currentCheckpointId]); }
+export function get_next_cp_x(): f32 {
+  let n = currentCheckpointId + 1 < totalCheckpoints ? currentCheckpointId + 1 : currentCheckpointId;
+  return unchecked(cpX[n]);
 }
-
-export function get_cp1_z(): f32 { return cp1_z; }
-export function get_cp2_z(): f32 { return cp2_z; }
-export function get_finish_z(): f32 { return finish_z; }
-export function get_river_width(): f32 { return riverWidth; }
-export function is_finish_reached(): i32 { return finish_passed; }
+export function get_next_cp_y(): f32 {
+  let n = currentCheckpointId + 1 < totalCheckpoints ? currentCheckpointId + 1 : currentCheckpointId;
+  return unchecked(cpY[n]);
+}
+export function get_next_cp_z(): f32 {
+  let n = currentCheckpointId + 1 < totalCheckpoints ? currentCheckpointId + 1 : currentCheckpointId;
+  return unchecked(cpZ[n]);
+}
+export function force_checkpoint(id: i32): void {
+  if (id >= 0 && id < totalCheckpoints) {
+    currentCheckpointId = id;
+    isFinished = (id == totalCheckpoints - 1) ? 1 : 0;
+  }
+}

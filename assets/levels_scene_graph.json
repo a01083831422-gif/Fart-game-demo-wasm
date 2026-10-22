@@ -1,0 +1,3344 @@
+{
+  "Level_Platform": {
+    "id": 0,
+    "title": "Fart Together Demo — Course Principale (Level_Platform)",
+    "palette": "tex_155.png",
+    "water_y": 0.57,
+    "upper_water_y": 9.85,
+    "spawn": [
+      -15.5,
+      1.2,
+      90.8
+    ],
+    "spawn_yaw": 3.14159,
+    "checkpoints": [
+      {
+        "id": 0,
+        "name": "Départ (Arche Start)",
+        "pos": [
+          -15.2,
+          0.6,
+          91.0
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 1,
+        "name": "Checkpoint 1 (Virage Sud)",
+        "pos": [
+          -30.2,
+          0.6,
+          -10.8
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 2,
+        "name": "Checkpoint 2 (Canal Est)",
+        "pos": [
+          42.0,
+          0.6,
+          19.6
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 3,
+        "name": "Checkpoint 3 (Montée Cascade)",
+        "pos": [
+          49.3,
+          9.8,
+          -105.1
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 4,
+        "name": "Checkpoint 4 (Arche Volante 1)",
+        "pos": [
+          122.6,
+          9.8,
+          -91.5
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 5,
+        "name": "Checkpoint 5 (Arche Volante 2)",
+        "pos": [
+          174.4,
+          9.8,
+          -58.9
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 6,
+        "name": "Checkpoint 6 (Arche Volante 3)",
+        "pos": [
+          199.5,
+          9.8,
+          -103.1
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 7,
+        "name": "Checkpoint 7 (Arche Volante 4)",
+        "pos": [
+          336.1,
+          9.8,
+          -103.0
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 8,
+        "name": "Arrivée (Arche Finish)",
+        "pos": [
+          439.2,
+          9.8,
+          -103.1
+        ],
+        "radius": 24.0,
+        "is_finish": true
+      }
+    ],
+    "instances": [
+      {
+        "mesh": "demo_wall",
+        "name": "GM_3D_Demo_Wall",
+        "path": "Level_Platform/FT_DemoWaterChannel/Wall/GM_3D_Demo_Wall",
+        "pos": [
+          -38.444,
+          0.569,
+          156.142
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "demo_water",
+        "name": "Water",
+        "path": "Level_Platform/FT_DemoWaterChannel/Water",
+        "pos": [
+          -38.444,
+          0.569,
+          156.142
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c1_hammer",
+        "name": "GM_3D_ObstacleC1",
+        "path": "Level_Platform/Obstacles/FT_C1_TippingHammer/Visual/GM_3D_ObstacleC1",
+        "pos": [
+          -55.049,
+          4.269,
+          18.777
+        ],
+        "rot": [
+          0.4673,
+          0.0,
+          0.0,
+          0.8841
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "swing_z"
+      },
+      {
+        "mesh": "obs_a1kd2",
+        "name": "GM_3D_ObstacleA1KD2",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD2/Visual/GM_3D_ObstacleA1KD2",
+        "pos": [
+          2.007,
+          0.69,
+          4.672
+        ],
+        "rot": [
+          0.0,
+          0.6517,
+          0.0,
+          0.7585
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c5_windmill",
+        "name": "GM_3D_ObstacleC5",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill/Visual/GM_3D_ObstacleC5",
+        "pos": [
+          11.634,
+          4.55,
+          4.56
+        ],
+        "rot": [
+          -0.3493,
+          -0.6148,
+          0.3493,
+          0.6148
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c5_blades",
+        "name": "GM_3D_ObstacleC5.001",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill/Visual/GM_3D_ObstacleC5.001",
+        "pos": [
+          11.634,
+          4.55,
+          4.56
+        ],
+        "rot": [
+          -0.3493,
+          -0.6148,
+          0.3493,
+          0.6148
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_z"
+      },
+      {
+        "mesh": "obs_c5_windmill",
+        "name": "GM_3D_ObstacleC5",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill (1)/Visual/GM_3D_ObstacleC5",
+        "pos": [
+          23.896,
+          4.55,
+          4.56
+        ],
+        "rot": [
+          0.3497,
+          0.6154,
+          0.349,
+          0.6142
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c5_blades",
+        "name": "GM_3D_ObstacleC5.001",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill (1)/Visual/GM_3D_ObstacleC5.001",
+        "pos": [
+          23.896,
+          4.55,
+          4.56
+        ],
+        "rot": [
+          0.3497,
+          0.6154,
+          0.349,
+          0.6142
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_z"
+      },
+      {
+        "mesh": "obs_a1bd5",
+        "name": "GM_3D_ObstacleA1BD5",
+        "path": "Level_Platform/Obstacles/FT_Static_A1BD5 (2)/Visual/GM_3D_ObstacleA1BD5",
+        "pos": [
+          47.63,
+          9.89,
+          -119.04
+        ],
+        "rot": [
+          0.0,
+          -0.0009,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          46.484,
+          10.27,
+          -50.222
+        ],
+        "rot": [
+          0.0,
+          0.1412,
+          0.0,
+          -0.99
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (2)/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          46.484,
+          10.27,
+          -80.072
+        ],
+        "rot": [
+          0.0,
+          0.1412,
+          0.0,
+          -0.99
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (2)_1/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          174.331,
+          10.295,
+          -69.063
+        ],
+        "rot": [
+          0.0,
+          0.6327,
+          -0.0,
+          -0.7744
+        ],
+        "scale": [
+          1.377,
+          1.377,
+          1.377
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (2)_2/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          186.251,
+          10.298,
+          -91.063
+        ],
+        "rot": [
+          0.0,
+          0.6327,
+          -0.0,
+          -0.7744
+        ],
+        "scale": [
+          1.387,
+          1.387,
+          1.387
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (1)/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          51.734,
+          10.27,
+          -65.522
+        ],
+        "rot": [
+          0.0,
+          0.1412,
+          0.0,
+          -0.99
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_a1bd2",
+        "name": "GM_3D_ObstacleA1BD2",
+        "path": "Level_Platform/Obstacles/FT_Static_A1BD2/Visual/GM_3D_ObstacleA1BD2",
+        "pos": [
+          72.34,
+          9.893,
+          -91.714
+        ],
+        "rot": [
+          0.0,
+          0.6317,
+          0.0,
+          0.7752
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1bi1",
+        "name": "GM_3D_ObstacleA1BI1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1BI1/Visual/GM_3D_ObstacleA1BI1",
+        "pos": [
+          81.398,
+          9.863,
+          -97.526
+        ],
+        "rot": [
+          0.0,
+          0.7522,
+          -0.0,
+          0.659
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1bi2",
+        "name": "GM_3D_ObstacleA1BI2",
+        "path": "Level_Platform/Obstacles/FT_Static_A1BI2 (2)/Visual/GM_3D_ObstacleA1BI2",
+        "pos": [
+          68.23,
+          9.87,
+          -111.674
+        ],
+        "rot": [
+          0.0,
+          0.7123,
+          0.0,
+          -0.7019
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (2)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          -55.771,
+          0.59,
+          3.097
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (9)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          -40.641,
+          0.642,
+          -10.613
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (3)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          -38.641,
+          0.66,
+          2.447
+        ],
+        "rot": [
+          0.0,
+          -0.9993,
+          0.0,
+          0.0372
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (4)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          34.509,
+          0.66,
+          3.767
+        ],
+        "rot": [
+          0.0,
+          -0.7082,
+          0.0,
+          0.706
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (6)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          -55.001,
+          0.5,
+          35.287
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          -0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1kd3",
+        "name": "GM_3D_ObstacleA1KD3",
+        "path": "Level_Platform/Obstacles/FT_Static_A1KD3 (1)/Visual/GM_3D_ObstacleA1KD3",
+        "pos": [
+          -15.921,
+          0.66,
+          33.267
+        ],
+        "rot": [
+          0.0,
+          -0.684,
+          0.0,
+          0.7295
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -12.79,
+          0.65,
+          66.647
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (6)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -43.421,
+          0.67,
+          37.032
+        ],
+        "rot": [
+          0.0,
+          -0.707,
+          0.0,
+          0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (7)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -43.422,
+          0.67,
+          31.838
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          -0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (10)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -28.481,
+          0.67,
+          37.026
+        ],
+        "rot": [
+          0.0,
+          -0.707,
+          0.0,
+          0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (19)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          54.497,
+          9.94,
+          -42.934
+        ],
+        "rot": [
+          0.0,
+          0.0001,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (23)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          54.491,
+          9.95,
+          -57.874
+        ],
+        "rot": [
+          0.0,
+          0.0001,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (24)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          43.735,
+          9.95,
+          -51.472
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0001
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (25)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          54.497,
+          9.936,
+          -72.654
+        ],
+        "rot": [
+          0.0,
+          0.0001,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (26)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          43.74,
+          9.936,
+          -72.653
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0001
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (29)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          54.491,
+          9.97,
+          -87.594
+        ],
+        "rot": [
+          0.0,
+          0.0001,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (30)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          43.734,
+          9.97,
+          -87.592
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0001
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (11)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -28.482,
+          0.67,
+          31.832
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          -0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (12)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -14.86,
+          0.59,
+          -8.071
+        ],
+        "rot": [
+          0.0,
+          -0.707,
+          0.0,
+          0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (13)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -7.31,
+          0.59,
+          -8.076
+        ],
+        "rot": [
+          0.0,
+          -0.707,
+          0.0,
+          0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (48)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          18.069,
+          0.66,
+          7.132
+        ],
+        "rot": [
+          0.0,
+          -0.707,
+          0.0,
+          0.7072
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (49)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          18.068,
+          0.66,
+          1.939
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          -0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (14)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -7.311,
+          0.59,
+          -13.27
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          -0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (21)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -14.901,
+          0.59,
+          -13.27
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          -0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (17)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          0.098,
+          0.653,
+          -3.052
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0001
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (18)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          5.317,
+          0.72,
+          -3.053
+        ],
+        "rot": [
+          0.0,
+          -0.0001,
+          0.0,
+          -1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (1)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -18.068,
+          0.65,
+          66.647
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (2)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -12.793,
+          0.65,
+          59.097
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (3)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -18.071,
+          0.65,
+          59.097
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (4)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -12.793,
+          0.65,
+          51.707
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1",
+        "name": "GM_3D_ObstacleA1",
+        "path": "Level_Platform/Obstacles/FT_Static_A1 (5)/Visual/GM_3D_ObstacleA1",
+        "pos": [
+          -18.071,
+          0.65,
+          51.707
+        ],
+        "rot": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c5_windmill",
+        "name": "GM_3D_ObstacleC5",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill (4)/Visual/GM_3D_ObstacleC5",
+        "pos": [
+          133.079,
+          14.169,
+          -77.464
+        ],
+        "rot": [
+          -0.6955,
+          0.6081,
+          0.2881,
+          -0.2519
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c5_blades",
+        "name": "GM_3D_ObstacleC5.001",
+        "path": "Level_Platform/Obstacles/FT_C5_Windmill (4)/Visual/GM_3D_ObstacleC5.001",
+        "pos": [
+          133.079,
+          14.169,
+          -77.464
+        ],
+        "rot": [
+          -0.6955,
+          0.6081,
+          0.2881,
+          -0.2519
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_z"
+      },
+      {
+        "mesh": "obs_b5_doublesweep",
+        "name": "GM_3D_ObstacleB5",
+        "path": "Level_Platform/Obstacles/FT_B5_DoubleSweep (1)/Visual/GM_3D_ObstacleB5",
+        "pos": [
+          145.241,
+          9.949,
+          -68.573
+        ],
+        "rot": [
+          0.0,
+          0.9705,
+          -0.0,
+          -0.2413
+        ],
+        "scale": [
+          0.753,
+          0.753,
+          0.753
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (3)/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          346.693,
+          10.112,
+          -100.192
+        ],
+        "rot": [
+          0.0,
+          0.1412,
+          0.0,
+          -0.99
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Platform/Obstacles/FT_RotorCross (4)/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          353.283,
+          10.112,
+          -106.062
+        ],
+        "rot": [
+          0.0,
+          0.1412,
+          0.0,
+          -0.99
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "obs_c4_spikewheel",
+        "name": "GM_3D_ObstacleC4",
+        "path": "Level_Platform/Obstacles/FT_SpikeWheel/Visual/GM_3D_ObstacleC4",
+        "pos": [
+          363.093,
+          9.783,
+          -103.227
+        ],
+        "rot": [
+          -0.0,
+          0.2495,
+          -0.0,
+          -0.9684
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_x"
+      },
+      {
+        "mesh": "obs_c1_hammer",
+        "name": "GM_3D_ObstacleC1",
+        "path": "Level_Platform/Obstacles/FT_C1_TippingHammer (4)/Visual/GM_3D_ObstacleC1",
+        "pos": [
+          385.253,
+          7.982,
+          -103.14
+        ],
+        "rot": [
+          0.3338,
+          0.6234,
+          -0.3338,
+          0.6234
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "swing_z"
+      },
+      {
+        "mesh": "obs_c1_hammer",
+        "name": "GM_3D_ObstacleC1",
+        "path": "Level_Platform/Obstacles/FT_C1_TippingHammer (7)/Visual/GM_3D_ObstacleC1",
+        "pos": [
+          414.163,
+          7.682,
+          -103.142
+        ],
+        "rot": [
+          0.3338,
+          0.6234,
+          -0.3338,
+          0.6234
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "swing_z"
+      },
+      {
+        "mesh": "obs_a1bd5",
+        "name": "GM_3D_ObstacleA1BD5",
+        "path": "Level_Platform/Obstacles/FT_Static_A1BD5/Visual/GM_3D_ObstacleA1BD5",
+        "pos": [
+          74.45,
+          9.933,
+          -120.42
+        ],
+        "rot": [
+          0.0,
+          -0.6881,
+          0.0,
+          0.7256
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "gate_start",
+        "name": "GM_3D_Start",
+        "path": "Level_Platform/GM_3D_Start",
+        "pos": [
+          -15.51,
+          1.07,
+          77.51
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "gate_finish",
+        "name": "GM_3D_Finish",
+        "path": "Level_Platform/GM_3D_Finish",
+        "pos": [
+          439.213,
+          7.982,
+          -103.122
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/GM_3D_Obstacle_Rock1 (14)/GM_3D_Obstacle_Rock1",
+        "pos": [
+          -22.54,
+          -0.27,
+          96.57
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.589,
+          2.589,
+          2.589
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/GM_3D_Obstacle_Rock2 (16)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          -6.419,
+          -0.17,
+          88.493
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.388,
+          2.388,
+          2.388
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_a1y1",
+        "name": "model.004",
+        "path": "Level_Platform/New_environment/model.004",
+        "pos": [
+          165.625,
+          10.546,
+          -81.572
+        ],
+        "rot": [
+          -0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.219,
+          2.219,
+          2.219
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock1/GM_3D_Obstacle_Rock1",
+        "pos": [
+          -54.781,
+          -0.388,
+          34.477
+        ],
+        "rot": [
+          0.0,
+          0.6813,
+          0.0,
+          0.732
+        ],
+        "scale": [
+          2.409,
+          2.412,
+          2.414
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2/GM_3D_Obstacle_Rock2",
+        "pos": [
+          -47.866,
+          -0.123,
+          0.835
+        ],
+        "rot": [
+          0.0,
+          -0.4625,
+          0.0,
+          0.8866
+        ],
+        "scale": [
+          1.518,
+          1.626,
+          1.727
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock1 (1)/GM_3D_Obstacle_Rock1",
+        "pos": [
+          -38.7,
+          -0.24,
+          -11.261
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.336,
+          1.626,
+          1.978
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (1)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          -39.801,
+          0.174,
+          -10.253
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.336,
+          1.626,
+          1.978
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (3)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          48.403,
+          -0.333,
+          20.527
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.888,
+          2.297,
+          2.794
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock1 (2)/GM_3D_Obstacle_Rock1",
+        "pos": [
+          47.159,
+          -0.173,
+          21.064
+        ],
+        "rot": [
+          0.0,
+          -0.7774,
+          0.0,
+          0.629
+        ],
+        "scale": [
+          1.611,
+          1.626,
+          1.639
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (4)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          45.96,
+          8.8,
+          -43.93
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.911,
+          2.325,
+          2.829
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (5)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          50.693,
+          8.8,
+          -71.566
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.911,
+          2.325,
+          2.829
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (10)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          54.269,
+          8.48,
+          -52.777
+        ],
+        "rot": [
+          0.0,
+          0.5642,
+          0.0,
+          0.8256
+        ],
+        "scale": [
+          2.149,
+          2.21,
+          2.264
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_2",
+        "name": "GM_3D_Obstacle_Rock2",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock2 (11)/GM_3D_Obstacle_Rock2",
+        "pos": [
+          44.522,
+          8.48,
+          -61.48
+        ],
+        "rot": [
+          0.0,
+          0.5642,
+          0.0,
+          0.8256
+        ],
+        "scale": [
+          2.149,
+          2.21,
+          2.264
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock1 (5)_3/GM_3D_Obstacle_Rock1",
+        "pos": [
+          204.026,
+          6.441,
+          -98.841
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          5.268,
+          7.714,
+          7.798
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/Rocks/GM_3D_Obstacle_Rock1 (5)_4/GM_3D_Obstacle_Rock1",
+        "pos": [
+          204.026,
+          6.441,
+          -109.215
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          5.268,
+          7.714,
+          7.798
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          -56.861,
+          0.49,
+          15.724
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          0.52,
+          0.52,
+          0.52
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_1/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          -53.111,
+          0.49,
+          8.974
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          0.52,
+          0.52,
+          0.52
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f18_spike",
+        "name": "Vis",
+        "path": "Level_Platform/Spike/Vis",
+        "pos": [
+          -42.97,
+          0.052,
+          0.027
+        ],
+        "rot": [
+          0.0,
+          0.3827,
+          0.0,
+          0.9239
+        ],
+        "scale": [
+          0.841,
+          0.841,
+          0.841
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f18_spike",
+        "name": "Vis",
+        "path": "Level_Platform/Spike_4/Vis",
+        "pos": [
+          54.133,
+          9.358,
+          -48.956
+        ],
+        "rot": [
+          0.0,
+          0.3827,
+          0.0,
+          0.9239
+        ],
+        "scale": [
+          0.841,
+          0.841,
+          0.841
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f18_spike",
+        "name": "Vis",
+        "path": "Level_Platform/Spike_5/Vis",
+        "pos": [
+          44.133,
+          9.358,
+          -66.456
+        ],
+        "rot": [
+          0.0,
+          0.3827,
+          0.0,
+          0.9239
+        ],
+        "scale": [
+          0.841,
+          0.841,
+          0.841
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f18_spike",
+        "name": "Vis",
+        "path": "Level_Platform/Spike_6/Vis",
+        "pos": [
+          54.385,
+          9.358,
+          -78.456
+        ],
+        "rot": [
+          0.0,
+          0.3827,
+          0.0,
+          0.9239
+        ],
+        "scale": [
+          0.841,
+          0.841,
+          0.841
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f3",
+        "name": "GM_3D_ObstacleF3",
+        "path": "Level_Platform/ft_animated_obstacle_f3/visual/GM_3D_ObstacleF3",
+        "pos": [
+          -36.478,
+          -0.048,
+          37.009
+        ],
+        "rot": [
+          0.0,
+          0.3583,
+          0.0,
+          0.9336
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f3_p2",
+        "name": "GM_3D_ObstacleF3_P2",
+        "path": "Level_Platform/ft_animated_obstacle_f3/visual/GM_3D_ObstacleF3_P2",
+        "pos": [
+          -36.478,
+          -0.048,
+          31.861
+        ],
+        "rot": [
+          0.0,
+          0.9336,
+          0.0,
+          0.3583
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_2/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          44.625,
+          9.858,
+          -94.532
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          0.52,
+          0.52,
+          0.52
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_4/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          52.464,
+          9.858,
+          -94.076
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          0.52,
+          0.52,
+          0.52
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_5/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          52.845,
+          9.858,
+          -98.562
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          0.768,
+          0.768,
+          0.768
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_3/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          47.245,
+          9.858,
+          -97.512
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.095,
+          1.095,
+          1.095
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_b2_tippingbar",
+        "name": "GM_3D_ObstacleB2",
+        "path": "Level_Platform/FT_B2_TippingBar/Visual/GM_3D_ObstacleB2",
+        "pos": [
+          323.298,
+          13.604,
+          -103.11
+        ],
+        "rot": [
+          0.0008,
+          -0.7071,
+          0.0008,
+          0.7071
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "swing_z"
+      },
+      {
+        "mesh": "obs_f13",
+        "name": "GM_3D_ObstacleF13",
+        "path": "Level_Platform/ft_animated_obstacle_f13/GM_3D_ObstacleF13/GM_3D_ObstacleF13",
+        "pos": [
+          253.181,
+          10.068,
+          -88.02
+        ],
+        "rot": [
+          0.0,
+          0.992,
+          0.0,
+          -0.1265
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_16/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          271.09,
+          9.821,
+          -105.159
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.502,
+          1.502,
+          1.502
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_17/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          292.89,
+          9.821,
+          -110.659
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.502,
+          1.502,
+          1.502
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "obs_f11",
+        "name": "GM_3D_ObstacleF11",
+        "path": "Level_Platform/ft_animated_obstacle_f11_18/GM_3D_ObstacleF11/GM_3D_ObstacleF11",
+        "pos": [
+          313.59,
+          9.821,
+          -107.159
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.502,
+          1.502,
+          1.502
+        ],
+        "anim": "bob_y"
+      },
+      {
+        "mesh": "checkpoint_v3",
+        "name": "GM_3D_CheckPointV3",
+        "path": "Level_Platform/CheckPointV3_Flying/GM_3D_CheckPointV3",
+        "pos": [
+          174.308,
+          17.64,
+          -58.816
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3_part",
+        "name": "GM_3D_CheckPointV3_part",
+        "path": "Level_Platform/CheckPointV3_Flying/GM_3D_CheckPointV3_part",
+        "pos": [
+          174.308,
+          17.64,
+          -58.816
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3",
+        "name": "GM_3D_CheckPointV3",
+        "path": "Level_Platform/CheckPointV3_Flying_1/GM_3D_CheckPointV3",
+        "pos": [
+          122.479,
+          17.64,
+          -91.453
+        ],
+        "rot": [
+          0.0,
+          0.7071,
+          0.0,
+          -0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3_part",
+        "name": "GM_3D_CheckPointV3_part",
+        "path": "Level_Platform/CheckPointV3_Flying_1/GM_3D_CheckPointV3_part",
+        "pos": [
+          122.479,
+          17.64,
+          -91.453
+        ],
+        "rot": [
+          0.0,
+          0.7071,
+          0.0,
+          -0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (5)_2/Visual",
+        "pos": [
+          201.89,
+          9.782,
+          -103.22
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (5)_3/Visual",
+        "pos": [
+          338.006,
+          9.881,
+          -103.136
+        ],
+        "rot": [
+          0.0,
+          -0.7072,
+          0.0,
+          0.707
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3",
+        "name": "GM_3D_CheckPointV3",
+        "path": "Level_Platform/CheckPointV3_Flying_4/GM_3D_CheckPointV3",
+        "pos": [
+          336.186,
+          18.323,
+          -103.228
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3_part",
+        "name": "GM_3D_CheckPointV3_part",
+        "path": "Level_Platform/CheckPointV3_Flying_4/GM_3D_CheckPointV3_part",
+        "pos": [
+          336.186,
+          18.323,
+          -103.228
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3",
+        "name": "GM_3D_CheckPointV3",
+        "path": "Level_Platform/CheckPointV3_Flying_3/GM_3D_CheckPointV3",
+        "pos": [
+          198.086,
+          18.123,
+          -103.12
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v3_part",
+        "name": "GM_3D_CheckPointV3_part",
+        "path": "Level_Platform/CheckPointV3_Flying_3/GM_3D_CheckPointV3_part",
+        "pos": [
+          198.086,
+          18.123,
+          -103.12
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow/Visual",
+        "pos": [
+          49.17,
+          9.85,
+          -106.96
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (5)/Visual",
+        "pos": [
+          174.29,
+          9.822,
+          -61.23
+        ],
+        "rot": [
+          0.0,
+          0.0001,
+          0.0,
+          -1.0
+        ],
+        "scale": [
+          0.876,
+          0.876,
+          0.876
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (3)/Visual",
+        "pos": [
+          -27.136,
+          0.52,
+          -10.645
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (3)_2/Visual",
+        "pos": [
+          44.124,
+          0.55,
+          19.785
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          0.479,
+          0.479,
+          0.479
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v1",
+        "name": "GM_3D_CheckPointV1_1",
+        "path": "Level_Platform/GM_3D_CheckPointV1_1",
+        "pos": [
+          41.88,
+          1.064,
+          19.787
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow (3)_1/Visual",
+        "pos": [
+          -15.441,
+          0.52,
+          74.156
+        ],
+        "rot": [
+          0.0,
+          -0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v1",
+        "name": "GM_3D_CheckPointV1",
+        "path": "Level_Platform/GM_3D_CheckPointV1",
+        "pos": [
+          -30.38,
+          0.994,
+          -10.643
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "checkpoint_v2",
+        "name": "GM_3D_CheckPointV2",
+        "path": "Level_Platform/GM_3D_CheckPointV2",
+        "pos": [
+          49.104,
+          10.09,
+          -103.86
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f23",
+        "name": "GM_3D_ObstacleF23",
+        "path": "Level_Platform/ft_animated_obstacle_f23_1/GM_3D_ObstacleF23/GM_3D_ObstacleF23",
+        "pos": [
+          61.006,
+          9.321,
+          -113.166
+        ],
+        "rot": [
+          0.0,
+          -0.9334,
+          0.0,
+          0.3587
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_f23_p2",
+        "name": "GM_3D_ObstacleF23_P2",
+        "path": "Level_Platform/ft_animated_obstacle_f23_1/GM_3D_ObstacleF23/GM_3D_ObstacleF23_P2",
+        "pos": [
+          61.006,
+          9.321,
+          -123.739
+        ],
+        "rot": [
+          0.0,
+          0.9336,
+          0.0,
+          0.3583
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b5_doublesweep",
+        "name": "GM_3D_ObstacleB5",
+        "path": "Level_Platform/FT_B5_DoubleSweep/Visual/GM_3D_ObstacleB5",
+        "pos": [
+          220.312,
+          10.05,
+          -103.114
+        ],
+        "rot": [
+          0.0,
+          0.9705,
+          -0.0,
+          -0.2413
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "spin_y"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/GM_3D_Obstacle_Rock1/GM_3D_Obstacle_Rock1",
+        "pos": [
+          332.783,
+          8.08,
+          -100.124
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          3.369,
+          3.369,
+          3.369
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "rock_1",
+        "name": "GM_3D_Obstacle_Rock1",
+        "path": "Level_Platform/GM_3D_Obstacle_Rock1_1/GM_3D_Obstacle_Rock1",
+        "pos": [
+          332.783,
+          8.08,
+          -107.024
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          3.369,
+          3.369,
+          3.369
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "dir_arrow",
+        "name": "Visual",
+        "path": "Level_Platform/DirectionalArrow_1/Visual",
+        "pos": [
+          126.075,
+          9.8,
+          -91.277
+        ],
+        "rot": [
+          0.0,
+          -0.7071,
+          0.0,
+          0.7071
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      }
+    ]
+  },
+  "Level_Stage1": {
+    "id": 1,
+    "title": "Stage 1 (SU) — Grand Canyon Aquatique",
+    "palette": "tex_155.png",
+    "water_y": 5.2,
+    "upper_water_y": 5.2,
+    "spawn": [
+      -186.0,
+      5.5,
+      -210.0
+    ],
+    "spawn_yaw": 0.785,
+    "checkpoints": [
+      {
+        "id": 0,
+        "name": "Départ Canyon",
+        "pos": [
+          -186.0,
+          5.5,
+          -210.0
+        ],
+        "radius": 22.0
+      },
+      {
+        "id": 1,
+        "name": "Méandre Ouest",
+        "pos": [
+          -150.0,
+          5.5,
+          -140.0
+        ],
+        "radius": 24.0
+      },
+      {
+        "id": 2,
+        "name": "Bassin Central",
+        "pos": [
+          -90.0,
+          5.5,
+          -110.0
+        ],
+        "radius": 24.0
+      },
+      {
+        "id": 3,
+        "name": "Gorge Nord",
+        "pos": [
+          -30.0,
+          5.5,
+          -60.0
+        ],
+        "radius": 24.0
+      },
+      {
+        "id": 4,
+        "name": "Arrivée Stage 1",
+        "pos": [
+          20.0,
+          5.5,
+          -40.0
+        ],
+        "radius": 28.0,
+        "is_finish": true
+      }
+    ],
+    "instances": [
+      {
+        "mesh": "stage1_main",
+        "name": "GM_3D_St1_Main",
+        "path": "Level_Stage1/GM_3D_St1/GM_3D_St1_Main",
+        "pos": [
+          0.0,
+          14.0,
+          0.0
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "stage1_water",
+        "name": "GM_3D_St1_WaterCol",
+        "path": "Level_Stage1/GM_3D_St1/GM_3D_St1_WaterCol",
+        "pos": [
+          0.0,
+          14.0,
+          0.0
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "anim": "none"
+      }
+    ]
+  },
+  "Level_Parkur": {
+    "id": 2,
+    "title": "Level Parkur — Parcours d'Obstacles Complet (15 Checkpoints)",
+    "palette": "tex_222.png",
+    "water_y": 1.0,
+    "upper_water_y": 1.0,
+    "spawn": [
+      -9.1,
+      2.0,
+      24.4
+    ],
+    "spawn_yaw": 3.14159,
+    "checkpoints": [
+      {
+        "id": 0,
+        "name": "Départ Parkur",
+        "pos": [
+          -1.4,
+          1.0,
+          7.9
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 1,
+        "name": "Checkpoint 1",
+        "pos": [
+          0.8,
+          1.0,
+          -71.4
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 2,
+        "name": "Checkpoint 2",
+        "pos": [
+          8.0,
+          1.0,
+          -128.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 3,
+        "name": "Checkpoint 3",
+        "pos": [
+          -25.0,
+          1.0,
+          -158.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 4,
+        "name": "Checkpoint 4",
+        "pos": [
+          35.0,
+          1.0,
+          -155.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 5,
+        "name": "Checkpoint 5",
+        "pos": [
+          67.5,
+          1.0,
+          -224.9
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 6,
+        "name": "Checkpoint 6",
+        "pos": [
+          95.4,
+          1.0,
+          -146.5
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 7,
+        "name": "Checkpoint 7",
+        "pos": [
+          74.0,
+          1.0,
+          -71.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 8,
+        "name": "Checkpoint 8",
+        "pos": [
+          164.7,
+          1.0,
+          -73.5
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 9,
+        "name": "Checkpoint 9",
+        "pos": [
+          224.7,
+          1.0,
+          -86.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 10,
+        "name": "Checkpoint 10",
+        "pos": [
+          255.2,
+          1.0,
+          -104.6
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 11,
+        "name": "Checkpoint 11",
+        "pos": [
+          263.0,
+          1.0,
+          -32.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 12,
+        "name": "Checkpoint 12",
+        "pos": [
+          314.0,
+          1.0,
+          -2.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 13,
+        "name": "Checkpoint 13",
+        "pos": [
+          230.0,
+          1.0,
+          19.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 14,
+        "name": "Checkpoint 14",
+        "pos": [
+          176.0,
+          1.0,
+          22.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 15,
+        "name": "Arrivée Parkur",
+        "pos": [
+          170.0,
+          1.0,
+          40.0
+        ],
+        "radius": 20.0,
+        "is_finish": true
+      }
+    ],
+    "instances": [
+      {
+        "mesh": "parkur_map",
+        "name": "Parkur",
+        "path": "Level_Parkur/Parkur",
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b3_rotorcross",
+        "name": "GM_3D_ObstacleB3",
+        "path": "Level_Parkur/Obstacle_2/Visual/GM_3D_ObstacleB3",
+        "pos": [
+          8.0,
+          1.031,
+          -128.0
+        ],
+        "rot": [
+          0.0,
+          -0.9603,
+          0.0,
+          0.2791
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b4",
+        "name": "GM_3D_ObstacleB4",
+        "path": "Level_Parkur/Obstacle_4/Visual/GM_3D_ObstacleB4",
+        "pos": [
+          35.0,
+          1.787,
+          -155.0
+        ],
+        "rot": [
+          -0.0,
+          0.7989,
+          -0.0,
+          0.6015
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b8",
+        "name": "GM_3D_ObstacleB8",
+        "path": "Level_Parkur/Obstacle_6/Visual/GM_3D_ObstacleB8",
+        "pos": [
+          92.0,
+          2.838,
+          -146.0
+        ],
+        "rot": [
+          0.0522,
+          -0.1053,
+          -0.4409,
+          0.8898
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_b9",
+        "name": "GM_3D_ObstacleB9",
+        "path": "Level_Parkur/Obstacle_8/Visual/GM_3D_ObstacleB9",
+        "pos": [
+          179.0,
+          19.955,
+          -71.0
+        ],
+        "rot": [
+          0.1553,
+          0.8025,
+          0.1094,
+          0.5656
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c4_spikewheel",
+        "name": "GM_3D_ObstacleC4",
+        "path": "Level_Parkur/Obstacle_10/Visual/GM_3D_ObstacleC4",
+        "pos": [
+          263.0,
+          0.343,
+          -89.0
+        ],
+        "rot": [
+          0.0,
+          0.9671,
+          -0.0,
+          -0.2542
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      },
+      {
+        "mesh": "obs_c7",
+        "name": "GM_3D_ObstacleC7",
+        "path": "Level_Parkur/Obstacle_12/Visual/GM_3D_ObstacleC7",
+        "pos": [
+          314.0,
+          0.807,
+          -2.0
+        ],
+        "rot": [
+          0.3058,
+          -0.5341,
+          -0.3917,
+          0.684
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      }
+    ]
+  },
+  "Level_RaceScene": {
+    "id": 3,
+    "title": "Circuit Course (Race_Scene — 14 Checkpoints)",
+    "palette": "tex_222.png",
+    "water_y": 1.0,
+    "upper_water_y": 1.0,
+    "spawn": [
+      -76.2,
+      1.5,
+      -23.0
+    ],
+    "spawn_yaw": 0.0,
+    "checkpoints": [
+      {
+        "id": 0,
+        "name": "Ligne Départ",
+        "pos": [
+          -73.8,
+          1.0,
+          -17.5
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 1,
+        "name": "Virage 1",
+        "pos": [
+          -73.8,
+          1.0,
+          40.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 2,
+        "name": "Virage 2",
+        "pos": [
+          -73.8,
+          1.0,
+          100.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 3,
+        "name": "Virage 3",
+        "pos": [
+          -35.0,
+          1.0,
+          120.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 4,
+        "name": "Ligne Droite Nord",
+        "pos": [
+          40.0,
+          1.0,
+          120.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 5,
+        "name": "Virage Nord-Est",
+        "pos": [
+          110.0,
+          1.0,
+          105.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 6,
+        "name": "Chicane Est",
+        "pos": [
+          112.5,
+          1.0,
+          65.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 7,
+        "name": "Épingle Centre",
+        "pos": [
+          75.0,
+          1.0,
+          47.5
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 8,
+        "name": "Passage Central",
+        "pos": [
+          20.0,
+          1.0,
+          40.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 9,
+        "name": "Pont Sud",
+        "pos": [
+          7.5,
+          1.0,
+          0.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 10,
+        "name": "Courbe Sud-Est",
+        "pos": [
+          35.0,
+          1.0,
+          -32.5
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 11,
+        "name": "Pointe Sud",
+        "pos": [
+          51.2,
+          1.0,
+          -75.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 12,
+        "name": "Retour Sud",
+        "pos": [
+          15.0,
+          1.0,
+          -90.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 13,
+        "name": "Dernier Virage",
+        "pos": [
+          -45.0,
+          1.0,
+          -90.0
+        ],
+        "radius": 16.0
+      },
+      {
+        "id": 14,
+        "name": "Arrivée Tour Complet",
+        "pos": [
+          -73.8,
+          1.0,
+          -17.5
+        ],
+        "radius": 20.0,
+        "is_finish": true
+      }
+    ],
+    "instances": [
+      {
+        "mesh": "race_scene",
+        "name": "Race_Scene",
+        "path": "Level_RaceScene/Race_Scene",
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.5,
+          2.5,
+          2.5
+        ],
+        "anim": "none"
+      }
+    ]
+  },
+  "Level_Level1": {
+    "id": 4,
+    "title": "Level 1 — Descente Rapide (LEVEL1)",
+    "palette": "tex_222.png",
+    "water_y": 1.0,
+    "upper_water_y": 1.0,
+    "spawn": [
+      2.9,
+      1.5,
+      -0.5
+    ],
+    "spawn_yaw": 3.14159,
+    "checkpoints": [
+      {
+        "id": 0,
+        "name": "Départ Level 1",
+        "pos": [
+          0.4,
+          1.0,
+          -6.0
+        ],
+        "radius": 18.0
+      },
+      {
+        "id": 1,
+        "name": "Mi-Parcours",
+        "pos": [
+          -14.0,
+          1.0,
+          -110.0
+        ],
+        "radius": 22.0
+      },
+      {
+        "id": 2,
+        "name": "Arrivée Level 1",
+        "pos": [
+          -28.0,
+          1.0,
+          -220.0
+        ],
+        "radius": 24.0,
+        "is_finish": true
+      }
+    ],
+    "instances": [
+      {
+        "mesh": "level1_main",
+        "name": "Level1",
+        "path": "Level_Level1/Level1",
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "anim": "none"
+      }
+    ]
+  }
+}

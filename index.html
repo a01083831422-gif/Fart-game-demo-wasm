@@ -1,99 +1,122 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fart Together - WebAssembly Edition</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Three.js 3D Engine -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
-    <!-- Assets & WASM Bundle -->
-    <script src="assets_bundle.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fart Together — Édition Intégrale Multi-WASM (3D Pure)</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <div id="game-ui">
-        <!-- Top Bar: Level, Time, Progress -->
-        <header id="top-bar">
-            <div class="hud-card">
-                <span class="hud-label">NIVEAU</span>
-                <span class="hud-val" id="levelName">1 - Rivière Calme</span>
-            </div>
-            <div class="hud-card">
-                <span class="hud-label">CHRONO</span>
-                <span class="hud-val timer" id="raceTime">00:00.0</span>
-            </div>
-            <div class="hud-card">
-                <span class="hud-label">SCORE</span>
-                <span class="hud-val" id="scoreVal">0</span>
-            </div>
-            <div class="hud-card">
-                <span class="hud-label">VITESSE</span>
-                <span class="hud-val" id="speedVal">0.0 m/s</span>
-            </div>
-        </header>
+  <canvas id="game-canvas"></canvas>
 
-        <!-- Progress Bar & Checkpoints -->
-        <div id="progress-container">
-            <div id="progress-bar-bg">
-                <div id="progress-bar-fill"></div>
-                <div class="cp-marker" style="left: 0%;">🏁 Départ</div>
-                <div class="cp-marker" id="cp1-marker" style="left: 33%;">🚩 CP 1</div>
-                <div class="cp-marker" id="cp2-marker" style="left: 66%;">🚩 CP 2</div>
-                <div class="cp-marker" id="finish-marker" style="left: 98%;">🏆 Arrivée</div>
-            </div>
+  <!-- HUD officiel Fart Together (PuffTest.unity) -->
+  <div id="hud">
+    <div class="hud-top">
+      <div class="brand-card">
+        <div class="brand-title">💨 FART TOGETHER — JEU PUR 3D (MULTI-WASM)</div>
+        <div class="wasm-badges" id="wasm-badges">
+          <span class="badge">track_engine.wasm</span>
+          <span class="badge">boat_buoyancy.wasm</span>
+          <span class="badge">gas_physics.wasm</span>
+          <span class="badge">obstacle_hazards.wasm</span>
+          <span class="badge">game_director.wasm</span>
         </div>
+      </div>
 
-        <!-- Gas Energy Gauge (PirateGas.wasm) -->
-        <div id="gas-gauge">
-            <div class="gauge-header">
-                <span>RÉSERVOIR DE GAZ (WASM)</span>
-                <span id="gasText">100%</span>
-            </div>
-            <div class="gauge-bar-outer">
-                <div class="gauge-bar-inner" id="gasBar"></div>
-            </div>
-        </div>
+      <!-- Sélecteur des 5 vraies Maps extraites de Unity 6 -->
+      <div class="level-selector">
+        <button class="lvl-btn active" onclick="switchMap('Level_Platform')">🌊 Demo Course (Level_Platform)</button>
+        <button class="lvl-btn" onclick="switchMap('Level_Stage1')">🏞️ Stage 1 (Canyon SU)</button>
+        <button class="lvl-btn" onclick="switchMap('Level_Parkur')">⚙️ Level Parkur (15 CPs)</button>
+        <button class="lvl-btn" onclick="switchMap('Level_RaceScene')">🏁 Race Circuit (14 CPs)</button>
+        <button class="lvl-btn" onclick="switchMap('Level_Level1')">⚡ Level 1</button>
+      </div>
 
-        <!-- On-screen Fart Trigger Button (Mobile / Click) -->
-        <button id="fart-btn" onclick="triggerFart()">
-            💨 BOOSTER AU GAZ <span>(Espace)</span>
-        </button>
-
-        <!-- Banner Announcement (Checkpoints, Win) -->
-        <div id="banner-msg">CHECKPOINT 1 FRANCHI !</div>
-
-        <!-- Level Selector / Options Panel -->
-        <div id="menu-panel">
-            <h3>💨 Fart Together (WASM)</h3>
-            <p>Jeu de course d'obstacles 100% WebAssembly</p>
-            <div class="level-btns">
-                <button class="lvl-btn active" onclick="selectLevel(1)">Niveau 1 : Initiation</button>
-                <button class="lvl-btn" onclick="selectLevel(2)">Niveau 2 : Rapides Périlleux</button>
-                <button class="lvl-btn" onclick="selectLevel(3)">Niveau 3 : Canyon Extrême</button>
-            </div>
-            <div class="skin-selector">
-                <span>Skin :</span>
-                <button class="skin-dot active" style="background:#22c55e" onclick="changeSkin('pirate_vert.png')"></button>
-                <button class="skin-dot" style="background:#38bdf8" onclick="changeSkin('pirate_bleu.png')"></button>
-                <button class="skin-dot" style="background:#f97316" onclick="changeSkin('pirate_orange.png')"></button>
-                <button class="skin-dot" style="background:#eab308" onclick="changeSkin('palette_officielle.png')"></button>
-            </div>
-            <button class="play-btn" onclick="startGame()">▶ COMMENCER LA COURSE</button>
-        </div>
-
-        <!-- Victory Modal -->
-        <div id="victory-modal">
-            <h2>🏆 COURSE TERMINÉE !</h2>
-            <div class="win-stat">Temps Réalisé : <strong id="winTime">00:00.0</strong></div>
-            <div class="win-stat">Score Final : <strong id="winScore">0</strong> pts</div>
-            <div class="win-stat">Nombre de Farts : <strong id="winFarts">0</strong> 💨</div>
-            <button class="play-btn" onclick="nextLevel()">NIVEAU SUIVANT ▶</button>
-            <button class="restart-btn" onclick="restartLevel()">Recommencer</button>
-        </div>
+      <div class="stats-card">
+        <div class="stat-item"><span class="lbl">CHRONO</span><span id="hud-time" class="val">00:00.0</span></div>
+        <div class="stat-item"><span class="lbl">CHECKPOINT</span><span id="hud-cp" class="val">0 / 8</span></div>
+        <div class="stat-item"><span class="lbl">MORTS</span><span id="hud-deaths" class="val">0</span></div>
+        <div class="stat-item"><span class="lbl">VITESSE</span><span id="hud-speed" class="val">0 km/h</span></div>
+      </div>
     </div>
 
-    <div id="canvas-container"></div>
-    <script src="game.js"></script>
+    <!-- Barre de progression de course (Progress Track de PuffTest.unity) -->
+    <div class="progress-track-wrap">
+      <div class="progress-label">PROGRESSION DU PARCOURS : <span id="hud-pct">0%</span></div>
+      <div class="progress-bar-bg">
+        <div id="progress-fill"></div>
+        <div id="progress-boat-icon">🛶</div>
+      </div>
+    </div>
+
+    <!-- Notification centrale de Checkpoint / Respawn -->
+    <div id="center-banner" class="hidden">CHECKPOINT VALIDÉ !</div>
+
+    <!-- Bas de l'écran : Jauge de Gaz (PirateGas.cs) & Contrôles rapides -->
+    <div class="hud-bottom">
+      <div class="crew-panel">
+        <div class="panel-title">🏴‍☠️ ÉQUIPAGE & BOUÉE OFFICIELLE</div>
+        <div class="btn-row">
+          <button onclick="setBoatModel('boat_4p')">🛶 Bouée 4 Pirates</button>
+          <button onclick="setBoatModel('boat_2p')">🛟 Bouée 2 Pirates</button>
+          <button onclick="cycleCrewOutfits()">🎩 Changer Chapeaux/Tenues</button>
+          <button onclick="toggleMusic()" id="btn-music">🎵 Musique: ON</button>
+        </div>
+        <div class="btn-row" style="margin-top:6px;">
+          <button onclick="teleportNextCheckpoint()">⏭️ Checkpoint Suivant (T)</button>
+          <button onclick="respawnAtCheckpoint()">🔄 Respawn Checkpoint (R)</button>
+          <button onclick="toggleCameraMode()">🎥 Caméra: Course / Libre (C)</button>
+        </div>
+      </div>
+
+      <div class="gas-panel">
+        <div class="gas-header">
+          <span>🔥 PRESSION DE GAZ (PirateGas.wasm)</span>
+          <span id="gas-val">100%</span>
+        </div>
+        <div class="gas-bar-bg">
+          <div id="gas-fill"></div>
+        </div>
+        <div class="controls-hint">
+          <kbd>Z</kbd>/<kbd>S</kbd> ou <kbd>↑</kbd>/<kbd>↓</kbd> Ramer &bull;
+          <kbd>Q</kbd>/<kbd>D</kbd> ou <kbd>←</kbd>/<kbd>→</kbd> Tourner &bull;
+          <kbd>ESPACE</kbd> Pet Turbo &bull;
+          <kbd>E</kbd> Méga Pet Explosif &bull;
+          <kbd>R</kbd> Respawn
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Écran de chargement des géométries 3D réelles -->
+  <div id="loading-overlay">
+    <div class="loader-box">
+      <h2>💨 Chargement du vrai niveau 3D Unity...</h2>
+      <p id="loading-status">Initialisation des 5 modules WebAssembly (.wasm)...</p>
+      <div class="loader-bar"><div id="loader-progress"></div></div>
+    </div>
+  </div>
+
+  <!-- Modal de Victoire -->
+  <div id="victory-modal" class="hidden">
+    <div class="victory-card">
+      <h1>🏆 ARRIVÉE FRANCHIE !</h1>
+      <p id="victory-map-name">Level_Platform</p>
+      <div class="victory-stats">
+        <div>⏱️ Temps final : <strong id="vic-time">00:00.0</strong></div>
+        <div>💨 Pets propulsés : <strong id="vic-farts">0</strong></div>
+        <div>💀 Chutes / Respawns : <strong id="vic-deaths">0</strong></div>
+        <div>⭐ Score : <strong id="vic-score">0</strong></div>
+      </div>
+      <div class="victory-actions">
+        <button onclick="restartCurrentMap()">🔄 Rejouer ce Parcours</button>
+        <button onclick="nextMap()">➡️ Parcours Suivant</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets_bundle.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>

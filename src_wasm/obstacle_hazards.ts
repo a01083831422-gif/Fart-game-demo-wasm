@@ -1,59 +1,37 @@
-// obstacle_hazards.ts - Module WebAssembly pour les pièges, moulins et accélérateurs
-// Dérivé de JointRotor.cs, BoostPad.cs, Whirlpool.cs, BounceObstacle.cs
+// obstacle_hazards.ts - Module WebAssembly compilé depuis JointRotor.cs, BounceObstacle.cs, GustZone.cs & Whirlpool.cs
+// Gère l'animation temps réel et les collisions de tous les obstacles 3D de Level_Platform et Level_Parkur
 
+let simTime: f32 = 0.0;
 let rotorAngle: f32 = 0.0;
+let swingAngle: f32 = 0.0;
+let bobOffset: f32 = 0.0;
 
-export function update_hazards(dt: f32): void {
-    rotorAngle += dt * 3.5; // Vitesse de rotation des pales
-    if (rotorAngle > 6.28318) {
-        rotorAngle -= 6.28318;
-    }
+export function step_obstacles(dt: f32): void {
+  simTime += dt;
+  rotorAngle = simTime * 2.4;
+  swingAngle = <f32>Math.sin(<f64>(simTime * 2.2)) * 0.85;
+  bobOffset = <f32>Math.sin(<f64>(simTime * 3.0)) * 0.65;
 }
 
-export function get_rotor_angle(): f32 {
-    return rotorAngle;
-}
+export function get_rotor_angle(): f32 { return rotorAngle; }
+export function get_swing_angle(): f32 { return swingAngle; }
+export function get_bob_offset(): f32 { return bobOffset; }
+export function get_sim_time(): f32 { return simTime; }
 
-// Vérifie si la bouée heurte une pale de rotor tournante (obstacle rotatif)
-export function check_rotor_hit(boat_x: f32, boat_z: f32, rotor_x: f32, rotor_z: f32, blade_length: f32): i32 {
-    let dx = boat_x - rotor_x;
-    let dz = boat_z - rotor_z;
-    let dist = <f32>Math.sqrt(<f64>(dx * dx + dz * dz));
+// Teste la collision 3D avec un obstacle rotatif ou statique et retourne l'intensité de l'impact (0 = pas touché, 1 = rebond, 2 = mortel/kill)
+export function test_obstacle_collision(
+  bx: f32, by: f32, bz: f32,
+  ox: f32, oy: f32, oz: f32,
+  radius: f32, height: f32, isDeadly: i32
+): i32 {
+  let dy = <f32>Math.abs(<f64>(by - oy));
+  if (dy > height) return 0;
 
-    if (dist > blade_length + 1.2) return 0;
-
-    // Angle relatif
-    let angle = <f32>Math.atan2(<f64>dz, <f64>dx);
-    let diff = <f32>Math.abs(<f64>(angle - rotorAngle));
-    let diffOpposite = <f32>Math.abs(<f64>(angle - (rotorAngle + 3.14159)));
-
-    if (diff < 0.4 || diffOpposite < 0.4) {
-        return 1; // Percuté par une pale !
-    }
-    return 0;
-}
-
-// Vérifie la collision avec un rocher fixe
-export function check_rock_hit(boat_x: f32, boat_z: f32, rock_x: f32, rock_z: f32, rock_radius: f32): i32 {
-    let dx = boat_x - rock_x;
-    let dz = boat_z - rock_z;
-    let distSq = dx * dx + dz * dz;
-    let hitDist = rock_radius + 1.2;
-
-    return distSq < (hitDist * hitDist) ? 1 : 0;
-}
-
-// Vérifie le passage sur un Boost Pad (Accélérateur jaune)
-export function check_boost_pad(boat_x: f32, boat_z: f32, pad_x: f32, pad_z: f32): i32 {
-    let dx = <f32>Math.abs(<f64>(boat_x - pad_x));
-    let dz = <f32>Math.abs(<f64>(boat_z - pad_z));
-    return (dx < 2.0 && dz < 2.5) ? 1 : 0;
-}
-
-// Calcule l'attraction d'un tourbillon
-export function calculate_whirlpool_pull_x(boat_x: f32, wp_x: f32): f32 {
-    return (wp_x - boat_x) * 15.0;
-}
-export function calculate_whirlpool_pull_z(boat_z: f32, wp_z: f32): f32 {
-    return (wp_z - boat_z) * 15.0;
+  let dx = bx - ox;
+  let dz = bz - oz;
+  let distSq = dx * dx + dz * dz;
+  if (distSq <= radius * radius) {
+    return isDeadly != 0 ? 2 : 1;
+  }
+  return 0;
 }
