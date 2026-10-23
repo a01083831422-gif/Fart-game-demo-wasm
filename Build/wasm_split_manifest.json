@@ -1,0 +1,49 @@
+{
+  "productName": "Fart Together Demo",
+  "unityVersion": "6000.4.10f1",
+  "totalEngineWasmBytes": 21613522,
+  "engineParts": [
+    {
+      "name": "FartTogether_Engine_part01.wasm",
+      "size": 2764800,
+      "index": 1
+    },
+    {
+      "name": "FartTogether_Engine_part02.wasm",
+      "size": 2764800,
+      "index": 2
+    },
+    {
+      "name": "FartTogether_Engine_part03.wasm",
+      "size": 2764800,
+      "index": 3
+    },
+    {
+      "name": "FartTogether_Engine_part04.wasm",
+      "size": 2764800,
+      "index": 4
+    },
+    {
+      "name": "FartTogether_Engine_part05.wasm",
+      "size": 2764800,
+      "index": 5
+    },
+    {
+      "name": "FartTogether_Engine_part06.wasm",
+      "size": 2764800,
+      "index": 6
+    },
+    {
+      "name": "FartTogether_Engine_part07.wasm",
+      "size": 2764800,
+      "index": 7
+    },
+    {
+      "name": "FartTogether_Engine_part08.wasm",
+      "size": 2259922,
+      "index": 8
+    }
+  ],
+  "coreWasm": "FartTogether_Core.wasm",
+  "il2cppModulesCount": 120
+}

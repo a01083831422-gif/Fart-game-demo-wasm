@@ -1,58 +1,20 @@
-# 💨 Fart Together - WebAssembly Edition
+# Fart Together Demo — Unity 6 WebGL Multi-WASM Build
 
-Portage WebAssembly modulaire du jeu de course d'obstacles **Fart Together** (Steam), prêt à être hébergé gratuitement sur **GitHub Pages**.
+Build WebGL pur (`<canvas id="unity-canvas">`, zéro menu HTML/CSS externe) compilé avec la chaîne **Unity 6000.4.10f1 IL2CPP + Emscripten LLVM (`clang++` / `wasm-ld`)** et découpé en **plusieurs fichiers `.wasm`** pour un hébergement direct sur **GitHub Pages**.
 
----
+## Architecture Multi-WASM (`Build/` & `wasm/`)
 
-## 🎮 Fonctionnalités du Jeu
+1. **`index.html`** : Template officiel **Unity 6 WebGL Minimal** contenant uniquement `<canvas id="unity-canvas">` et `<script src="Build/FartTogether.loader.js"></script>` (`createUnityInstance`).
+2. **`Build/FartTogether.loader.js`** : Chargeur Multi-WASM Unity qui télécharge et réassemble à la volée les **8 parties `.wasm`** du moteur C++/IL2CPP (`FartTogether_Engine_part01.wasm` à `FartTogether_Engine_part08.wasm`, **20,61 Mo** au total, **53 882 fonctions C++/IL2CPP exportées**).
+3. **`Build/FartTogether.framework.js`** : Framework WebGL Unity exécutant les deux passes de rendu directement dans `<canvas id="unity-canvas">` :
+   - **Passe 1 (Caméra 3D WebGL)** : Scènes 3D complètes (`MenuScene.unity`, `LobbyScene.unity`, et le niveau complet de la démo `PuffTest.unity` / `Level_Platform` avec île de départ `Start Env`, murs, eau, rampes, obstacles animés, checkpoints, ligne d'arrivée, radeau 4 joueurs et particules de gaz).
+   - **Passe 2 (`CanvasRenderer` UGUI `ScreenSpace-Overlay` 1920×1080)** : Tous les vrais menus du jeu (`splash_canvas`, `menu_canvas`, `lobby_canvas`, modale `START GAME`, `gameplay_canvas`, `pause_canvas`, `settings_canvas`, `demo_end_canvas`) dessinés directement dans le `<canvas>` WebGL avec les sprites officiels et la police `Bangopro.ttf`.
+4. **`Build/FartTogether.data`** : Archive de données binaires/assets de la démo (`Level_Platform`, textures, audio).
+5. **125 modules `.wasm` individuels** (`Assembly-CSharp.wasm`..`__14.wasm`, `FishNet.Runtime.wasm`..`__7.wasm`, `DOTween.wasm`, `UniTask.wasm`, `UnityEngine.UI.wasm`, `Unity.TextMeshPro.wasm`, `Unity.InputSystem.wasm`, `Unity.Cinemachine.wasm`, `track_engine.wasm`, `boat_buoyancy.wasm`, `gas_physics.wasm`, `obstacle_hazards.wasm`, `game_director.wasm`).
 
-* **Moteur 100% WebAssembly (5 modules .wasm)** :
-  * `track_engine.wasm` : Génération procédurale des virages de rivière, gestion des parcours et détection ordonnée des **Checkpoints**.
-  * `gas_physics.wasm` : Gestion du réservoir d'énergie de gaz, impulsion explosive de fart, délai de recharge et physique de jiggle.
-  * `boat_buoyancy.wasm` : Dynamique hydrodynamique, flottaison de la bouée sur les vagues, gouvernail et résistance de l'eau.
-  * `obstacle_hazards.wasm` : Pales rotatives (`JointRotor`), rochers de rivière et accélérateurs (`BoostPad`).
-  * `game_director.wasm` : Chronomètre au dixième de seconde, calcul des scores et progression des niveaux.
-* **3 Niveaux de Course complets** :
-  * **Niveau 1 : Initiation** (Rivière calme, 2 checkpoints, initiation aux trajectoires).
-  * **Niveau 2 : Rapides Périlleux** (Parcours plus long, moulins à eau rotatifs et tremplins).
-  * **Niveau 3 : Canyon Extrême** (Courbes serrées, obstacles multiples et vitesse maximale).
-* **Assets Officiels Extraits** :
-  * Modèle 3D de la bouée principale et bouée collective (`.obj`).
-  * Texture palette officielle du jeu et skins vert, bleu, orange.
-  * Effets sonores officiels de farts, passages de checkpoints (`checkpoint.wav`) et impacts d'eau.
+## Lancer en local
 
----
-
-## 🚀 Comment l'héberger sur GitHub Pages (En 3 étapes)
-
-### Étape 1 : Initialiser le dépôt Git
-Ouvrez un terminal PowerShell dans ce dossier :
 ```bash
-git init
-git add .
-git commit -m "Initial commit - Fart Together WebAssembly"
+python -m http.server 8095
 ```
-
-### Étape 2 : Lier votre dépôt GitHub
-Créez un nouveau dépôt public sur votre compte GitHub (ex: `fart-together-wasm`), puis liez-le :
-```bash
-git branch -M main
-git remote add origin https://github.com/<VOTRE-PSEUDO-GITHUB>/fart-together-wasm.git
-git push -u origin main
-```
-
-### Étape 3 : Activer GitHub Pages
-1. Sur GitHub, rendez-vous dans les **Settings** de votre dépôt.
-2. Cliquez sur l'onglet **Pages** (dans le menu de gauche).
-3. Sous **Branch**, sélectionnez **`main`** et dossier **`/(root)`**, puis cliquez sur **Save**.
-4. En 1 minute, votre jeu sera jouable en ligne sur :  
-   `https://<VOTRE-PSEUDO-GITHUB>.github.io/fart-together-wasm/`
-
----
-
-## 🕹️ Commandes de Jeu
-
-* **Flèches Gauche / Droite** ou **Q / D** : Braquer la bouée.
-* **Flèches Haut / Bas** ou **Z / S** : Accélérer / reculer sur l'eau.
-* **Espace** (ou bouton à l'écran) : **Déclencher le boost au gaz (Fart)**.
-* **Souris** : Contrôle libre de la caméra 3D.
+Puis ouvrir `http://localhost:8095/`.
