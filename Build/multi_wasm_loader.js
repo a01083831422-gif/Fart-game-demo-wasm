@@ -2,7 +2,7 @@
 (function() {
   const MANIFEST = {
   "engine_wasm_original": "FartTogether_Unity_WebGL_Build.wasm",
-  "engine_wasm_total_bytes": 89184658,
+  "engine_wasm_total_bytes": 89104532,
   "engine_wasm_parts": [
     {
       "name": "FartTogether_Engine.part01.wasm",
@@ -26,12 +26,12 @@
     },
     {
       "name": "FartTogether_Engine.part05.wasm",
-      "size": 13687186,
+      "size": 13607060,
       "index": 5
     }
   ],
   "assets_data_original": "FartTogether_Unity_WebGL_Build.data",
-  "assets_data_total_bytes": 107627807,
+  "assets_data_total_bytes": 155943466,
   "assets_data_parts": [
     {
       "name": "FartTogether_Assets.part01.data.part",
@@ -60,8 +60,23 @@
     },
     {
       "name": "FartTogether_Assets.part06.data.part",
-      "size": 13255967,
+      "size": 18874368,
       "index": 6
+    },
+    {
+      "name": "FartTogether_Assets.part07.data.part",
+      "size": 18874368,
+      "index": 7
+    },
+    {
+      "name": "FartTogether_Assets.part08.data.part",
+      "size": 18874368,
+      "index": 8
+    },
+    {
+      "name": "FartTogether_Assets.part09.data.part",
+      "size": 4948522,
+      "index": 9
     }
   ],
   "framework_js": "FartTogether_Unity_WebGL_Build.framework.js",
