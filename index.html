@@ -1,120 +1,398 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fart Together — Édition Intégrale Multi-WASM (3D Pure)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Fart Together Demo</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+  <!-- Fullscreen 3D WebGL Viewport (Unity Camera Output) -->
   <canvas id="game-canvas"></canvas>
 
-  <!-- HUD officiel Fart Together (PuffTest.unity) -->
-  <div id="hud">
-    <div class="hud-top">
-      <div class="brand-card">
-        <div class="brand-title">💨 FART TOGETHER — JEU PUR 3D (MULTI-WASM)</div>
-        <div class="wasm-badges" id="wasm-badges">
-          <span class="badge">Assembly-CSharp.wasm (x16 IL2CPP)</span>
-          <span class="badge">FishNet.Runtime.wasm (x8 IL2CPP)</span>
-          <span class="badge">track_engine.wasm</span>
-          <span class="badge">boat_buoyancy.wasm</span>
-          <span class="badge">gas_physics.wasm</span>
-          <span class="badge">obstacle_hazards.wasm</span>
-          <span class="badge">game_director.wasm</span>
+  <!-- Unity CanvasScaler (Reference Resolution: 1920x1080) -->
+  <div id="unity-root">
+    <div id="unity-canvas-scaler">
+
+      <!-- ================================================================== -->
+      <!-- 0. BOOTSTRAP / SPLASH_CANVAS (Bootstrap.unity)                     -->
+      <!-- ================================================================== -->
+      <div id="splash-canvas" class="unity-canvas">
+        <div class="splash-bg"></div>
+        <img class="splash-logo" src="assets/ui/Logo_Splash.png" alt="Logo" />
+      </div>
+
+      <!-- ================================================================== -->
+      <!-- 1. MENU_CANVAS (level1 - MenuScene.unity)                          -->
+      <!-- ================================================================== -->
+      <div id="menu-canvas" class="unity-canvas hidden">
+        <div class="menu-fades">
+          <div class="left-fade"></div>
+          <div class="right-fade"></div>
+        </div>
+
+        <img class="menu-logo" src="assets/ui/Icon_Logo.png" alt="Fart Together" />
+
+        <div class="menu-main-buttons">
+          <button class="u-menu-btn active" data-idx="0" onclick="window.onMenuCreateLobby()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text lg">CREATE LOBBY</span>
+          </button>
+
+          <div class="u-find-lobby-row">
+            <button class="u-menu-btn" data-idx="1" onclick="window.onMenuFindLobby()">
+              <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+              <span class="u-btn-text lg">FIND LOBBY</span>
+            </button>
+            <div class="u-code-field">
+              <input id="menu-lobby-code-input" type="text" maxlength="6" placeholder="lobby code" value="GGFD54" />
+            </div>
+          </div>
+
+          <button class="u-menu-btn sm" data-idx="2" onclick="window.onMenuCreateLobby()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">PLAY LOCAL CO-OP</span>
+          </button>
+
+          <button class="u-menu-btn sm" data-idx="3" onclick="window.openSettingsCanvas()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">SETTINGS</span>
+          </button>
+
+          <button class="u-menu-btn sm" data-idx="4" onclick="window.onMenuExit()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">EXIT GAME</span>
+          </button>
+        </div>
+
+        <div class="menu-button-tutorials">
+          <div class="u-tut-box trap-s">
+            <img src="assets/ui/Icon_KEsc.png" alt="ESC" />
+            <span>BACK</span>
+          </div>
+          <div class="u-tut-box trap-sh">
+            <img src="assets/ui/Icon_KEnter.png" alt="ENTER" />
+            <span>SELECT</span>
+          </div>
+        </div>
+
+        <div class="menu-app-info">v0.0.1 / Demo</div>
+
+        <button class="menu-dc-button" onclick="window.open('https://discord.com', '_blank')">
+          <img src="assets/ui/Icon_Discord.png" alt="Discord" />
+          <span>DISCORD</span>
+        </button>
+      </div>
+
+      <!-- ================================================================== -->
+      <!-- 2. LOBBY_CANVAS (level2 - LobbyScene.unity)                        -->
+      <!-- ================================================================== -->
+      <div id="lobby-canvas" class="unity-canvas hidden">
+        <div class="lobby-title-bg">
+          <span>LOBBY</span>
+        </div>
+
+        <div class="lobby-code-btn" onclick="window.copyLobbyCode()">
+          <div class="lobby-code-desc">YOUR LOBBY CODE</div>
+          <div class="lobby-code-val">
+            <span id="lobby-code-text">QND3F</span>
+            <img src="assets/ui/Icon_Copy.png" alt="Copy" />
+          </div>
+        </div>
+
+        <!-- Character Selection Arrows around 3D Hippo on stage -->
+        <div class="lobby-char-selection">
+          <button class="char-arrow-btn left" onclick="window.changeLobbyCharacter(-1)">
+            <img src="assets/ui/Icon_ArrowM.png" alt="<" />
+          </button>
+          <button class="char-arrow-btn right" onclick="window.changeLobbyCharacter(1)">
+            <img src="assets/ui/Icon_ArrowM.png" alt=">" />
+          </button>
+        </div>
+
+        <!-- Select Mode Content -->
+        <div class="lobby-select-mode">
+          <div class="lobby-mode-header">
+            <span>SELECT MODE</span>
+          </div>
+          <div class="lobby-mode-bg">
+            <div class="lobby-modes-grid">
+              <!-- Mode 1: CO-OP RUN (FART RUN) -->
+              <div class="lobby-mode-card selected">
+                <div class="mode-selected-border"></div>
+                <div class="mode-card-inner">
+                  <img class="mode-art" src="assets/ui/Mode_FartRun.png" alt="Co-Op Run" />
+                  <div class="mode-title">CO-OP RUN</div>
+                  <div class="mode-desc-pill"><span>FART RUN</span></div>
+                </div>
+              </div>
+
+              <!-- Mode 2: TEAM RACE -->
+              <div class="lobby-mode-card disabled">
+                <div class="mode-card-inner">
+                  <img class="mode-art" src="assets/ui/Mode_TeamRace.png" alt="Team Race" />
+                  <div class="mode-coming-soon">COMING SOON</div>
+                  <div class="mode-title">TEAM RACE</div>
+                  <div class="mode-desc-pill wide"><span>RACE. TROLL WIN.</span></div>
+                </div>
+              </div>
+
+              <!-- Mode 3: RUFT RUMBLE -->
+              <div class="lobby-mode-card disabled">
+                <div class="mode-card-inner">
+                  <img class="mode-art" src="assets/ui/Mode_RaftRumble.png" alt="Ruft Rumble" />
+                  <div class="mode-coming-soon">COMING SOON</div>
+                  <div class="mode-title">RUFT RUMBLE</div>
+                  <div class="mode-desc-pill"><span>LAST RUFT WINS</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="lobby-invite-btn" onclick="window.copyLobbyCode()">
+          <span>INVITE FRIENDS</span>
+        </button>
+
+        <button class="lobby-start-btn" onclick="window.openLobbyStartConfirm()">
+          <img src="assets/ui/keyboard_enter.png" alt="Enter" />
+          <span>START GAME</span>
+        </button>
+
+        <!-- Bottom Bar -->
+        <div class="lobby-bottom-panel">
+          <div class="lobby-bottom-black">
+            <div class="u-tut-box trap-s lobby-leave-tut" onclick="window.goToMenuScene()">
+              <img src="assets/ui/Icon_KEsc.png" alt="ESC" />
+              <span>LEAVE</span>
+            </div>
+
+            <div class="lobby-right-tuts">
+              <div class="lobby-tut-group" onclick="window.changeLobbyOutfit(1)">
+                <img src="assets/ui/Icon_KW.png" alt="W" />
+                <img src="assets/ui/Icon_KS.png" alt="S" />
+                <span>CHANGE OUTFIT</span>
+              </div>
+              <div class="lobby-tut-group" onclick="window.changeLobbyCharacter(1)">
+                <img src="assets/ui/Icon_KA.png" alt="A" />
+                <img src="assets/ui/Icon_KD.png" alt="D" />
+                <span>SELECT CHARACTER</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lobby-bottom-white" onclick="window.toggleLobbyReady()">
+            <img id="lobby-ready-key" src="assets/ui/keyboard_space.png" alt="SPACE" />
+            <span id="lobby-ready-text">READY</span>
+          </div>
+        </div>
+
+        <!-- Are You Sure Modal (LobbyScene.unity) -->
+        <div id="lobby-confirm-panel" class="u-modal-overlay hidden">
+          <div class="u-modal-box">
+            <div class="u-modal-title-bg">
+              <span>START GAME</span>
+            </div>
+            <div class="u-modal-body">
+              <p>Everyone ready?<br /><br />Once the game is started new players cannot join.</p>
+            </div>
+            <div class="u-modal-buttons">
+              <button class="u-modal-btn no" onclick="window.closeLobbyStartConfirm()">
+                <span>NO WAIT!</span>
+              </button>
+              <button class="u-modal-btn yes" onclick="window.startDemoGameplay()">
+                <span>YES</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Sélecteur des 5 vraies Maps extraites de Unity 6 -->
-      <div class="level-selector">
-        <button class="lvl-btn active" onclick="switchMap('Level_Platform')">🌊 Demo Course (Level_Platform)</button>
-        <button class="lvl-btn" onclick="switchMap('Level_Stage1')">🏞️ Stage 1 (Canyon SU)</button>
-        <button class="lvl-btn" onclick="switchMap('Level_Parkur')">⚙️ Level Parkur (15 CPs)</button>
-        <button class="lvl-btn" onclick="switchMap('Level_RaceScene')">🏁 Race Circuit (14 CPs)</button>
-        <button class="lvl-btn" onclick="switchMap('Level_Level1')">⚡ Level 1</button>
-      </div>
-
-      <div class="stats-card">
-        <div class="stat-item"><span class="lbl">CHRONO</span><span id="hud-time" class="val">00:00.0</span></div>
-        <div class="stat-item"><span class="lbl">CHECKPOINT</span><span id="hud-cp" class="val">0 / 8</span></div>
-        <div class="stat-item"><span class="lbl">MORTS</span><span id="hud-deaths" class="val">0</span></div>
-        <div class="stat-item"><span class="lbl">VITESSE</span><span id="hud-speed" class="val">0 km/h</span></div>
-      </div>
-    </div>
-
-    <!-- Barre de progression de course (Progress Track de PuffTest.unity) -->
-    <div class="progress-track-wrap">
-      <div class="progress-label">PROGRESSION DU PARCOURS : <span id="hud-pct">0%</span></div>
-      <div class="progress-bar-bg">
-        <div id="progress-fill"></div>
-        <div id="progress-boat-icon">🛶</div>
-      </div>
-    </div>
-
-    <!-- Notification centrale de Checkpoint / Respawn -->
-    <div id="center-banner" class="hidden">CHECKPOINT VALIDÉ !</div>
-
-    <!-- Bas de l'écran : Jauge de Gaz (PirateGas.cs) & Contrôles rapides -->
-    <div class="hud-bottom">
-      <div class="crew-panel">
-        <div class="panel-title">🏴‍☠️ ÉQUIPAGE & BOUÉE OFFICIELLE</div>
-        <div class="btn-row">
-          <button onclick="setBoatModel('boat_4p')">🛶 Bouée 4 Pirates</button>
-          <button onclick="setBoatModel('boat_2p')">🛟 Bouée 2 Pirates</button>
-          <button onclick="cycleCrewOutfits()">🎩 Changer Chapeaux/Tenues</button>
-          <button onclick="toggleMusic()" id="btn-music">🎵 Musique: ON</button>
+      <!-- ================================================================== -->
+      <!-- 3. GAMEPLAY_CANVAS (level3 - PuffTest.unity)                       -->
+      <!-- ================================================================== -->
+      <div id="gameplay-canvas" class="unity-canvas hidden">
+        <!-- Top Progress Bar (gameplay_canvas/progress) -->
+        <div class="gp-progress-container">
+          <div class="gp-progress-bg">
+            <div class="gp-progress-track">
+              <img id="gp-progress-raft" class="gp-progress-raft" src="assets/ui/Icon_RaftS.png" alt="Raft" />
+              <img class="gp-progress-finish" src="assets/ui/Icon_Finish.png" alt="Finish" />
+            </div>
+          </div>
         </div>
-        <div class="btn-row" style="margin-top:6px;">
-          <button onclick="teleportNextCheckpoint()">⏭️ Checkpoint Suivant (T)</button>
-          <button onclick="respawnAtCheckpoint()">🔄 Respawn Checkpoint (R)</button>
-          <button onclick="toggleCameraMode()">🎥 Caméra: Course / Libre (C)</button>
-        </div>
-      </div>
 
-      <div class="gas-panel">
-        <div class="gas-header">
-          <span>🔥 PRESSION DE GAZ (PirateGas.wasm)</span>
-          <span id="gas-val">100%</span>
+        <!-- Gas Slider + Character Icon (gameplay_canvas/gas_content) -->
+        <div class="gp-gas-content">
+          <div class="gp-gas-slider">
+            <div id="gp-gas-fill" class="gp-gas-fill"></div>
+          </div>
+          <img id="gp-char-icon" class="gp-char-icon" src="assets/ui/Character_GameGreen.png" alt="Char" />
         </div>
-        <div class="gas-bar-bg">
-          <div id="gas-fill"></div>
+
+        <!-- Timer (gameplay_canvas/timer) -->
+        <div class="gp-timer">
+          <img class="gp-timer-icon" src="assets/ui/Icon_Clock.png" alt="Clock" />
+          <span id="gp-timer-val">00:00:00:00</span>
         </div>
-        <div class="controls-hint">
-          <kbd>Z</kbd>/<kbd>S</kbd> ou <kbd>↑</kbd>/<kbd>↓</kbd> Ramer &bull;
-          <kbd>Q</kbd>/<kbd>D</kbd> ou <kbd>←</kbd>/<kbd>→</kbd> Tourner &bull;
-          <kbd>ESPACE</kbd> Pet Turbo &bull;
-          <kbd>E</kbd> Méga Pet Explosif &bull;
-          <kbd>R</kbd> Respawn
+
+        <!-- Death Count (gameplay_canvas/death_count) -->
+        <div class="gp-death-count">
+          <img class="gp-death-icon" src="assets/ui/Icon_RaftCrashed.png" alt="Deaths" />
+          <span id="gp-death-val">0</span>
+        </div>
+
+        <!-- Bottom-Left Tutorials (leave_tutorial & suicide_tutorial) -->
+        <div class="u-tut-box trap-s gp-leave-tut" onclick="window.togglePauseCanvas(true)">
+          <img src="assets/ui/Icon_KEsc.png" alt="ESC" />
+          <span>LEAVE</span>
+        </div>
+        <div class="u-tut-box trap-sh gp-suicide-tut" onclick="window.respawnAtCheckpoint()">
+          <img src="assets/ui/Icon_KR.png" alt="R" />
+          <span>SUICIDE</span>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Écran de chargement des géométries 3D réelles -->
-  <div id="loading-overlay">
-    <div class="loader-box">
-      <h2>💨 Chargement du vrai niveau 3D Unity...</h2>
-      <p id="loading-status">Initialisation des 5 modules WebAssembly (.wasm)...</p>
-      <div class="loader-bar"><div id="loader-progress"></div></div>
-    </div>
-  </div>
+      <!-- ================================================================== -->
+      <!-- 4. PAUSE_CANVAS (level3 - PuffTest.unity)                          -->
+      <!-- ================================================================== -->
+      <div id="pause-canvas" class="unity-canvas hidden">
+        <div class="pause-black-bg"></div>
 
-  <!-- Modal de Victoire -->
-  <div id="victory-modal" class="hidden">
-    <div class="victory-card">
-      <h1>🏆 ARRIVÉE FRANCHIE !</h1>
-      <p id="victory-map-name">Level_Platform</p>
-      <div class="victory-stats">
-        <div>⏱️ Temps final : <strong id="vic-time">00:00.0</strong></div>
-        <div>💨 Pets propulsés : <strong id="vic-farts">0</strong></div>
-        <div>💀 Chutes / Respawns : <strong id="vic-deaths">0</strong></div>
-        <div>⭐ Score : <strong id="vic-score">0</strong></div>
+        <div class="pause-main-buttons">
+          <button class="u-menu-btn active" onclick="window.togglePauseCanvas(false)">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text lg">CONTINUE</span>
+          </button>
+          <button class="u-menu-btn sm" onclick="window.openSettingsCanvas()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">SETTINGS</span>
+          </button>
+          <button class="u-menu-btn sm" onclick="window.goToMenuScene()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">RETURN THE MENU</span>
+          </button>
+          <button class="u-menu-btn sm" onclick="window.goToMenuScene()">
+            <img class="u-hover-arrow" src="assets/ui/Icon_ArrowM.png" alt="" />
+            <span class="u-btn-text">EXIT TO DESKTOP</span>
+          </button>
+        </div>
+
+        <div class="pause-control-hints">
+          <div class="hint-row">
+            <div class="hint-icons">
+              <img src="assets/ui/mouse_move.png" alt="Mouse" />
+            </div>
+            <span>ROTATE CAMERA</span>
+          </div>
+          <div class="hint-row">
+            <div class="hint-icons">
+              <img src="assets/ui/mouse_scroll_vertical.png" alt="Scroll" />
+            </div>
+            <span>CAMERA ZOOM IN/OUT</span>
+          </div>
+          <div class="hint-row">
+            <div class="hint-icons">
+              <img src="assets/ui/keyboard_w.png" alt="W" />
+              <img src="assets/ui/keyboard_s.png" alt="S" />
+            </div>
+            <span>MOVE / FART (SPACE)</span>
+          </div>
+          <div class="hint-row">
+            <div class="hint-icons">
+              <img src="assets/ui/keyboard_a.png" alt="A" />
+              <img src="assets/ui/keyboard_d.png" alt="D" />
+            </div>
+            <span>SLIDE</span>
+          </div>
+        </div>
+
+        <div class="pause-external-links">
+          <button class="pause-ext-btn discord" onclick="window.open('https://discord.com', '_blank')">
+            <img src="assets/ui/Icon_Discord.png" alt="Discord" />
+            <span>Discord</span>
+          </button>
+          <button class="pause-ext-btn report" onclick="window.togglePauseCanvas(false)">
+            <img src="assets/ui/Icon_BugReport.png" alt="Report" />
+            <span>Report</span>
+          </button>
+        </div>
       </div>
-      <div class="victory-actions">
-        <button onclick="restartCurrentMap()">🔄 Rejouer ce Parcours</button>
-        <button onclick="nextMap()">➡️ Parcours Suivant</button>
+
+      <!-- ================================================================== -->
+      <!-- 5. DEMO_END_CANVAS (level3 - PuffTest.unity)                       -->
+      <!-- ================================================================== -->
+      <div id="demo-end-canvas" class="unity-canvas hidden">
+        <div class="pause-black-bg"></div>
+        <div class="demo-end-content">
+          <img class="demo-end-logo" src="assets/ui/Icon_Logo.png" alt="Fart Together" />
+          <div class="demo-end-bottom">
+            <div class="demo-end-title-bg">
+              <span>YOU COMPLETED THE DEMO!</span>
+            </div>
+            <img class="vuvuzela left" src="assets/ui/Icon_Vuvuzela.png" alt="" />
+            <img class="vuvuzela right" src="assets/ui/Icon_Vuvuzela.png" alt="" />
+            <div class="demo-end-desc-bg">
+              <p>
+                Thanks for playing Fart Together demo all the way to the end!<br /><br />
+                We hope you had a blast with your friends.<br />
+                This is still a demo, so please forgive us if you ran into a few little bugs along the way!<br />
+                If you enjoyed the game, wishlisting Fart Together on Steam would mean a lot to us.<br /><br />
+                When you quit, a quick 2-3 minute survey will open. Your feedback is incredibly valuable to us!
+              </p>
+            </div>
+            <div class="demo-end-buttons">
+              <button class="demo-btn menu" onclick="window.goToMenuScene()">
+                <span>MAIN MENU</span>
+              </button>
+              <button class="demo-btn quit" onclick="window.restartDemoLevel()">
+                <span>PLAY AGAIN</span>
+              </button>
+              <button class="demo-btn wishlist" onclick="window.open('https://store.steampowered.com', '_blank')">
+                <span>WISHLIST ON STEAM</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- ================================================================== -->
+      <!-- 6. SETTINGS_CANVAS (MenuScene.unity & PuffTest.unity)              -->
+      <!-- ================================================================== -->
+      <div id="settings-canvas" class="unity-canvas hidden">
+        <div class="pause-black-bg"></div>
+        <div class="settings-return-bar">
+          <button class="settings-return-btn" onclick="window.closeSettingsCanvas()">
+            <img src="assets/ui/Icon_ArrowM.png" alt="Back" />
+          </button>
+          <span class="settings-return-title">SETTINGS</span>
+        </div>
+        <div class="settings-panel">
+          <div class="settings-tabs">
+            <button class="st-tab active">
+              <img src="assets/ui/Icon_General.png" alt="" />
+              <span>GENERAL</span>
+            </button>
+            <button class="st-tab">
+              <img src="assets/ui/Icon_Graphic.png" alt="" />
+              <span>GRAPHIC</span>
+            </button>
+            <button class="st-tab" onclick="window.toggleMusic()">
+              <img src="assets/ui/Icon_Sound.png" alt="" />
+              <span id="settings-sound-label">SOUND: ON</span>
+            </button>
+            <button class="st-tab">
+              <img src="assets/ui/Icon_Control.png" alt="" />
+              <span>CONTROL</span>
+            </button>
+          </div>
+          <div class="settings-scroll-area">
+            <img class="settings-kb-tutorial" src="assets/ui/Tutorial_KeyboardMouse.png" alt="Controls" />
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
