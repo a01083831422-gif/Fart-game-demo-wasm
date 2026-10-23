@@ -1,6 +1,6 @@
 {
   "engine_wasm_original": "FartTogether_Unity_WebGL_Build.wasm",
-  "engine_wasm_total_bytes": 89104532,
+  "engine_wasm_total_bytes": 89130704,
   "engine_wasm_parts": [
     {
       "name": "FartTogether_Engine.part01.wasm",
@@ -24,12 +24,12 @@
     },
     {
       "name": "FartTogether_Engine.part05.wasm",
-      "size": 13607060,
+      "size": 13633232,
       "index": 5
     }
   ],
   "assets_data_original": "FartTogether_Unity_WebGL_Build.data",
-  "assets_data_total_bytes": 155943466,
+  "assets_data_total_bytes": 155951655,
   "assets_data_parts": [
     {
       "name": "FartTogether_Assets.part01.data.part",
@@ -73,7 +73,7 @@
     },
     {
       "name": "FartTogether_Assets.part09.data.part",
-      "size": 4948522,
+      "size": 4956711,
       "index": 9
     }
   ],

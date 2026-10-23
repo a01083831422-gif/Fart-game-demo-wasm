@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <meta name="ft-build" content="a2ef3eba7cf1b641">
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | ExportedProject</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="TemplateData/game-viewport.css?v=1">
+    <style>
+      #unity-container { visibility: hidden; }
+      #access-notice { position: fixed; inset: 0; display: grid; place-items: center; margin: 0; color: #fff; background: #1f1f20; font: 600 22px system-ui, sans-serif; }
+      #access-notice[hidden] { display: none; }
+    </style>
   </head>
   <body>
+    <p id="access-notice" role="status">Accès indisponible</p>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=960 height=600 tabindex="1" autofocus></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -23,9 +31,37 @@
         <div id="unity-build-title">ExportedProject</div>
       </div>
     </div>
-    <script src="Build/multi_wasm_loader.js"></script>
+<script src="releases/a2ef3eba7cf1b641/Build/peer-transport.js"></script>
+<script type="application/json" id="game-dependencies">["releases/a2ef3eba7cf1b641/Build/peerjs.min.js", "releases/a2ef3eba7cf1b641/Build/peer-transport.js", "releases/a2ef3eba7cf1b641/Build/multi_wasm_loader.js"]</script>
     <script>
-      var canvas = document.querySelector("#unity-canvas");
+    (function () {
+      const versions = new URLSearchParams(window.location.search).getAll('version');
+      const allowed = versions.length === 1 && versions[0] === 'a2ef3eba7cf1b641';
+      const container = document.querySelector('#unity-container');
+      const notice = document.querySelector('#access-notice');
+      if (!allowed) {
+        container.remove();
+        return;
+      }
+      notice.textContent = 'Chargement du jeu…';
+      const dependencies = JSON.parse(document.querySelector('#game-dependencies').textContent);
+      function loadScript(url) {
+        return new Promise(function (resolve, reject) {
+          const script = document.createElement('script');
+          script.src = url;
+          script.onload = resolve;
+          script.onerror = function () { reject(new Error('Impossible de charger le jeu. Réessaie plus tard.')); };
+          document.head.appendChild(script);
+        });
+      }
+      (async function () {
+        for (const url of dependencies) await loadScript(url);
+        notice.hidden = true;
+        container.style.visibility = 'visible';
+        initializeUnity();
+      })().catch(function (error) { notice.hidden = false; notice.textContent = error.message; });
+      function initializeUnity() {
+var canvas = document.querySelector("#unity-canvas");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -52,14 +88,14 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Build";
+      var buildUrl = "releases/a2ef3eba7cf1b641/Build";
       var loaderUrl = buildUrl + "/FartTogether_Unity_WebGL_Build.loader.js";
       var config = {
         arguments: [],
         dataUrl: buildUrl + "/FartTogether_Unity_WebGL_Build.data",
         frameworkUrl: buildUrl + "/FartTogether_Unity_WebGL_Build.framework.js",
         codeUrl: buildUrl + "/FartTogether_Unity_WebGL_Build.wasm",
-        streamingAssetsUrl: "StreamingAssets",
+        streamingAssetsUrl: "releases/a2ef3eba7cf1b641/StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ExportedProject",
         productVersion: "1.0",
@@ -121,6 +157,13 @@
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
+                canvas.focus();
+                document.addEventListener('click', () => { canvas.focus(); });
+                window.addEventListener('keydown', (e) => {
+                  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'Enter', 'Escape'].includes(e.code)) {
+                    canvas.focus();
+                  }
+                });
 
               }).catch((message) => {
                 alert(message);
@@ -128,7 +171,8 @@
             };
 
       document.body.appendChild(script);
-
+      }
+    })();
     </script>
   </body>
 </html>
