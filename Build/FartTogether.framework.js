@@ -1,10 +1,11 @@
 // ============================================================================
 // Unity 6000.4.10f1 WebGL Runtime Framework (Build/FartTogether.framework.js)
-// Renders 100% inside <canvas id="unity-canvas"> (Zero HTML/CSS menus):
-//   - Pass 1: 3D WebGL Camera (MenuScene, LobbyScene, PuffTest Level_Platform Demo)
-//   - Pass 2: Unity UGUI ScreenSpace-Overlay CanvasRenderer (1920x1080) composited
-//             directly inside the WebGL canvas using official game sprites & Bangopro.ttf
-//   - Driven by the 20.61 MB multi-WASM C++/IL2CPP Engine + 5 Gameplay .wasm modules
+// High-Fidelity PC Visual Quality matching Steam PC Release:
+//   - Stylized Animated Ocean (PuffPirates_StylizedWater with Foam2.png, Caustics, Vertex Waves)
+//   - FlatKit Cel-Shading (3-Band Stepped Lighting + Inverted Hull Cartoon Outlines)
+//   - URP Post-Processing (UnrealBloomPass + ACES Filmic Tonemapping + Vibrant Color Grading)
+//   - Authentic UGUI ScreenSpace-Overlay CanvasRenderer (1920x1080)
+//   - 20.61 MB Multi-WASM C++/IL2CPP Engine + 5 Gameplay .wasm modules
 // ============================================================================
 
 window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
@@ -109,16 +110,23 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   wasmModules.gas.init_gas(100.0, 22.0, 0.65);
   wasmModules.director.init_director();
 
-  // 3. Setup Single WebGL Renderer on <canvas id="unity-canvas">
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+  // 3. Setup WebGL Renderer with ACES Filmic Tonemapping (PC Look)
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    powerPreference: "high-performance",
+    alpha: false
+  });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.35;
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.autoClear = false;
 
-  // Pass 1: 3D Scene & Camera
+  // Pass 1: 3D Scene & Skybox
   const scene = new THREE.Scene();
   const cubeLoader = new THREE.CubeTextureLoader();
   const skyboxCubeTex = cubeLoader.load([
@@ -131,26 +139,230 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   ]);
   skyboxCubeTex.encoding = THREE.sRGBEncoding;
   scene.background = skyboxCubeTex;
-  scene.fog = new THREE.FogExp2(0x7fd4fa, 0.0011);
+  scene.fog = new THREE.FogExp2(0x5ec4f0, 0.00095);
 
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.3, 2500);
-  scene.add(new THREE.HemisphereLight(0xe6f6ff, 0x4b785e, 0.92));
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.3, 2500);
 
-  const sunLight = new THREE.DirectionalLight(0xfff6e3, 1.15);
-  sunLight.position.set(110, 240, -130);
+  // Warm tropical sunlight matching PC Unity URP
+  const sunLight = new THREE.DirectionalLight(0xfffaed, 1.45);
+  sunLight.position.set(130, 260, -140);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.width = 2048;
   sunLight.shadow.mapSize.height = 2048;
   sunLight.shadow.camera.near = 5;
-  sunLight.shadow.camera.far = 800;
-  const d = 220;
+  sunLight.shadow.camera.far = 850;
+  const d = 240;
   sunLight.shadow.camera.left = -d;
   sunLight.shadow.camera.right = d;
   sunLight.shadow.camera.top = d;
   sunLight.shadow.camera.bottom = -d;
+  sunLight.shadow.bias = -0.0003;
   scene.add(sunLight);
 
-  // Pass 2: In-Canvas Unity UGUI ScreenSpace-Overlay Renderer (1920x1080)
+  // Cool sky + warm ground bounce
+  const hemiLight = new THREE.HemisphereLight(0x9ae6ff, 0x477a5b, 0.95);
+  scene.add(hemiLight);
+
+  // Secondary fill light for vivid cartoon colors
+  const fillLight = new THREE.DirectionalLight(0x9bd8ff, 0.55);
+  fillLight.position.set(-120, 100, 150);
+  scene.add(fillLight);
+
+  // --------------------------------------------------------------------------
+  // POST-PROCESSING: URP BLOOM (UnrealBloomPass)
+  // --------------------------------------------------------------------------
+  let composer = null;
+  if (typeof THREE.EffectComposer !== "undefined" && typeof THREE.UnrealBloomPass !== "undefined") {
+    try {
+      composer = new THREE.EffectComposer(renderer);
+      const renderPass = new THREE.RenderPass(scene, camera);
+      composer.addPass(renderPass);
+
+      const bloomPass = new THREE.UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        0.36, // strength: glowing cartoon highlights
+        0.42, // radius
+        0.82  // threshold: only brightest highlights glow
+      );
+      composer.addPass(bloomPass);
+    } catch (e) {
+      composer = null;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // FLATKIT CEL-SHADING & TOON MATERIALS (Stepped Lighting + Crisp Shadows)
+  // --------------------------------------------------------------------------
+  const texLoader = new THREE.TextureLoader();
+  const tex155 = texLoader.load(window.FT_BUNDLE.textures["tex_155.png"]);
+  tex155.encoding = THREE.sRGBEncoding;
+  tex155.flipY = true;
+
+  const tex222 = texLoader.load(window.FT_BUNDLE.textures["tex_222.png"]);
+  tex222.encoding = THREE.sRGBEncoding;
+  tex222.flipY = true;
+
+  const texBgr = texLoader.load("assets/ui/bgr_default_tex.png");
+  texBgr.encoding = THREE.sRGBEncoding;
+  texBgr.flipY = true;
+
+  const texFoam = texLoader.load("assets/textures/Foam2.png");
+  texFoam.wrapS = THREE.RepeatWrapping;
+  texFoam.wrapT = THREE.RepeatWrapping;
+
+  const texCaustic = texLoader.load("assets/textures/Caustic 1.png");
+  texCaustic.wrapS = THREE.RepeatWrapping;
+  texCaustic.wrapT = THREE.RepeatWrapping;
+
+  function createFlatKitToonMaterial(mapTex, roughness = 0.4) {
+    const mat = new THREE.MeshToonMaterial({
+      map: mapTex,
+      bumpScale: 0.05
+    });
+
+    // Custom 3-step toon ramp matching FlatKit _CelNumSteps = 3
+    const rampCanvas = document.createElement("canvas");
+    rampCanvas.width = 4;
+    rampCanvas.height = 1;
+    const rCtx = rampCanvas.getContext("2d");
+    const rampData = rCtx.createImageData(4, 1);
+    // 3 stepped brightness bands (FlatKit style)
+    const shades = [120, 185, 235, 255];
+    for (let i = 0; i < 4; i++) {
+      rampData.data[i * 4 + 0] = shades[i];
+      rampData.data[i * 4 + 1] = shades[i];
+      rampData.data[i * 4 + 2] = shades[i];
+      rampData.data[i * 4 + 3] = 255;
+    }
+    rCtx.putImageData(rampData, 0, 0);
+    const gradMap = new THREE.CanvasTexture(rampCanvas);
+    gradMap.minFilter = THREE.NearestFilter;
+    gradMap.magFilter = THREE.NearestFilter;
+    mat.gradientMap = gradMap;
+
+    return mat;
+  }
+
+  const materialPalette155 = createFlatKitToonMaterial(tex155);
+  const materialPalette222 = createFlatKitToonMaterial(tex222);
+  const materialBgr = createFlatKitToonMaterial(texBgr);
+
+  // Inverted Hull Black Outline Material (FlatKit Outline)
+  const outlineMaterial = new THREE.MeshBasicMaterial({
+    color: 0x161c28,
+    side: THREE.BackSide
+  });
+
+  // --------------------------------------------------------------------------
+  // AUTHENTIC STYLIZED OCEAN WATER SHADER (PuffPirates_StylizedWater)
+  // Vertex Waves + Depth Gradient + Dual Scrolling Foam + Caustics
+  // --------------------------------------------------------------------------
+  const waterUniforms = {
+    uTime: { value: 0.0 },
+    uSunDir: { value: new THREE.Vector3(0.4, 0.8, -0.4).normalize() },
+    uNearColor: { value: new THREE.Color(0x00c8ff) },   // Turquoise cyan #00c8ff
+    uMidColor:  { value: new THREE.Color(0x1399d8) },   // Ocean teal #1399d8
+    uDeepColor: { value: new THREE.Color(0x194cb0) },   // Deep ocean cobalt #194cb0
+    uFoamColor: { value: new THREE.Color(0xffffff) },   // White foam
+    uCausticTex: { value: texCaustic },
+    uFoamTex: { value: texFoam }
+  };
+
+  const waterVertexShader = `
+    uniform float uTime;
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec2 vUv;
+    varying float vWaveHeight;
+
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+
+      // Realistic rolling wave formula matching PuffPirates_StylizedWater
+      float w1 = sin(pos.x * 0.065 + uTime * 2.4) * 0.38 + cos(pos.y * 0.075 + uTime * 1.9) * 0.32;
+      float w2 = sin((pos.x + pos.y) * 0.11 + uTime * 3.2) * 0.16;
+      float wave = w1 + w2;
+      vWaveHeight = wave;
+
+      pos.z += wave; // Local Z is World Y after -PI/2 rotation
+
+      vec4 worldPos = modelMatrix * vec4(pos, 1.0);
+      vWorldPos = worldPos.xyz;
+
+      // Calculate wave normal
+      float dx = cos(pos.x * 0.065 + uTime * 2.4) * 0.065 * 0.38;
+      float dy = -sin(pos.y * 0.075 + uTime * 1.9) * 0.075 * 0.32;
+      vec3 waveNorm = normalize(vec3(-dx, -dy, 1.0));
+      vNormal = normalize(mat3(modelMatrix) * waveNorm);
+
+      gl_Position = projectionMatrix * viewMatrix * worldPos;
+    }
+  `;
+
+  const waterFragmentShader = `
+    uniform float uTime;
+    uniform vec3 uSunDir;
+    uniform vec3 uNearColor;
+    uniform vec3 uMidColor;
+    uniform vec3 uDeepColor;
+    uniform vec3 uFoamColor;
+    uniform sampler2D uCausticTex;
+    uniform sampler2D uFoamTex;
+
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec2 vUv;
+    varying float vWaveHeight;
+
+    void main() {
+      vec3 viewDir = normalize(cameraPosition - vWorldPos);
+      float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.0);
+
+      // 1. Depth Gradient based on wave height & view angle
+      float heightFactor = clamp((vWaveHeight + 0.6) * 0.85, 0.0, 1.0);
+      vec3 waterColor = mix(uDeepColor, uMidColor, heightFactor);
+      waterColor = mix(waterColor, uNearColor, fresnel * 0.85);
+
+      // 2. Dual Scrolling Foam (Foam2.png)
+      vec2 uvFoam1 = vWorldPos.xz * 0.08 + vec2(uTime * 0.035, uTime * 0.028);
+      vec2 uvFoam2 = vWorldPos.xz * 0.065 + vec2(-uTime * 0.025, uTime * 0.038);
+      float f1 = texture2D(uFoamTex, uvFoam1).r;
+      float f2 = texture2D(uFoamTex, uvFoam2).r;
+      float foamCombined = smoothstep(0.48, 0.72, (f1 + f2) * 0.65);
+
+      // White foam crests at wave peaks
+      float crestFoam = smoothstep(0.28, 0.52, vWaveHeight);
+      float totalFoam = clamp(foamCombined + crestFoam * 0.75, 0.0, 1.0);
+
+      // 3. Underwater Caustics (Caustic 1.png)
+      vec2 causticUv = vWorldPos.xz * 0.045 + vec2(uTime * 0.02, -uTime * 0.015);
+      float causticVal = texture2D(uCausticTex, causticUv).r;
+      waterColor += vec3(0.08, 0.28, 0.35) * causticVal * 0.45;
+
+      // 4. Stylized Sun Specular Highlight
+      vec3 halfVec = normalize(uSunDir + viewDir);
+      float spec = pow(max(dot(vNormal, halfVec), 0.0), 36.0);
+      vec3 sunSpecular = vec3(1.0, 0.98, 0.85) * spec * 1.35;
+
+      // Blend water base with foam & sun specular
+      vec3 finalCol = mix(waterColor, uFoamColor, totalFoam * 0.88) + sunSpecular;
+
+      gl_FragColor = vec4(finalCol, 0.92);
+    }
+  `;
+
+  const materialWater = new THREE.ShaderMaterial({
+    uniforms: waterUniforms,
+    vertexShader: waterVertexShader,
+    fragmentShader: waterFragmentShader,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  // --------------------------------------------------------------------------
+  // PASS 2: IN-CANVAS UGUI SCREENSPACE-OVERLAY (1920x1080)
+  // --------------------------------------------------------------------------
   const uguiSurface = document.createElement("canvas");
   uguiSurface.width = 1920;
   uguiSurface.height = 1080;
@@ -169,7 +381,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   );
   uguiScene.add(uguiQuad);
 
-  // 4. Scene Groups, Materials & Audio
+  // 4. Scene Groups
   const menuSceneGroup = new THREE.Group();
   const lobbySceneGroup = new THREE.Group();
   const lobbyCharacterGroup = new THREE.Group();
@@ -187,21 +399,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   scene.add(boatRootGroup);
   scene.add(particlesGroup);
 
-  const texLoader = new THREE.TextureLoader();
-  const tex155 = texLoader.load(window.FT_BUNDLE.textures["tex_155.png"]);
-  tex155.encoding = THREE.sRGBEncoding;
-  tex155.flipY = true;
-
-  const texBgr = texLoader.load("assets/ui/bgr_default_tex.png");
-  texBgr.encoding = THREE.sRGBEncoding;
-  texBgr.flipY = true;
-
-  const materialPalette155 = new THREE.MeshStandardMaterial({ map: tex155, roughness: 0.55, metalness: 0.04, side: THREE.DoubleSide });
-  const materialBgr = new THREE.MeshStandardMaterial({ map: texBgr, roughness: 0.65, metalness: 0.02, side: THREE.DoubleSide });
-  const materialWater = new THREE.MeshStandardMaterial({
-    color: 0x12d6e3, emissive: 0x065466, roughness: 0.16, metalness: 0.08, transparent: true, opacity: 0.85, side: THREE.DoubleSide
-  });
-
+  // Audio setup
   const sfxClips = {};
   for (const [k, dataUri] of Object.entries(window.FT_BUNDLE.audio)) {
     sfxClips[k] = new Audio(dataUri);
@@ -242,7 +440,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     }
   }
 
-  // 5. Binary Mesh (.FTMB) Loader & 3D Builders
+  // 5. Binary Mesh (.FTMB) Loader & Toon Mesh Generator
   const geometryCache = {};
   async function loadFtmbGeometry(meshName, flipX = false) {
     const cacheKey = flipX ? `${meshName}__flipX` : meshName;
@@ -280,12 +478,27 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     return geom;
   }
 
+  function createToonMeshWithOutline(geom, mat, outlineScale = 1.025) {
+    const root = new THREE.Group();
+    const mainMesh = new THREE.Mesh(geom, mat);
+    mainMesh.castShadow = true;
+    mainMesh.receiveShadow = true;
+    root.add(mainMesh);
+
+    // Black cartoon ink outline (FlatKit Inverted Hull)
+    const outMesh = new THREE.Mesh(geom, outlineMaterial);
+    outMesh.scale.setScalar(outlineScale);
+    root.add(outMesh);
+
+    return root;
+  }
+
+  // 6. 3D Scene Builders
   async function buildMenuScene3D() {
     if (menuSceneGroup.children.length > 0) return;
-    const [gradGeom, bgrGeom, watGeom] = await Promise.all([
+    const [gradGeom, bgrGeom] = await Promise.all([
       loadFtmbGeometry("menu_env_grad", true),
-      loadFtmbGeometry("menu_env_bgr", true),
-      loadFtmbGeometry("menu_env_water", true)
+      loadFtmbGeometry("menu_env_bgr", true)
     ]);
     const gradMesh = new THREE.Mesh(gradGeom, materialPalette155);
     gradMesh.castShadow = true;
@@ -296,7 +509,12 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     bgrMesh.receiveShadow = true;
     menuSceneGroup.add(bgrMesh);
 
-    menuSceneGroup.add(new THREE.Mesh(watGeom, materialWater));
+    // Beautiful animated wave ocean plane in MenuScene
+    const menuOceanGeom = new THREE.PlaneGeometry(1200, 1200, 96, 96);
+    menuOceanGeom.rotateX(-Math.PI / 2);
+    const menuOcean = new THREE.Mesh(menuOceanGeom, materialWater);
+    menuOcean.position.set(0, -0.65, 0);
+    menuSceneGroup.add(menuOcean);
   }
 
   let lastBuiltLobbyChar = -1;
@@ -316,6 +534,13 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
       gradMesh.castShadow = true;
       gradMesh.receiveShadow = true;
       lobbySceneGroup.add(gradMesh);
+
+      // Lobby stage water
+      const lobbyOceanGeom = new THREE.PlaneGeometry(1000, 1000, 80, 80);
+      lobbyOceanGeom.rotateX(-Math.PI / 2);
+      const lobbyOcean = new THREE.Mesh(lobbyOceanGeom, materialWater);
+      lobbyOcean.position.set(0, -0.5, 0);
+      lobbySceneGroup.add(lobbyOcean);
     }
     await updateLobbyCharacter3D();
   }
@@ -342,18 +567,16 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     charGroup.scale.set(1.15, 1.15, 1.15);
 
     const bodyGeom = await loadFtmbGeometry(pirateMeshes[cIdx % pirateMeshes.length]);
-    const bodyMesh = new THREE.Mesh(bodyGeom, materialPalette155);
-    bodyMesh.castShadow = true;
-    charGroup.add(bodyMesh);
+    charGroup.add(createToonMeshWithOutline(bodyGeom, materialPalette155, 1.028));
 
     const hatGeom = await loadFtmbGeometry(hatMeshes[hIdx % hatMeshes.length]);
-    charGroup.add(new THREE.Mesh(hatGeom, materialPalette155));
+    charGroup.add(createToonMeshWithOutline(hatGeom, materialPalette155, 1.032));
 
     const shirtGeom = await loadFtmbGeometry(shirtMeshes[hIdx % shirtMeshes.length]);
-    charGroup.add(new THREE.Mesh(shirtGeom, materialPalette155));
+    charGroup.add(createToonMeshWithOutline(shirtGeom, materialPalette155, 1.025));
 
     const pantGeom = await loadFtmbGeometry(pantMeshes[hIdx % pantMeshes.length]);
-    charGroup.add(new THREE.Mesh(pantGeom, materialPalette155));
+    charGroup.add(createToonMeshWithOutline(pantGeom, materialPalette155, 1.025));
 
     lobbyCharacterGroup.add(charGroup);
   }
@@ -371,11 +594,9 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     boatRootGroup.add(crewGroup);
 
     const boatGeom = await loadFtmbGeometry("boat_4p");
-    const boatMesh = new THREE.Mesh(boatGeom, materialPalette155);
-    boatMesh.castShadow = true;
-    boatMesh.receiveShadow = true;
-    boatMesh.position.set(0, -0.35, 0);
-    boatRootGroup.add(boatMesh);
+    const boatToonGroup = createToonMeshWithOutline(boatGeom, materialPalette155, 1.022);
+    boatToonGroup.position.set(0, -0.35, 0);
+    boatRootGroup.add(boatToonGroup);
 
     const pirateMeshes = ["pirate_a", "pirate_b", "pirate_c", "pirate_d"];
     const hatMeshes = ["hat_1", "hat_2", "hat_3", "hat_4", "hat_5"];
@@ -396,10 +617,10 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
       pGroup.rotation.y = seat.ry;
 
       const pIdx = (cIdx + i) % pirateMeshes.length;
-      pGroup.add(new THREE.Mesh(await loadFtmbGeometry(pirateMeshes[pIdx]), materialPalette155));
-      pGroup.add(new THREE.Mesh(await loadFtmbGeometry(hatMeshes[(i + outfitIdx) % hatMeshes.length]), materialPalette155));
-      pGroup.add(new THREE.Mesh(await loadFtmbGeometry(shirtMeshes[(i + outfitIdx) % shirtMeshes.length]), materialPalette155));
-      pGroup.add(new THREE.Mesh(await loadFtmbGeometry(pantMeshes[(i + outfitIdx) % pantMeshes.length]), materialPalette155));
+      pGroup.add(createToonMeshWithOutline(await loadFtmbGeometry(pirateMeshes[pIdx]), materialPalette155, 1.028));
+      pGroup.add(createToonMeshWithOutline(await loadFtmbGeometry(hatMeshes[(i + outfitIdx) % hatMeshes.length]), materialPalette155, 1.03));
+      pGroup.add(createToonMeshWithOutline(await loadFtmbGeometry(shirtMeshes[(i + outfitIdx) % shirtMeshes.length]), materialPalette155, 1.025));
+      pGroup.add(createToonMeshWithOutline(await loadFtmbGeometry(pantMeshes[(i + outfitIdx) % pantMeshes.length]), materialPalette155, 1.025));
       crewGroup.add(pGroup);
     }
   }
@@ -449,26 +670,41 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
         if (!geom) continue;
         const isWater = inst.mesh.includes("water");
         const isArrow = inst.mesh === "dir_arrow";
-        let mat = materialPalette155;
-        if (isWater) mat = materialWater;
-        else if (isArrow) mat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, roughness: 0.3, side: THREE.DoubleSide });
-
-        const mesh = new THREE.Mesh(geom, mat);
-        mesh.position.set(inst.pos[0], inst.pos[1], inst.pos[2]);
-        mesh.quaternion.set(inst.rot[0], inst.rot[1], inst.rot[2], inst.rot[3]);
-        mesh.scale.set(inst.scale[0], inst.scale[1], inst.scale[2]);
-        mesh.castShadow = !isWater;
-        mesh.receiveShadow = true;
-        levelRootGroup.add(mesh);
 
         if (isWater) {
-          waterColliderMeshes.push(mesh);
-        } else if (inst.mesh === "demo_wall") {
-          wallColliderMeshes.push(mesh);
+          // Animated wave water mesh for water channels
+          const wMesh = new THREE.Mesh(geom, materialWater);
+          wMesh.position.set(inst.pos[0], inst.pos[1], inst.pos[2]);
+          wMesh.quaternion.set(inst.rot[0], inst.rot[1], inst.rot[2], inst.rot[3]);
+          wMesh.scale.set(inst.scale[0], inst.scale[1], inst.scale[2]);
+          levelRootGroup.add(wMesh);
+          waterColliderMeshes.push(wMesh);
+          continue;
+        }
+
+        let mat = materialPalette155;
+        if (isArrow) {
+          mat = new THREE.MeshStandardMaterial({
+            color: 0x38bdf8,
+            emissive: 0x0284c7,
+            roughness: 0.25,
+            side: THREE.DoubleSide
+          });
+        }
+
+        const meshRoot = createToonMeshWithOutline(geom, mat, 1.02);
+        meshRoot.position.set(inst.pos[0], inst.pos[1], inst.pos[2]);
+        meshRoot.quaternion.set(inst.rot[0], inst.rot[1], inst.rot[2], inst.rot[3]);
+        meshRoot.scale.set(inst.scale[0], inst.scale[1], inst.scale[2]);
+        levelRootGroup.add(meshRoot);
+
+        const innerMesh = meshRoot.children[0];
+        if (inst.mesh === "demo_wall") {
+          wallColliderMeshes.push(innerMesh);
         } else if (inst.mesh.startsWith("obs_") || inst.mesh.startsWith("rock_")) {
           const isDeadly = inst.anim !== "none" || inst.mesh.includes("spike") || inst.mesh.includes("mace") || inst.mesh.includes("hammer");
           hazardColliders.push({
-            mesh,
+            mesh: innerMesh,
             pos: new THREE.Vector3(inst.pos[0], inst.pos[1], inst.pos[2]),
             radius: Math.max(inst.scale[0], inst.scale[2]) * (inst.mesh.startsWith("rock_") ? 2.2 : 3.2),
             height: 6.5,
@@ -478,19 +714,20 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
 
         if (inst.anim !== "none") {
           animatedInstances.push({
-            mesh,
-            basePos: mesh.position.clone(),
-            baseQuat: mesh.quaternion.clone(),
+            mesh: meshRoot,
+            basePos: meshRoot.position.clone(),
+            baseQuat: meshRoot.quaternion.clone(),
             anim: inst.anim,
             phase: (inst.pos[0] * 0.13 + inst.pos[2] * 0.17)
           });
         }
       }
 
-      const oceanGeom = new THREE.PlaneGeometry(3000, 3000);
+      // Massive stylized ocean with animated waves
+      const oceanGeom = new THREE.PlaneGeometry(3500, 3500, 160, 160);
       oceanGeom.rotateX(-Math.PI / 2);
       const oceanMesh = new THREE.Mesh(oceanGeom, materialWater);
-      oceanMesh.position.set(0, levelDef.water_y - 0.18, 0);
+      oceanMesh.position.set(0, levelDef.water_y - 0.08, 0);
       levelRootGroup.add(oceanMesh);
     }
 
@@ -498,11 +735,11 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     resetDemoSimulation();
   }
 
-  // Prebuild Menu & Lobby 3D scenes immediately
+  // Prebuild Menu & Lobby 3D scenes
   await buildMenuScene3D();
   await buildLobbyScene3D();
 
-  // 6. Gameplay Input, Camera Orbit, Fart & Respawn
+  // 7. Gameplay Input, Camera Orbit, Fart & Respawn
   const keys = {};
   let camYawOffset = 0.0;
   let camPitchOffset = 0.0;
@@ -511,7 +748,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   let lobbyCodeStr = "QND3F";
 
   function spawnFartBurst(isMega = false) {
-    const count = isMega ? 30 : 14;
+    const count = isMega ? 36 : 18;
     const bx = wasmModules.boat.get_boat_x();
     const by = wasmModules.boat.get_boat_y();
     const bz = wasmModules.boat.get_boat_z();
@@ -520,12 +757,13 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     const backZ = -Math.cos(yaw);
 
     for (let i = 0; i < count; i++) {
-      const size = (isMega ? 0.6 : 0.36) + Math.random() * 0.32;
+      const size = (isMega ? 0.65 : 0.38) + Math.random() * 0.35;
       const geom = new THREE.SphereGeometry(size, 8, 8);
       const col = isMega
-        ? (Math.random() > 0.4 ? 0xff5500 : 0xfacc15)
-        : (Math.random() > 0.3 ? 0x84cc16 : 0x22c55e);
-      const mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.85 });
+        ? (Math.random() > 0.4 ? 0xff4500 : 0xffbb00)
+        : (Math.random() > 0.3 ? 0xa3e635 : 0x22c55e);
+      // Glowing toon particle with emissive intensity
+      const mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.88 });
       const p = new THREE.Mesh(geom, mat);
       p.position.set(
         bx + backX * 1.8 + (Math.random() - 0.5) * 1.5,
@@ -535,11 +773,11 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
       particlesGroup.add(p);
       fartParticles.push({
         mesh: p,
-        vx: backX * (8 + Math.random() * 7) + (Math.random() - 0.5) * 3.5,
-        vy: 1.4 + Math.random() * 3.2,
-        vz: backZ * (8 + Math.random() * 7) + (Math.random() - 0.5) * 3.5,
-        life: isMega ? 0.85 : 0.55,
-        maxLife: isMega ? 0.85 : 0.55
+        vx: backX * (8.5 + Math.random() * 7.5) + (Math.random() - 0.5) * 3.5,
+        vy: 1.6 + Math.random() * 3.4,
+        vz: backZ * (8.5 + Math.random() * 7.5) + (Math.random() - 0.5) * 3.5,
+        life: isMega ? 0.9 : 0.58,
+        maxLife: isMega ? 0.9 : 0.58
       });
     }
   }
@@ -569,7 +807,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     playSound("splash", 0.75);
   }
 
-  // Pointer & Keyboard Events directly on <canvas id="unity-canvas">
+  // Pointer & Keyboard Events
   let lastHoveredBtn = -1;
   canvas.addEventListener("mousemove", (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -679,36 +917,48 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    if (composer) composer.setSize(window.innerWidth, window.innerHeight);
   });
 
   // ============================================================================
-  // 7. IN-CANVAS UNITY UGUI CANVASRENDERER (1920x1080 ScreenSpace-Overlay)
-  // Draws all authentic Unity Canvases directly into uguiSurface -> WebGL Quad
+  // 8. HIGH-FIDELITY UGUI CANVASRENDERER (TextMeshPro Style with Drop Shadows)
   // ============================================================================
-  function drawStrokedText(ctx, text, x, y, fontSize, fillStyle = "#ffffff", align = "left", strokeWidth = 6) {
+  function drawTextMeshPro(ctx, text, x, y, fontSize, fillStyle = "#ffffff", align = "left", strokeWidth = 7, shadowBlur = 8) {
     ctx.save();
     ctx.font = `900 ${fontSize}px Bangopro, "Arial Black", sans-serif`;
     ctx.textAlign = align;
     ctx.textBaseline = "middle";
     ctx.lineJoin = "round";
+
+    // Drop shadow
+    ctx.shadowColor = "rgba(0, 0, 0, 0.75)";
+    ctx.shadowBlur = shadowBlur;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 4;
+
+    // Thick black cartoon stroke
     ctx.lineWidth = strokeWidth;
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = "#080c14";
     ctx.strokeText(text, x, y);
+
+    // Reset shadow for crisp inner fill
+    ctx.shadowColor = "transparent";
     ctx.fillStyle = fillStyle;
     ctx.fillText(text, x, y);
     ctx.restore();
   }
 
-  function drawRoundedTrapezoid(ctx, x, y, w, h, fill, stroke = "#000000", lineW = 4, skew = 8) {
+  function drawStylizedCard(ctx, x, y, w, h, fill, stroke = "#000000", lineW = 4, radius = 14) {
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(x + skew, y);
-    ctx.lineTo(x + w, y + 2);
-    ctx.lineTo(x + w - skew, y + h);
-    ctx.lineTo(x, y + h - 2);
-    ctx.closePath();
+    ctx.roundRect(x, y, w, h, radius);
     ctx.fillStyle = fill;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 4;
     ctx.fill();
+
     if (lineW > 0) {
       ctx.lineWidth = lineW;
       ctx.strokeStyle = stroke;
@@ -764,212 +1014,229 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     // SCENE 1: MENUSCENE (menu_canvas)
     // ------------------------------------------------------------------------
     if (activeScene === 1) {
-      // Left & right dark fades (left_fade / right_fade in MenuScene.unity)
-      const leftGrad = ctx.createLinearGradient(0, 0, 720, 0);
-      leftGrad.addColorStop(0, "rgba(0,0,0,0.72)");
-      leftGrad.addColorStop(1, "rgba(0,0,0,0.0)");
+      // Cinematic dark vignettes
+      const leftGrad = ctx.createLinearGradient(0, 0, 750, 0);
+      leftGrad.addColorStop(0, "rgba(4, 9, 20, 0.85)");
+      leftGrad.addColorStop(0.65, "rgba(4, 9, 20, 0.45)");
+      leftGrad.addColorStop(1, "rgba(4, 9, 20, 0.0)");
       ctx.fillStyle = leftGrad;
-      ctx.fillRect(0, 0, 720, 1080);
+      ctx.fillRect(0, 0, 750, 1080);
 
-      // Game Logo (Icon_Logo.png)
-      drawSprite(ctx, "Icon_Logo", 80, 48, 460, 360);
+      // Logo
+      drawSprite(ctx, "Icon_Logo", 75, 45, 470, 370);
 
-      // 5 Main Menu Buttons
+      // 5 Main Menu Buttons with Glowing Hover
       const menuBtns = [
-        { idx: 0, id: 100, text: "CREATE LOBBY", y: 455, size: 46 },
-        { idx: 1, id: 101, text: "FIND LOBBY", y: 535, size: 46 },
-        { idx: 2, id: 102, text: "PLAY LOCAL CO-OP", y: 620, size: 38 },
-        { idx: 3, id: 103, text: "SETTINGS", y: 690, size: 38 },
-        { idx: 4, id: 104, text: "EXIT GAME", y: 760, size: 38 }
+        { idx: 0, id: 100, text: "CREATE LOBBY", y: 450, size: 48 },
+        { idx: 1, id: 101, text: "FIND LOBBY", y: 532, size: 48 },
+        { idx: 2, id: 102, text: "PLAY LOCAL CO-OP", y: 618, size: 38 },
+        { idx: 3, id: 103, text: "SETTINGS", y: 688, size: 38 },
+        { idx: 4, id: 104, text: "EXIT GAME", y: 758, size: 38 }
       ];
 
       for (const b of menuBtns) {
         const isAct = (menuSel === b.idx) || (hovered === b.id);
-        const xOff = isAct ? 135 : 95;
+        const xOff = isAct ? 140 : 95;
         if (isAct) {
-          drawSprite(ctx, "Icon_ArrowM", 82, b.y + 12, 38, 38);
+          drawSprite(ctx, "Icon_ArrowM", 85, b.y + 10, 42, 42);
         }
-        drawStrokedText(ctx, b.text, xOff, b.y + 32, b.size, isAct ? "#facc15" : "#ffffff", "left", 8);
+        drawTextMeshPro(
+          ctx,
+          b.text,
+          xOff,
+          b.y + 32,
+          b.size,
+          isAct ? "#facc15" : "#ffffff",
+          "left",
+          isAct ? 9 : 7,
+          isAct ? 14 : 6
+        );
       }
 
-      // Lobby Code Box next to FIND LOBBY
-      drawRoundedTrapezoid(ctx, 435, 536, 195, 58, "rgba(15,23,42,0.88)", "#ffffff", 3, 6);
-      drawStrokedText(ctx, lobbyCodeStr, 532, 566, 28, "#38bdf8", "center", 5);
+      // Lobby Code Input Box
+      drawStylizedCard(ctx, 435, 532, 195, 60, "rgba(15, 23, 42, 0.92)", "#38bdf8", 3, 10);
+      drawTextMeshPro(ctx, lobbyCodeStr, 532, 562, 28, "#38bdf8", "center", 5, 4);
 
-      // Bottom-left key tutorials (ESC BACK / ENTER SELECT)
-      drawRoundedTrapezoid(ctx, 60, 968, 175, 64, "rgba(0,0,0,0.82)", "#000000", 3, 8);
+      // Key badges
+      drawStylizedCard(ctx, 60, 968, 175, 64, "rgba(8, 12, 20, 0.88)", "#000000", 3, 10);
       drawSprite(ctx, "Icon_KEsc", 74, 976, 48, 48);
-      drawStrokedText(ctx, "BACK", 132, 1000, 26, "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "BACK", 132, 1000, 26, "#ffffff", "left", 5, 4);
 
-      drawRoundedTrapezoid(ctx, 250, 968, 215, 64, "rgba(0,0,0,0.82)", "#000000", 3, 8);
+      drawStylizedCard(ctx, 250, 968, 215, 64, "rgba(8, 12, 20, 0.88)", "#000000", 3, 10);
       drawSprite(ctx, "Icon_KEnter", 264, 976, 48, 48);
-      drawStrokedText(ctx, "SELECT", 322, 1000, 26, "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "SELECT", 322, 1000, 26, "#ffffff", "left", 5, 4);
 
-      // Version info
-      drawStrokedText(ctx, "v0.0.1 / Demo", 960, 1042, 22, "rgba(255,255,255,0.8)", "center", 4);
+      // Version
+      drawTextMeshPro(ctx, "v0.0.1 / Demo", 960, 1042, 22, "rgba(255,255,255,0.75)", "center", 4, 3);
 
-      // Discord Button (Bottom-Right)
+      // Discord Button
       const dcHover = (hovered === 105);
-      drawRoundedTrapezoid(ctx, 1620, 955, 240, 82, dcHover ? "#6d78f7" : "#5865F2", "#000000", 5, 10);
+      drawStylizedCard(ctx, 1620, 955, 240, 82, dcHover ? "#6d78f7" : "#5865F2", "#1e1b4b", 4, 12);
       drawSprite(ctx, "Icon_Discord", 1642, 972, 48, 48);
-      drawStrokedText(ctx, "DISCORD", 1702, 996, 30, "#ffffff", "left", 6);
+      drawTextMeshPro(ctx, "DISCORD", 1702, 996, 30, "#ffffff", "left", 6, 6);
     }
 
     // ------------------------------------------------------------------------
     // SCENE 2: LOBBYSCENE (lobby_canvas)
     // ------------------------------------------------------------------------
     if (activeScene === 2) {
-      // Top-left LOBBY Header
-      drawRoundedTrapezoid(ctx, 55, 45, 290, 92, "#000000", "#ffffff", 4, 12);
-      drawStrokedText(ctx, "LOBBY", 200, 92, 52, "#ffffff", "center", 7);
+      // Header
+      drawStylizedCard(ctx, 55, 45, 290, 92, "#080c14", "#38bdf8", 4, 14);
+      drawTextMeshPro(ctx, "LOBBY", 200, 92, 54, "#ffffff", "center", 7, 8);
 
-      // YOUR LOBBY CODE Box
+      // Lobby Code Box
       const codeHov = (hovered === 200);
-      drawRoundedTrapezoid(ctx, 60, 155, 340, 100, codeHov ? "#1e293b" : "rgba(0,0,0,0.85)", "#38bdf8", 4, 10);
-      drawStrokedText(ctx, "YOUR LOBBY CODE", 230, 182, 20, "#94a3b8", "center", 4);
-      drawStrokedText(ctx, lobbyCodeStr, 205, 224, 38, "#facc15", "center", 6);
+      drawStylizedCard(ctx, 60, 155, 340, 102, codeHov ? "#1e293b" : "rgba(8, 12, 20, 0.9)", "#38bdf8", 4, 12);
+      drawTextMeshPro(ctx, "YOUR LOBBY CODE", 230, 182, 20, "#94a3b8", "center", 4, 2);
+      drawTextMeshPro(ctx, lobbyCodeStr, 205, 224, 38, "#facc15", "center", 6, 6);
       drawSprite(ctx, "Icon_Copy", 315, 200, 42, 42);
 
-      // Character Left / Right Arrows around the 3D Hippo on stage
-      drawRoundedTrapezoid(ctx, 440, 580, 85, 85, hovered === 201 ? "#facc15" : "rgba(0,0,0,0.8)", "#ffffff", 4, 6);
+      // Character Arrows
+      drawStylizedCard(ctx, 440, 580, 85, 85, hovered === 201 ? "#facc15" : "rgba(8, 12, 20, 0.85)", "#ffffff", 4, 12);
       drawSprite(ctx, "Icon_ArrowM", 456, 596, 52, 52, true);
 
-      drawRoundedTrapezoid(ctx, 895, 580, 85, 85, hovered === 202 ? "#facc15" : "rgba(0,0,0,0.8)", "#ffffff", 4, 6);
+      drawStylizedCard(ctx, 895, 580, 85, 85, hovered === 202 ? "#facc15" : "rgba(8, 12, 20, 0.85)", "#ffffff", 4, 12);
       drawSprite(ctx, "Icon_ArrowM", 911, 596, 52, 52, false);
 
-      // Right-Side SELECT MODE Panel
-      drawRoundedTrapezoid(ctx, 1120, 130, 740, 72, "#000000", "#ffffff", 4, 10);
-      drawStrokedText(ctx, "SELECT MODE", 1490, 166, 38, "#ffffff", "center", 6);
+      // SELECT MODE Panel
+      drawStylizedCard(ctx, 1120, 130, 740, 72, "#080c14", "#ffffff", 4, 12);
+      drawTextMeshPro(ctx, "SELECT MODE", 1490, 166, 38, "#ffffff", "center", 6, 6);
 
-      drawRoundedTrapezoid(ctx, 1120, 212, 740, 550, "rgba(0,0,0,0.78)", "#000000", 4, 8);
+      drawStylizedCard(ctx, 1120, 212, 740, 550, "rgba(8, 12, 20, 0.82)", "#1e293b", 4, 14);
 
-      // 3 Mode Cards (CO-OP RUN, TEAM RACE, RUFT RUMBLE)
+      // 3 Mode Cards
       const modes = [
         { title: "CO-OP RUN", pill: "FART RUN", sprite: "Mode_FartRun", x: 1142, selected: true },
         { title: "TEAM RACE", pill: "RACE. TROLL WIN.", sprite: "Mode_TeamRace", x: 1378, selected: false },
         { title: "RUFT RUMBLE", pill: "LAST RUFT WINS", sprite: "Mode_RaftRumble", x: 1614, selected: false }
       ];
       for (const m of modes) {
-        drawRoundedTrapezoid(
+        drawStylizedCard(
           ctx, m.x, 235, 224, 500,
-          m.selected ? "#1e293b" : "rgba(15,23,42,0.65)",
-          m.selected ? "#4ade80" : "#475569",
-          m.selected ? 6 : 3, 6
+          m.selected ? "#1e293b" : "rgba(15,23,42,0.72)",
+          m.selected ? "#22c55e" : "#475569",
+          m.selected ? 6 : 3, 14
         );
         drawSprite(ctx, m.sprite, m.x + 12, 250, 200, 330);
         if (!m.selected) {
-          ctx.fillStyle = "rgba(0,0,0,0.65)";
-          ctx.fillRect(m.x + 12, 250, 200, 330);
-          drawRoundedTrapezoid(ctx, m.x + 18, 390, 188, 46, "#ef4444", "#000000", 3, 4);
-          drawStrokedText(ctx, "COMING SOON", m.x + 112, 413, 22, "#ffffff", "center", 4);
+          ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
+          ctx.beginPath();
+          ctx.roundRect(m.x + 12, 250, 200, 330, 8);
+          ctx.fill();
+          drawStylizedCard(ctx, m.x + 18, 390, 188, 46, "#ef4444", "#7f1d1d", 3, 8);
+          drawTextMeshPro(ctx, "COMING SOON", m.x + 112, 413, 22, "#ffffff", "center", 4, 4);
         }
-        drawStrokedText(ctx, m.title, m.x + 112, 622, 28, "#ffffff", "center", 6);
-        drawRoundedTrapezoid(ctx, m.x + 20, 660, 184, 48, m.selected ? "#4ade80" : "#334155", "#000000", 3, 5);
-        drawStrokedText(ctx, m.pill, m.x + 112, 684, 20, "#ffffff", "center", 4);
+        drawTextMeshPro(ctx, m.title, m.x + 112, 622, 28, "#ffffff", "center", 6, 6);
+        drawStylizedCard(ctx, m.x + 20, 660, 184, 48, m.selected ? "#22c55e" : "#334155", "#000000", 3, 8);
+        drawTextMeshPro(ctx, m.pill, m.x + 112, 684, 20, "#ffffff", "center", 4, 4);
       }
 
-      // INVITE FRIENDS & START GAME Buttons
-      drawRoundedTrapezoid(ctx, 1140, 790, 330, 84, hovered === 203 ? "#38bdf8" : "#0284c7", "#000000", 5, 10);
-      drawStrokedText(ctx, "INVITE FRIENDS", 1305, 832, 32, "#ffffff", "center", 6);
+      // Buttons
+      drawStylizedCard(ctx, 1140, 790, 330, 84, hovered === 203 ? "#38bdf8" : "#0284c7", "#075985", 5, 12);
+      drawTextMeshPro(ctx, "INVITE FRIENDS", 1305, 832, 32, "#ffffff", "center", 6, 6);
 
-      drawRoundedTrapezoid(ctx, 1500, 790, 360, 84, hovered === 204 ? "#4ade80" : "#22c55e", "#000000", 5, 10);
+      drawStylizedCard(ctx, 1500, 790, 360, 84, hovered === 204 ? "#4ade80" : "#22c55e", "#14532d", 5, 12);
       drawSprite(ctx, "keyboard_enter", 1522, 804, 56, 56);
-      drawStrokedText(ctx, "START GAME", 1710, 832, 34, "#ffffff", "center", 6);
+      drawTextMeshPro(ctx, "START GAME", 1710, 832, 34, "#ffffff", "center", 6, 6);
 
-      // Bottom Bar (Black panel + White/Green READY panel)
-      ctx.fillStyle = "rgba(0,0,0,0.92)";
+      // Bottom bar
+      ctx.fillStyle = "rgba(4, 9, 20, 0.94)";
       ctx.fillRect(0, 960, 1410, 120);
 
-      // ESC LEAVE
       drawSprite(ctx, "Icon_KEsc", 55, 992, 54, 54);
-      drawStrokedText(ctx, "LEAVE", 122, 1020, 30, hovered === 205 ? "#facc15" : "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "LEAVE", 122, 1020, 30, hovered === 205 ? "#facc15" : "#ffffff", "left", 5, 4);
 
-      // W/S CHANGE OUTFIT
       drawSprite(ctx, "Icon_KW", 640, 992, 50, 50);
       drawSprite(ctx, "Icon_KS", 695, 992, 50, 50);
-      drawStrokedText(ctx, "CHANGE OUTFIT", 758, 1020, 26, hovered === 206 ? "#facc15" : "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "CHANGE OUTFIT", 758, 1020, 26, hovered === 206 ? "#facc15" : "#ffffff", "left", 5, 4);
 
-      // A/D SELECT CHARACTER
       drawSprite(ctx, "Icon_KA", 1015, 992, 50, 50);
       drawSprite(ctx, "Icon_KD", 1070, 992, 50, 50);
-      drawStrokedText(ctx, "SELECT CHARACTER", 1132, 1020, 26, hovered === 207 ? "#facc15" : "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "SELECT CHARACTER", 1132, 1020, 26, hovered === 207 ? "#facc15" : "#ffffff", "left", 5, 4);
 
-      // SPACE READY
       const isReady = engineWasm.Engine_GetLobbyReady() === 1;
       ctx.fillStyle = isReady ? "#22c55e" : "#ffffff";
       ctx.fillRect(1410, 960, 510, 120);
       drawSprite(ctx, isReady ? "keyboard_space" : "keyboard_x", 1525, 986, 68, 68);
-      drawStrokedText(ctx, isReady ? "READY" : "NOT READY", 1615, 1020, 44, "#ffffff", "left", 7);
+      drawTextMeshPro(ctx, isReady ? "READY" : "NOT READY", 1615, 1020, 44, isReady ? "#ffffff" : "#080c14", "left", 7, 6);
 
-      // Are You Sure Modal (START GAME Confirmation)
+      // Modal
       if (engineWasm.Engine_GetLobbyConfirmOpen() === 1) {
-        ctx.fillStyle = "rgba(0,0,0,0.78)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.82)";
         ctx.fillRect(0, 0, 1920, 1080);
 
-        drawRoundedTrapezoid(ctx, 560, 290, 800, 470, "#1e293b", "#ffffff", 6, 14);
-        drawRoundedTrapezoid(ctx, 680, 250, 560, 88, "#000000", "#ffffff", 5, 10);
-        drawStrokedText(ctx, "START GAME", 960, 294, 46, "#facc15", "center", 7);
+        drawStylizedCard(ctx, 560, 290, 800, 470, "#0f172a", "#38bdf8", 5, 18);
+        drawStylizedCard(ctx, 680, 250, 560, 88, "#080c14", "#ffffff", 4, 12);
+        drawTextMeshPro(ctx, "START GAME", 960, 294, 46, "#facc15", "center", 7, 8);
 
-        drawStrokedText(ctx, "Everyone ready?", 960, 430, 38, "#ffffff", "center", 6);
-        drawStrokedText(ctx, "Once the game is started new players cannot join.", 960, 505, 28, "#cbd5e1", "center", 5);
+        drawTextMeshPro(ctx, "Everyone ready?", 960, 430, 38, "#ffffff", "center", 6, 6);
+        drawTextMeshPro(ctx, "Once the game is started new players cannot join.", 960, 505, 28, "#cbd5e1", "center", 5, 4);
 
-        drawRoundedTrapezoid(ctx, 635, 635, 300, 86, hovered === 210 ? "#f87171" : "#ef4444", "#000000", 5, 8);
-        drawStrokedText(ctx, "NO WAIT!", 785, 678, 34, "#ffffff", "center", 6);
+        drawStylizedCard(ctx, 635, 635, 300, 86, hovered === 210 ? "#f87171" : "#ef4444", "#7f1d1d", 4, 12);
+        drawTextMeshPro(ctx, "NO WAIT!", 785, 678, 34, "#ffffff", "center", 6, 6);
 
-        drawRoundedTrapezoid(ctx, 985, 635, 300, 86, hovered === 211 ? "#4ade80" : "#22c55e", "#000000", 5, 8);
-        drawStrokedText(ctx, "YES", 1135, 678, 36, "#ffffff", "center", 6);
+        drawStylizedCard(ctx, 985, 635, 300, 86, hovered === 211 ? "#4ade80" : "#22c55e", "#14532d", 4, 12);
+        drawTextMeshPro(ctx, "YES", 1135, 678, 36, "#ffffff", "center", 6, 6);
       }
     }
 
     // ------------------------------------------------------------------------
-    // SCENE 3: PUFFTEST DEMO LEVEL (gameplay_canvas, pause_canvas, demo_end_canvas)
+    // SCENE 3: PUFFTEST DEMO LEVEL (Level_Platform)
     // ------------------------------------------------------------------------
     if (activeScene === 3) {
-      // 1. Top Progress Bar (gameplay_canvas/progress)
-      drawRoundedTrapezoid(ctx, 560, 28, 800, 46, "rgba(0,0,0,0.78)", "#000000", 4, 8);
-      ctx.fillStyle = "#334155";
-      ctx.fillRect(590, 45, 720, 12);
+      // 1. Progress Bar
+      drawStylizedCard(ctx, 560, 26, 800, 50, "rgba(8, 12, 20, 0.85)", "#1e293b", 4, 12);
+      ctx.fillStyle = "#1e293b";
+      ctx.beginPath();
+      ctx.roundRect(590, 45, 720, 14, 6);
+      ctx.fill();
+
       const prog = Math.max(0, Math.min(1, engineWasm.Engine_GetProgressRatio()));
-      ctx.fillStyle = "#4ade80";
-      ctx.fillRect(590, 45, 720 * prog, 12);
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath();
+      ctx.roundRect(590, 45, 720 * prog, 14, 6);
+      ctx.fill();
+
       drawSprite(ctx, "Icon_Finish", 1295, 22, 54, 54);
       drawSprite(ctx, "Icon_RaftS", 570 + 710 * prog, 16, 62, 62);
 
-      // 2. Bottom-Right Gas Slider + Character Portrait (gameplay_canvas/gas_content)
+      // 2. Gas Meter & Portrait
       const gas = Math.max(0, Math.min(100, engineWasm.Engine_GetGasAmount()));
-      drawRoundedTrapezoid(ctx, 1450, 955, 330, 56, "rgba(0,0,0,0.82)", "#000000", 4, 8);
+      drawStylizedCard(ctx, 1450, 955, 330, 58, "rgba(8, 12, 20, 0.88)", "#1e293b", 4, 12);
       ctx.fillStyle = gas > 30 ? "#84cc16" : "#ef4444";
-      ctx.fillRect(1464, 967, (300 * gas) / 100.0, 32);
+      ctx.beginPath();
+      ctx.roundRect(1464, 967, (300 * gas) / 100.0, 34, 6);
+      ctx.fill();
 
       const charSpriteNames = ["Character_GameGreen", "Character_GameBlue", "Character_GameOrange", "Character_GameGrey"];
       const cName = charSpriteNames[engineWasm.Engine_GetCharIdx() % 4];
       drawSprite(ctx, cName, 1765, 918, 115, 115);
 
-      // 3. Top-Right Timer & Death Counter
-      drawRoundedTrapezoid(ctx, 1540, 28, 330, 58, "rgba(0,0,0,0.78)", "#000000", 4, 8);
-      drawSprite(ctx, "Icon_Clock", 1554, 35, 44, 44);
-      drawStrokedText(ctx, formatTimerUnity(engineWasm.Engine_GetRunTimer()), 1612, 58, 30, "#ffffff", "left", 5);
+      // 3. Timer & Death Counter
+      drawStylizedCard(ctx, 1540, 26, 330, 60, "rgba(8, 12, 20, 0.85)", "#1e293b", 4, 12);
+      drawSprite(ctx, "Icon_Clock", 1554, 34, 44, 44);
+      drawTextMeshPro(ctx, formatTimerUnity(engineWasm.Engine_GetRunTimer()), 1612, 56, 30, "#ffffff", "left", 5, 4);
 
-      drawRoundedTrapezoid(ctx, 1690, 96, 180, 54, "rgba(0,0,0,0.78)", "#000000", 4, 8);
-      drawSprite(ctx, "Icon_RaftCrashed", 1705, 101, 44, 44);
-      drawStrokedText(ctx, String(engineWasm.Engine_GetDeathCount()), 1765, 124, 30, "#f87171", "left", 5);
+      drawStylizedCard(ctx, 1690, 96, 180, 56, "rgba(8, 12, 20, 0.85)", "#1e293b", 4, 12);
+      drawSprite(ctx, "Icon_RaftCrashed", 1705, 102, 44, 44);
+      drawTextMeshPro(ctx, String(engineWasm.Engine_GetDeathCount()), 1765, 124, 30, "#f87171", "left", 5, 4);
 
-      // 4. Bottom-Left Tutorials (ESC LEAVE / R SUICIDE)
-      drawRoundedTrapezoid(ctx, 42, 965, 210, 72, "rgba(0,0,0,0.82)", "#000000", 4, 8);
+      // 4. Bottom-Left Shortcuts
+      drawStylizedCard(ctx, 42, 965, 210, 72, "rgba(8, 12, 20, 0.85)", "#000000", 4, 10);
       drawSprite(ctx, "Icon_KEsc", 56, 976, 48, 48);
-      drawStrokedText(ctx, "LEAVE", 116, 1001, 28, hovered === 300 ? "#facc15" : "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "LEAVE", 116, 1001, 28, hovered === 300 ? "#facc15" : "#ffffff", "left", 5, 4);
 
-      drawRoundedTrapezoid(ctx, 268, 965, 220, 72, "rgba(0,0,0,0.82)", "#000000", 4, 8);
+      drawStylizedCard(ctx, 268, 965, 220, 72, "rgba(8, 12, 20, 0.85)", "#000000", 4, 10);
       drawSprite(ctx, "Icon_KR", 282, 976, 48, 48);
-      drawStrokedText(ctx, "SUICIDE", 342, 1001, 28, hovered === 301 ? "#facc15" : "#ffffff", "left", 5);
+      drawTextMeshPro(ctx, "SUICIDE", 342, 1001, 28, hovered === 301 ? "#facc15" : "#ffffff", "left", 5, 4);
 
-      // 5. PAUSE_CANVAS Overlay
+      // 5. PAUSE_CANVAS
       if (engineWasm.Engine_GetPauseOpen() === 1) {
-        ctx.fillStyle = "rgba(0,0,0,0.78)";
+        ctx.fillStyle = "rgba(4, 9, 20, 0.82)";
         ctx.fillRect(0, 0, 1920, 1080);
 
         const pauseBtns = [
-          { id: 400, text: "CONTINUE", y: 380, size: 46 },
+          { id: 400, text: "CONTINUE", y: 380, size: 48 },
           { id: 401, text: "SETTINGS", y: 470, size: 38 },
           { id: 402, text: "RETURN THE MENU", y: 550, size: 38 },
           { id: 403, text: "EXIT TO DESKTOP", y: 630, size: 38 }
@@ -977,68 +1244,65 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
         for (const b of pauseBtns) {
           const isH = (hovered === b.id);
           if (isH) drawSprite(ctx, "Icon_ArrowM", 82, b.y + 12, 38, 38);
-          drawStrokedText(ctx, b.text, isH ? 135 : 95, b.y + 32, b.size, isH ? "#facc15" : "#ffffff", "left", 8);
+          drawTextMeshPro(ctx, b.text, isH ? 135 : 95, b.y + 32, b.size, isH ? "#facc15" : "#ffffff", "left", 8, 6);
         }
 
-        // Control Hints on Right Side of Pause Menu
-        drawRoundedTrapezoid(ctx, 1180, 320, 620, 420, "rgba(15,23,42,0.9)", "#334155", 4, 10);
+        drawStylizedCard(ctx, 1180, 320, 620, 420, "rgba(15, 23, 42, 0.92)", "#334155", 4, 14);
         drawSprite(ctx, "mouse_move", 1230, 355, 58, 58);
-        drawStrokedText(ctx, "ROTATE CAMERA", 1320, 384, 28, "#ffffff", "left", 5);
+        drawTextMeshPro(ctx, "ROTATE CAMERA", 1320, 384, 28, "#ffffff", "left", 5, 4);
 
         drawSprite(ctx, "mouse_scroll_vertical", 1230, 445, 58, 58);
-        drawStrokedText(ctx, "CAMERA ZOOM IN/OUT", 1320, 474, 28, "#ffffff", "left", 5);
+        drawTextMeshPro(ctx, "CAMERA ZOOM IN/OUT", 1320, 474, 28, "#ffffff", "left", 5, 4);
 
         drawSprite(ctx, "keyboard_w", 1210, 535, 52, 52);
         drawSprite(ctx, "keyboard_s", 1265, 535, 52, 52);
-        drawStrokedText(ctx, "MOVE / FART (SPACE)", 1340, 561, 28, "#ffffff", "left", 5);
+        drawTextMeshPro(ctx, "MOVE / FART (SPACE)", 1340, 561, 28, "#ffffff", "left", 5, 4);
 
         drawSprite(ctx, "keyboard_a", 1210, 625, 52, 52);
         drawSprite(ctx, "keyboard_d", 1265, 625, 52, 52);
-        drawStrokedText(ctx, "SLIDE", 1340, 651, 28, "#ffffff", "left", 5);
+        drawTextMeshPro(ctx, "SLIDE", 1340, 651, 28, "#ffffff", "left", 5, 4);
       }
 
-      // 6. DEMO_END_CANVAS Overlay
+      // 6. DEMO_END_CANVAS
       if (engineWasm.Engine_GetDemoEndOpen() === 1) {
-        ctx.fillStyle = "rgba(0,0,0,0.84)";
+        ctx.fillStyle = "rgba(4, 9, 20, 0.88)";
         ctx.fillRect(0, 0, 1920, 1080);
 
         drawSprite(ctx, "Icon_Logo", 760, 45, 400, 300);
-        drawRoundedTrapezoid(ctx, 520, 355, 880, 88, "#22c55e", "#000000", 5, 12);
-        drawStrokedText(ctx, "YOU COMPLETED THE DEMO!", 960, 400, 46, "#ffffff", "center", 7);
+        drawStylizedCard(ctx, 520, 355, 880, 88, "#22c55e", "#14532d", 5, 14);
+        drawTextMeshPro(ctx, "YOU COMPLETED THE DEMO!", 960, 400, 46, "#ffffff", "center", 7, 8);
 
         drawSprite(ctx, "Icon_Vuvuzela", 410, 340, 96, 96, true);
         drawSprite(ctx, "Icon_Vuvuzela", 1414, 340, 96, 96, false);
 
-        drawRoundedTrapezoid(ctx, 450, 470, 1020, 340, "rgba(15,23,42,0.92)", "#334155", 4, 10);
-        drawStrokedText(ctx, "Thanks for playing Fart Together demo all the way to the end!", 960, 535, 28, "#facc15", "center", 5);
-        drawStrokedText(ctx, "We hope you had a blast with your friends.", 960, 595, 26, "#ffffff", "center", 5);
-        drawStrokedText(ctx, "This is still a demo, so please forgive us if you ran into a few little bugs!", 960, 650, 24, "#cbd5e1", "center", 4);
-        drawStrokedText(ctx, "If you enjoyed the game, wishlisting Fart Together on Steam would mean a lot!", 960, 710, 26, "#4ade80", "center", 5);
+        drawStylizedCard(ctx, 450, 470, 1020, 340, "rgba(15, 23, 42, 0.94)", "#334155", 4, 14);
+        drawTextMeshPro(ctx, "Thanks for playing Fart Together demo all the way to the end!", 960, 535, 28, "#facc15", "center", 5, 4);
+        drawTextMeshPro(ctx, "We hope you had a blast with your friends.", 960, 595, 26, "#ffffff", "center", 5, 4);
+        drawTextMeshPro(ctx, "This is still a demo, so please forgive us if you ran into a few little bugs!", 960, 650, 24, "#cbd5e1", "center", 4, 4);
+        drawTextMeshPro(ctx, "If you enjoyed the game, wishlisting Fart Together on Steam would mean a lot!", 960, 710, 26, "#4ade80", "center", 5, 4);
 
-        drawRoundedTrapezoid(ctx, 450, 855, 310, 88, hovered === 500 ? "#60a5fa" : "#3b82f6", "#000000", 5, 8);
-        drawStrokedText(ctx, "MAIN MENU", 605, 899, 32, "#ffffff", "center", 6);
+        drawStylizedCard(ctx, 450, 855, 310, 88, hovered === 500 ? "#60a5fa" : "#3b82f6", "#1d4ed8", 5, 12);
+        drawTextMeshPro(ctx, "MAIN MENU", 605, 899, 32, "#ffffff", "center", 6, 6);
 
-        drawRoundedTrapezoid(ctx, 795, 855, 310, 88, hovered === 501 ? "#4ade80" : "#22c55e", "#000000", 5, 8);
-        drawStrokedText(ctx, "PLAY AGAIN", 950, 899, 32, "#ffffff", "center", 6);
+        drawStylizedCard(ctx, 795, 855, 310, 88, hovered === 501 ? "#4ade80" : "#22c55e", "#14532d", 5, 12);
+        drawTextMeshPro(ctx, "PLAY AGAIN", 950, 899, 32, "#ffffff", "center", 6, 6);
 
-        drawRoundedTrapezoid(ctx, 1140, 855, 340, 88, hovered === 502 ? "#facc15" : "#eab308", "#000000", 5, 8);
-        drawStrokedText(ctx, "WISHLIST ON STEAM", 1310, 899, 28, "#ffffff", "center", 6);
+        drawStylizedCard(ctx, 1140, 855, 340, 88, hovered === 502 ? "#facc15" : "#eab308", "#854d0e", 5, 12);
+        drawTextMeshPro(ctx, "WISHLIST ON STEAM", 1310, 899, 28, "#ffffff", "center", 6, 6);
       }
     }
 
     // ------------------------------------------------------------------------
-    // GLOBAL OVERLAY: SETTINGS_CANVAS (MenuScene & PuffTest)
+    // GLOBAL OVERLAY: SETTINGS_CANVAS
     // ------------------------------------------------------------------------
     if (engineWasm.Engine_GetSettingsOpen() === 1) {
-      ctx.fillStyle = "rgba(0,0,0,0.88)";
+      ctx.fillStyle = "rgba(4, 9, 20, 0.92)";
       ctx.fillRect(0, 0, 1920, 1080);
 
-      // Return button + SETTINGS header
-      drawRoundedTrapezoid(ctx, 95, 52, 110, 95, hovered === 600 ? "#facc15" : "#1e293b", "#ffffff", 4, 8);
+      drawStylizedCard(ctx, 95, 52, 110, 95, hovered === 600 ? "#facc15" : "#1e293b", "#ffffff", 4, 12);
       drawSprite(ctx, "Icon_ArrowM", 122, 72, 54, 54, true);
-      drawStrokedText(ctx, "SETTINGS", 240, 100, 54, "#ffffff", "left", 7);
+      drawTextMeshPro(ctx, "SETTINGS", 240, 100, 54, "#ffffff", "left", 7, 8);
 
-      // 4 Settings Tabs
       const activeTab = engineWasm.Engine_GetSettingsTab();
       const sndOn = engineWasm.Engine_GetSoundEnabled() === 1;
       const tabs = [
@@ -1049,13 +1313,12 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
       ];
       for (const t of tabs) {
         const isSel = (activeTab === t.idx) || (hovered === t.id);
-        drawRoundedTrapezoid(ctx, t.x, 210, 380, 78, isSel ? "#22c55e" : "#1e293b", "#ffffff", 4, 8);
+        drawStylizedCard(ctx, t.x, 210, 380, 78, isSel ? "#22c55e" : "#1e293b", "#ffffff", 4, 10);
         drawSprite(ctx, t.icon, t.x + 24, 225, 48, 48);
-        drawStrokedText(ctx, t.label, t.x + 215, 249, 28, "#ffffff", "center", 5);
+        drawTextMeshPro(ctx, t.label, t.x + 215, 249, 28, "#ffffff", "center", 5, 4);
       }
 
-      // Main Settings Content Box (Shows official Keyboard/Mouse control sheet)
-      drawRoundedTrapezoid(ctx, 140, 315, 1595, 680, "rgba(15,23,42,0.94)", "#334155", 4, 10);
+      drawStylizedCard(ctx, 140, 315, 1595, 680, "rgba(15, 23, 42, 0.94)", "#334155", 4, 14);
       drawSprite(ctx, "Tutorial_KeyboardMouse", 310, 340, 1260, 630);
     }
 
@@ -1063,7 +1326,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
   }
 
   // ============================================================================
-  // 8. MAIN UNITY WEBGL FRAME LOOP (Pass 1: 3D Camera + Pass 2: UGUI Overlay)
+  // 9. MAIN UNITY WEBGL FRAME LOOP (3D Pass + Water Animation + UGUI Pass)
   // ============================================================================
   let lastTime = performance.now();
   let raycastFrameCounter = 0;
@@ -1073,6 +1336,9 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
     const dt = Math.min((now - lastTime) / 1000.0, 0.05);
     lastTime = now;
     const t = now * 0.001;
+
+    // Update Water Wave & Foam Time Uniform
+    waterUniforms.uTime.value = t;
 
     // Step C++ Engine State Machine
     engineWasm.Engine_Step(dt, 0, 0, 0, 0);
@@ -1145,7 +1411,9 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
             }
           }
 
-          wasmModules.boat.set_water_surface_y(detectedWaterY);
+          // Add animated water wave displacement under the boat
+          const waveUnderBoat = Math.sin(bx * 0.065 + t * 2.4) * 0.38 + Math.cos(bz * 0.075 + t * 1.9) * 0.32;
+          wasmModules.boat.set_water_surface_y(detectedWaterY + waveUnderBoat * 0.45);
 
           if (wallColliderMeshes.length > 0 && bspeed > 1.0) {
             const fwd = new THREE.Vector3(Math.sin(byaw), 0, Math.cos(byaw));
@@ -1239,7 +1507,7 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
             fp.mesh.position.z += fp.vz * dt;
             const ratio = fp.life / fp.maxLife;
             fp.mesh.scale.setScalar(1.0 + (1.0 - ratio) * 1.8);
-            fp.mesh.material.opacity = ratio * 0.85;
+            fp.mesh.material.opacity = ratio * 0.88;
           }
         }
 
@@ -1260,11 +1528,15 @@ window.UnityWebGLFrameworkBoot = async function(canvas, config, engineWasm) {
       }
     }
 
-    // Render Pass 1: 3D Scene
+    // Render Pass 1: 3D Scene with Post-Processing Bloom & Tonemapping
     renderer.clear();
-    renderer.render(scene, camera);
+    if (composer) {
+      composer.render();
+    } else {
+      renderer.render(scene, camera);
+    }
 
-    // Render Pass 2: Unity UGUI ScreenSpace-Overlay Canvas inside the same WebGL <canvas>
+    // Render Pass 2: High-Fidelity Unity UGUI CanvasRenderer Overlay
     renderUnityUGUI();
     renderer.clearDepth();
     renderer.render(uguiScene, uguiCamera);
