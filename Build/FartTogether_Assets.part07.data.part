@@ -1,4 +1,9 @@
-ue[(0 >> 2) + 0]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(0 >> 2) + 1]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(0 >> 2) + 2]));
+ u_xlat1 = vec4(uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(0 >> 2) + 3]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(0 >> 2) + 0]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(0 >> 2) + 1]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(0 >> 2) + 2]));
+            u_xlat2 = vec4(uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(16 >> 2) + 0]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(16 >> 2) + 1]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(16 >> 2) + 2]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(16 >> 2) + 3]));
+            u_xlat3.xy = vec2(uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(32 >> 2) + 0]), uintBitsToFloat(inVertices4_buf[u_xlatu0].value[(32 >> 2) + 1]));
+            u_xlat4 = vec4(uintBitsToFloat(inSkin4_buf[u_xlatu0].value[(0 >> 2) + 0]), uintBitsToFloat(inSkin4_buf[u_xlatu0].value[(0 >> 2) + 1]), uintBitsToFloat(inSkin4_buf[u_xlatu0].value[(0 >> 2) + 2]), uintBitsToFloat(inSkin4_buf[u_xlatu0].value[(0 >> 2) + 3]));
+            u_xlati14.xy = floatBitsToInt(u_xlat4.zw) + ivec2(g_PoseOffsets[1].xx);
+            u_xlat5.xyz = vec3(uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(0 >> 2) + 0]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(0 >> 2) + 1]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(0 >> 2) + 2]));
             u_xlat6.xyz = vec3(uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(16 >> 2) + 0]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(16 >> 2) + 1]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(16 >> 2) + 2]));
             u_xlat7.xyz = vec3(uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(32 >> 2) + 0]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(32 >> 2) + 1]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(32 >> 2) + 2]));
             u_xlat8.xyw = vec3(uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(48 >> 2) + 0]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(48 >> 2) + 1]), uintBitsToFloat(inMatrices_buf[u_xlati14.x].value[(48 >> 2) + 2]));

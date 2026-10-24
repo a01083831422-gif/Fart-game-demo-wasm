@@ -31,7 +31,7 @@
     }
   ],
   "assets_data_original": "FartTogether_Unity_WebGL_Build.data",
-  "assets_data_total_bytes": 114513460,
+  "assets_data_total_bytes": 114514612,
   "assets_data_parts": [
     {
       "name": "FartTogether_Assets.part01.data.part",
@@ -65,7 +65,7 @@
     },
     {
       "name": "FartTogether_Assets.part07.data.part",
-      "size": 1267252,
+      "size": 1268404,
       "index": 7
     }
   ],
